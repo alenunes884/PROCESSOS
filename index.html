@@ -971,7 +971,7 @@
                     <div class="nav-item" data-target="procedimentos">Procedimentos</div>
                     <div class="nav-item" data-target="uteis">Informações Úteis</div>
                     <div class="nav-item" data-target="consulta">Consulta POP</div>
-                    <div class="nav-item" data-target="gerador-pppoe">Gerador PPPoE ✨</div>
+                    <div class="nav-item" data-target="gerador-pppoe">Gerador PPPoE</div>
                 </div>
             </div>
         </div>
@@ -1237,8 +1237,8 @@
 
         <!-- PPPoE Generator Section -->
         <section class="section" id="gerador-pppoe">
-            <h2 class="section-title">Gerador de PPPoE Inteligente ✨</h2>
-            <p class="section-subtitle">Gere e valide logins PPPoE para clientes de forma rápida e precisa, com a ajuda da inteligência artificial.</p>
+            <h2 class="section-title">Gerador de PPPoE</h2>
+            <p class="section-subtitle">Gere logins PPPoE para clientes de forma rápida e precisa.</p>
             
             <div class="card">
                 <div class="card-content">
@@ -1270,7 +1270,7 @@
                         <input type="checkbox" id="business-client">
                         <label for="business-client">Cliente Empresarial (Freeway)</label>
                     </div>
-                    <button id="generate-pppoe-btn" class="copy-button mt-6 w-full md:w-auto">Gerar PPPoE ✨</button>
+                    <button id="generate-pppoe-btn" class="copy-button mt-6 w-full md:w-auto">Gerar PPPoE</button>
 
                     <div id="pppoe-result" class="pppoe-result-area">
                         <p>Preencha os campos acima para gerar o login PPPoE.</p>
@@ -1381,8 +1381,11 @@
                     const option = document.createElement('option');
                     option.value = pop.name;
                     option.textContent = pop.name;
-                    genPopSelect.appendChild(option); // Also add to generator POP select
-                    popSelect.appendChild(option.cloneNode(true)); // Clone for Consulta POP select
+                    // Only add to genPopSelect if it's not already added by the other event listener
+                    if (!Array.from(genPopSelect.options).some(opt => opt.value === pop.name)) {
+                        genPopSelect.appendChild(option.cloneNode(true));
+                    }
+                    popSelect.appendChild(option.cloneNode(true));
                 });
                 popSelect.disabled = false;
             } else {
@@ -1454,7 +1457,7 @@
             }
         });
 
-        generatePppoeBtn.addEventListener('click', async () => {
+        generatePppoeBtn.addEventListener('click', () => { // Changed to a synchronous function
             const clientName = clientNameInput.value.trim();
             const clientLastname = clientLastnameInput.value.trim();
             const selectedNetwork = genNetworkSelect.value;
@@ -1472,70 +1475,18 @@
                 return;
             }
 
-            // Updated PPPoE generation: name and surname together without a dot
             let generatedPppoe = selectedPop.pppoe
                 .replace('nomesobrenome', `${clientName.toLowerCase()}${clientLastname.toLowerCase()}`);
 
-            // Apply business client rule for Freeway POP
             if (isBusinessClient && selectedPop.name === 'Freeway') {
                 generatedPppoe = generatedPppoe.replace('@imais', '@freeway');
             }
 
-            pppoeResultDiv.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner"></i> Gerando e validando...</div>';
-
-            try {
-                let chatHistory = [];
-                const prompt = `Dado o nome do cliente '${clientName} ${clientLastname}', o POP '${selectedPopName}' na rede '${selectedNetwork}', e sabendo que o padrão de login PPPoE gerado é '${generatedPppoe}', por favor, confirme se este padrão está correto e explique brevemente as regras de formação para este POP. Se o cliente for empresarial e o POP for 'Freeway', mencione a regra de substituição de '@imais' por '@freeway'. Responda em JSON com as chaves "isValid" (boolean), "generatedPppoe" (string), e "explanation" (string).`;
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                const payload = {
-                    contents: chatHistory,
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        responseSchema: {
-                            type: "OBJECT",
-                            properties: {
-                                "isValid": { "type": "BOOLEAN" },
-                                "generatedPppoe": { "type": "STRING" },
-                                "explanation": { "type": "STRING" }
-                            },
-                            "propertyOrdering": ["isValid", "generatedPppoe", "explanation"]
-                        }
-                    }
-                };
-                const apiKey = ""; // Canvas will automatically provide the API key
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const jsonResponse = JSON.parse(result.candidates[0].content.parts[0].text);
-                    
-                    if (jsonResponse.isValid) {
-                        pppoeResultDiv.innerHTML = `
-                            <p><strong>Login PPPoE Gerado:</strong> <span class="pppoe-generated-text">${jsonResponse.generatedPppoe}</span> <button class="copy-button" onclick="copyToClipboard('${jsonResponse.generatedPppoe}')">Copiar</button></p>
-                            <p><strong>Explicação:</strong> ${jsonResponse.explanation}</p>
-                        `;
-                    } else {
-                        pppoeResultDiv.innerHTML = `
-                            <p class="error-message"><strong>Erro de Validação:</strong> O padrão PPPoE pode estar incorreto.</p>
-                            <p><strong>Explicação do Gemini:</strong> ${jsonResponse.explanation}</p>
-                        `;
-                    }
-                } else {
-                    pppoeResultDiv.innerHTML = '<p class="error-message">Erro ao processar a resposta do Gemini. Tente novamente.</p>';
-                }
-            } catch (error) {
-                console.error('Erro ao chamar a API Gemini:', error);
-                pppoeResultDiv.innerHTML = '<p class="error-message">Ocorreu um erro ao gerar o PPPoE. Verifique sua conexão ou tente novamente mais tarde.</p>';
-            }
+            // Display the generated PPPoE directly without API call
+            pppoeResultDiv.innerHTML = `
+                <p><strong>Login PPPoE Gerado:</strong> <span class="pppoe-generated-text">${generatedPppoe}</span> <button class="copy-button" onclick="copyToClipboard('${generatedPppoe}')">Copiar</button></p>
+                <p><strong>Observação:</strong> O login foi gerado com base no padrão do POP selecionado.</p>
+            `;
         });
 
         // Copy to clipboard function
