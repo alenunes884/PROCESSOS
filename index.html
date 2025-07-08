@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processos de Suporte Técnico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a2a3a 0%, #2c3e50 100%);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(26, 37, 47, 0.95);
+            padding: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+        
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .logo-text span {
+            color: var(--secondary);
+        }
+        
+        .search-bar {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            width: 100%;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: rgba(26, 37, 47, 0.8);
+            border-radius: 15px;
+            padding: 25px 0;
+            height: fit-content;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(5px);
+        }
+        
+        .sidebar-title {
+            padding: 0 25px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sidebar-title i {
+            color: var(--secondary);
+        }
+        
+        .nav-item {
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: rgba(52, 152, 219, 0.2);
+            color: var(--secondary);
+        }
+        
+        .nav-item:hover::before, .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--secondary);
+        }
+        
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* Cards Section */
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-title i {
+            color: var(--secondary);
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .card {
+            background: rgba(26, 37, 47, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .card-content {
+            margin-top: 15px;
+        }
+        
+        .card-content h3 {
+            font-size: 1.2rem;
+            margin: 15px 0 10px;
+            color: var(--secondary);
+        }
+        
+        .card-content ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .card-content li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .card-content li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
+        .highlight {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 3px solid var(--accent);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+        }
+        
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 25px;
+            background: rgba(26, 37, 47, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(5px);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: rgba(52, 152, 219, 0.3);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        tr:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .network-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .imais-badge {
+            background: rgba(39, 174, 96, 0.2);
+            color: #27ae60;
+        }
+        
+        .flextel-badge {
+            background: rgba(155, 89, 182, 0.2);
+            color: #9b59b6;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: flex;
+                overflow-x: auto;
+                padding: 15px;
+                gap: 10px;
+            }
+            
+            .sidebar-title {
+                display: none;
+            }
+            
+            .nav-item {
+                flex-direction: column;
+                padding: 10px 15px;
+                min-width: 100px;
+                text-align: center;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+        
+        /* Animations */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-network-wired"></i>
+                    <div class="logo-text">Suporte<span>Técnico</span></div>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar processos...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="dashboard">
+            <div class="sidebar">
+                <div class="sidebar-title">
+                    <i class="fas fa-sitemap"></i>
+                    Processos do Setor
+                </div>
+                <div class="nav-item active" data-target="responsabilidades">
+                    <i class="fas fa-list-check"></i>
+                    Responsabilidades
+                </div>
+                <div class="nav-item" data-target="internet-lenta">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Internet Lenta
+                </div>
+                <div class="nav-item" data-target="sem-conexao">
+                    <i class="fas fa-unlink"></i>
+                    Sem Conexão
+                </div>
+                <div class="nav-item" data-target="ativacao">
+                    <i class="fas fa-plug"></i>
+                    Ativação de Cliente
+                </div>
+                <div class="nav-item" data-target="troca-equipamento">
+                    <i class="fas fa-exchange-alt"></i>
+                    Troca de Equipamento
+                </div>
+                <div class="nav-item" data-target="pops">
+                    <i class="fas fa-server"></i>
+                    Configurações POP
+                </div>
+            </div>
+            
+            <div class="content">
+                <!-- Responsabilidades Section -->
+                <div class="content-section active" id="responsabilidades">
+                    <h2 class="section-title"><i class="fas fa-list-check"></i> Responsabilidades do Setor</h2>
+                    
+                    <div class="cards-container">
+                        <div class="card pulse">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-wifi"></i>
+                                </div>
+                                <h3 class="card-title">Suporte Técnico</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Atendimento a clientes com problemas de lentidão</li>
+                                    <li>Suporte para clientes sem conexão</li>
+                                    <li>Ativações de fibra (Internet Mais e Freeway)</li>
+                                    <li>Abertura de chamados para rompimentos</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background-color: #27ae60;">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h3 class="card-title">Suporte às Equipes</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Apoio às equipes externas em casos de rompimento</li>
+                                    <li>Assistência em situações de falhas massivas</li>
+                                    <li>Coordenação de visitas técnicas</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background-color: #9b59b6;">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <h3 class="card-title">Aplicativos e Serviços</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Ativação de aplicativos ofertados pela Internet Mais</li>
+                                    <li>Suporte técnico para serviços adicionais</li>
+                                    <li>Orientação sobre uso de IPTV</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Internet Lenta Section -->
+                <div class="content-section" id="internet-lenta">
+                    <h2 class="section-title"><i class="fas fa-tachometer-alt"></i> Processo: Internet Lenta</h2>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: #f39c12;">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <h3 class="card-title">Fluxo de Atendimento</h3>
+                        </div>
+                        <div class="card-content">
+                            <h3>1. Saudação e Diagnóstico Inicial</h3>
+                            <ul>
+                                <li>Cumprimentar o cliente</li>
+                                <li>Identificar o tipo de lentidão</li>
+                                <li>Verificar se é em sites específicos ou aplicativos</li>
+                                <li>Perguntar se a lentidão é via cabo ou Wi-Fi</li>
+                            </ul>
+                            
+                            <h3>2. Verificação de Cadastro (IXC)</h3>
+                            <ul>
+                                <li>Consultar se há redução de velocidade ativa</li>
+                                <li>Se houver redução: Transferir para o setor responsável</li>
+                            </ul>
+                            
+                            <h3>3. Análise Técnica (Sem Redução)</h3>
+                            <ul>
+                                <li>Verificar potência da fibra</li>
+                                <li>Analisar canais Wi-Fi</li>
+                                <li>Testes de tracert e ping</li>
+                                <li>Reiniciar roteador se ligado há mais de 10 dias</li>
+                            </ul>
+                            
+                            <h3>4. Conclusão</h3>
+                            <ul>
+                                <li>Link normalizado: Encerrar chamado</li>
+                                <li>Link não normalizado: Abrir chamado de visita</li>
+                            </ul>
+                            
+                            <div class="highlight">
+                                <strong>OBSERVAÇÃO IMPORTANTE (IPTV):</strong> Informar ao cliente que não há garantia de funcionamento devido à falta de homologação e possíveis quedas de servidores.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sem Conexão Section -->
+                <div class="content-section" id="sem-conexao">
+                    <h2 class="section-title"><i class="fas fa-unlink"></i> Processo: Sem Conexão</h2>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: #e74c3c;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h3 class="card-title">Fluxo de Atendimento</h3>
+                        </div>
+                        <div class="card-content">
+                            <h3>1. Verificação Financeira (IXC)</h3>
+                            <ul>
+                                <li>Cumprimentar o cliente</li>
+                                <li>Verificar bloqueios financeiros</li>
+                                <li>Se houver bloqueio: Transferir para o financeiro</li>
+                            </ul>
+                            
+                            <h3>2. Verificação de Status da ONU</h3>
+                            <ul>
+                                <li>Acessar a aba "Fibra" no IXC</li>
+                                <li>Verificar sinal em SmartOLT ou UNM2000</li>
+                            </ul>
+                            
+                            <h3>3. Análise por Tipo de ONU</h3>
+                            <h4>ONU Bridge (com sinal óptico)</h4>
+                            <ul>
+                                <li>Confirmar cabo na porta WAN do roteador</li>
+                                <li>Verificar se Wi-Fi está visível</li>
+                                <li>Questionar se roteador foi resetado</li>
+                                <li>Sem solução: Abrir chamado de visita</li>
+                            </ul>
+                            
+                            <h4>ONU Roteada</h4>
+                            <ul>
+                                <li>Verificar potência óptica e alarmes</li>
+                                <li>LINKLOSS (Rompimento): Visita técnica</li>
+                                <li>OFFLINE (Falha Massiva): Visita técnica</li>
+                                <li>DYNGASP (Falha de Energia): Verificar tomada/residência</li>
+                            </ul>
+                            
+                            <div class="highlight">
+                                <strong>OBSERVAÇÃO GERAL:</strong> Registrar TODOS os atendimentos em um chamado no IXC.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ativação Section -->
+                <div class="content-section" id="ativacao">
+                    <h2 class="section-title"><i class="fas fa-plug"></i> Processo: Ativação de Cliente Novo</h2>
+                    
+                    <div class="cards-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background-color: #3498db;">
+                                    <i class="fas fa-file-signature"></i>
+                                </div>
+                                <h3 class="card-title">Pré-requisitos</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Verificar contrato assinado no IXC</li>
+                                    <li>Status verde: Contrato assinado</li>
+                                    <li>Status azul: Aguardando assinatura</li>
+                                    <li>Coletar assinatura via Central do Assinante</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background-color: #27ae60;">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <h3 class="card-title">Configuração</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Criar login PPPoE seguindo padrão do POP</li>
+                                    <li>Configurar nome (SSID) e senha do Wi-Fi</li>
+                                    <li>Configurar IP POOL com ID da região da ONU</li>
+                                    <li>Autorizar ONU no IXC</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background-color: #9b59b6;">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h3 class="card-title">Validação</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Verificar potência óptica da ONU</li>
+                                    <li>Aceitável: Entre -15 dBm e -24 dBm</li>
+                                    <li>Fora do padrão: Solicitar reparo nos conectores</li>
+                                    <li>Solicitar testes de velocidade (Wi-Fi 2.4 GHz e 5 GHz)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Troca de Equipamento Section -->
+                <div class="content-section" id="troca-equipamento">
+                    <h2 class="section-title"><i class="fas fa-exchange-alt"></i> Processo: Troca de Equipamento</h2>
+                    
+                    <div class="cards-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background-color: #3498db;">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <h3 class="card-title">Verificação Cadastral</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Acessar cadastro do cliente > Aba "Login" (Fibra)</li>
+                                    <li>Verificar se existe ONU configurada</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background-color: #e74c3c;">
+                                    <i class="fas fa-trash-alt"></i>
+                                </div>
+                                <h3 class="card-title">Cliente COM ONU Configurada</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Acessar a ONU existente no IXC</li>
+                                    <li>Desautorizar a ONU</li>
+                                    <li>Deletar o perfil fibra existente</li>
+                                    <li>Realizar processo de ativação normal</li>
+                                </ul>
+                                <div class="highlight">
+                                    <strong>OBS:</strong> A remoção do perfil fibra antigo é essencial para evitar erro no novo provisionamento.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background-color: #f39c12;">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <h3 class="card-title">Cliente SEM ONU Configurada</h3>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>Realizar processo de ativação normal</li>
+                                    <li>Desprovisionar ONU antiga no UNM2000</li>
+                                    <li>Clicar com botão direito sobre a ONU</li>
+                                    <li>Selecionar "ONU Deauthorization"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- POPs Section -->
+                <div class="content-section" id="pops">
+                    <h2 class="section-title"><i class="fas fa-server"></i> Configurações POP</h2>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rede</th>
+                                    <th>POP</th>
+                                    <th>Fabricante OLT</th>
+                                    <th>VLAN PPPoE</th>
+                                    <th>ID POOL IXC</th>
+                                    <th>ID Perfil Fibra</th>
+                                    <th>Padrão Login PPPoE</th>
+                                    <th>Config. Wi-Fi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="network-badge imais-badge">Internet Mais</span></td>
+                                    <td>Moreninha</td>
+                                    <td>FiberHome</td>
+                                    <td>1003</td>
+                                    <td>18</td>
+                                    <td>70</td>
+                                    <td>nome+sobrenome@imais@mor</td>
+                                    <td><i class="fas fa-check-circle" style="color: #27ae60;"></i> Na ativação</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="network-badge imais-badge">Internet Mais</span></td>
+                                    <td>Aero Rancho</td>
+                                    <td>FiberHome</td>
+                                    <td>1002</td>
+                                    <td>19</td>
+                                    <td>70</td>
+                                    <td>nome+sobrenome@imais@aer</td>
+                                    <td><i class="fas fa-check-circle" style="color: #27ae60;"></i> Na ativação</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="network-badge imais-badge">Internet Mais</span></td>
+                                    <td>Freeway</td>
+                                    <td>Huawei</td>
+                                    <td>29</td>
+                                    <td>3</td>
+                                    <td>74</td>
+                                    <td>nome+sobrenome@imais@fwc</td>
+                                    <td><i class="fas fa-times-circle" style="color: #e74c3c;"></i> Pós-ativação</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="network-badge flextel-badge">Flextel</span></td>
+                                    <td>Nasser</td>
+                                    <td>ZTE</td>
+                                    <td>1360</td>
+                                    <td>5</td>
+                                    <td>49</td>
+                                    <td>flextel@nasser-nome+sobrenome</td>
+                                    <td><i class="fas fa-check-circle" style="color: #27ae60;"></i> Na ativação</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="network-badge flextel-badge">Flextel</span></td>
+                                    <td>Santo Amaro</td>
+                                    <td>ZTE</td>
+                                    <td>1361</td>
+                                    <td>6</td>
+                                    <td>49</td>
+                                    <td>flextel@stoamaro-nome+sobrenome</td>
+                                    <td><i class="fas fa-check-circle" style="color: #27ae60;"></i> Na ativação</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="network-badge flextel-badge">Flextel</span></td>
+                                    <td>Rita Vieira</td>
+                                    <td>Huawei</td>
+                                    <td>1368</td>
+                                    <td>10</td>
+                                    <td>54</td>
+                                    <td>flextel@rita-nome+sobrenome</td>
+                                    <td><i class="fas fa-times-circle" style="color: #e74c3c;"></i> Pós-ativação</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="network-badge flextel-badge">Flextel</span></td>
+                                    <td>Campo Nobre</td>
+                                    <td>Huawei</td>
+                                    <td>1369</td>
+                                    <td>15</td>
+                                    <td>54</td>
+                                    <td>flextel@nobre-nome+sobrenome</td>
+                                    <td><i class="fas fa-times-circle" style="color: #e74c3c;"></i> Pós-ativação</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="highlight" style="margin-top: 25px;">
+                        <strong>OBSERVAÇÕES IMPORTANTES:</strong>
+                        <ul>
+                            <li><strong>Clientes Empresariais (Freeway):</strong> Substituir "@imais" por "@freeway" no login PPPoE</li>
+                            <li><strong>Configuração Wi-Fi:</strong> 
+                                <ul>
+                                    <li>OLTs ZTE e FiberHome: Configurar na ativação (aba Login do IXC)</li>
+                                    <li>OLTs Huawei: Configurar após a ativação</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Processos de Suporte Técnico | Internet Mais & Freeway</p>
+            <p>Documentação atualizada em: 08/07/2025</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Hide all sections
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show target section
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            document.querySelectorAll('.card, .content-section').forEach(element => {
+                if (element.textContent.toLowerCase().includes(searchTerm)) {
+                    element.style.display = 'block';
+                    element.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+        });
+        
+        // Highlight cards on page load
+        setTimeout(() => {
+            document.querySelector('.pulse').classList.remove('pulse');
+        }, 5000);
+    </script>
+</body>
+</html>
