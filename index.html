@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guia Interativo de Processos de Suporte</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -109,12 +109,15 @@
             font-size: 1.8rem;
             background: linear-gradient(to right, #3498db, #2ecc71);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: var(--transition);
         }
         
         .logo:hover .logo-text {
             background: linear-gradient(to right, #2ecc71, #3498db);
+            -webkit-background-clip: text;
+   			background-clip: text;
         }
         
         .nav-menu {
@@ -135,6 +138,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--light); /* Ensure button text is visible */
         }
         
         .nav-item::before {
@@ -229,6 +233,7 @@
             margin-bottom: 20px;
             background: linear-gradient(to right, #fff, #3498db);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeInDown 1s ease-out;
         }
@@ -265,6 +270,10 @@
         }
         
         /* Main Content */
+        main {
+            display: block; /* Ensure main is a block-level element */
+        }
+        
         .section {
             padding: 60px 0;
             display: none;
@@ -483,63 +492,337 @@
             box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
         }
         
-        /* Table Styles */
-        .table-container {
-            overflow-x: auto;
-            margin: 40px 0;
+        /* Accordion styles */
+        details {
             background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        details:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(52, 152, 219, 0.4);
+        }
+
+        details summary {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--light);
+            background: rgba(52, 152, 219, 0.15);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            box-shadow: inset 0 0 10px rgba(52, 152, 219, 0.2);
+            list-style: none; /* Remove default marker */
+        }
+
+        details summary::-webkit-details-marker {
+            display: none; /* For Safari */
+        }
+
+        details summary::after {
+            content: '▼';
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        details summary:hover {
+            background: rgba(52, 152, 219, 0.25);
+        }
+
+        details[open] summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        details .content {
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            color: #a0c6e8;
+        }
+        
+        /* Form elements */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--light);
+        }
+        
+        .form-group select, 
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--light);
+            font-size: 1rem;
+            appearance: none;
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            transition: var(--transition);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-group select {
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ecf0f1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.4H18.6c-5%200-9.3%201.8-13.2%205.4L146.2%20224.6z%22%2F%3E%3C%2Fsvg%3E');
+        }
+
+        .form-group select:focus, 
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            grid-column: 1 / -1; /* Make it span full width */
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--secondary);
+            cursor: pointer;
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        /* Pop details card */
+        .pop-details-card {
+            background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--card-border);
             border-radius: var(--border-radius);
             padding: 30px;
             backdrop-filter: blur(5px);
             box-shadow: var(--shadow);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #a0c6e8;
+            transition: var(--transition);
         }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
+
+        .pop-details-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--light);
         }
-        
-        th {
-            background: rgba(52, 152, 219, 0.2);
-            padding: 18px 15px;
+
+        .pop-details-card .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(39, 174, 96, 0.3);
+        }
+
+        .pop-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .pop-detail-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 15px;
             text-align: left;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .pop-detail-item p:first-child {
+            font-size: 0.9rem;
+            color: #a0c6e8;
+            margin-bottom: 5px;
+        }
+
+        .pop-detail-item p:last-child {
+            font-size: 1.2rem;
             font-weight: 600;
             color: var(--secondary);
-            font-family: 'Poppins', sans-serif;
-            border-bottom: 2px solid var(--secondary);
+        }
+
+        .pop-pppoe {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            word-break: break-all;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .pop-obs {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            color: #a0c6e8;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.15);
         }
         
-        td {
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .pop-obs strong {
+            color: var(--secondary);
+        }
+
+        /* PPPoE Generator */
+        .pppoe-result-area {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pppoe-result-area p {
+            margin-bottom: 10px;
             color: #a0c6e8;
         }
         
-        tr:hover {
-            background: rgba(52, 152, 219, 0.05);
+        .pppoe-result-area strong {
+            color: var(--light);
         }
         
-        .network-badge {
+        .pppoe-generated-text {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 5px;
+            word-break: break-all;
+            margin-top: 10px;
             display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .copy-button {
+            background: var(--secondary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        #pppoe-form .copy-button {
+            grid-column: 1 / -1; /* Make button span full width in the form grid */
+            justify-content: center;
+        }
+
+        .copy-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.4s ease;
+        }
+        
+        .copy-button:hover::before {
+            left: 100%;
+        }
+        
+        .copy-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.5);
+        }
+        
+        .loading-indicator {
+            display: flex;
+            align-items: center;
+            color: var(--secondary);
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .loading-indicator i {
+            margin-right: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            color: var(--accent);
+            margin-top: 15px;
             font-weight: 500;
         }
-        
-        .imais-badge {
-            background: rgba(39, 174, 96, 0.15);
-            color: #27ae60;
-            border: 1px solid rgba(39, 174, 96, 0.3);
-        }
-        
-        .flextel-badge {
-            background: rgba(155, 89, 182, 0.15);
-            color: #9b59b6;
-            border: 1px solid rgba(155, 89, 182, 0.3);
-        }
-        
+
         /* Footer */
         footer {
             margin-top: 50px;
@@ -668,506 +951,6 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes zoomIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Accordion styles */
-        details {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        details:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            border-color: rgba(52, 152, 219, 0.4);
-        }
-
-        details summary {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            padding: 20px 30px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--light);
-            background: rgba(52, 152, 219, 0.15);
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-            box-shadow: inset 0 0 10px rgba(52, 152, 219, 0.2);
-            list-style: none;
-        }
-
-        details summary::-webkit-details-marker {
-            display: none;
-        }
-
-        details summary::after {
-            content: '▼';
-            transition: transform 0.3s ease;
-            font-size: 0.8rem;
-        }
-
-        details[open] summary::after {
-            transform: rotate(180deg);
-        }
-
-        details summary:hover {
-            background: rgba(52, 152, 219, 0.25);
-        }
-
-        details[open] summary {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        details .content {
-            padding: 20px 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom-left-radius: var(--border-radius);
-            border-bottom-right-radius: var(--border-radius);
-            color: #a0c6e8;
-        }
-
-        details .content strong {
-            color: var(--light);
-        }
-        
-        details .content ul {
-            list-style: disc;
-            padding-left: 25px;
-            margin-top: 10px;
-        }
-        
-        details .content li {
-            margin-bottom: 8px;
-        }
-        
-        details .content .note {
-            background: rgba(231, 76, 60, 0.1);
-            border-left: 4px solid var(--accent);
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            color: #e74c3c;
-        }
-        
-        details .content .note strong {
-            color: #e74c3c;
-        }
-
-        /* Form elements */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--light);
-        }
-        
-        .form-group select, 
-        .form-group input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.2);
-            color: var(--light);
-            font-size: 1rem;
-            appearance: none;
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 12px;
-            transition: var(--transition);
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .form-group select {
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ecf0f1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.4H18.6c-5%200-9.3%201.8-13.2%205.4L146.2%20224.6z%22%2F%3E%3C%2Fsvg%3E');
-        }
-
-        .form-group select:focus, 
-        .form-group input[type="text"]:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin-top: 15px;
-        }
-        
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 10px;
-            width: 20px;
-            height: 20px;
-            accent-color: var(--secondary);
-            cursor: pointer;
-        }
-        
-        .checkbox-group label {
-            margin-bottom: 0;
-            cursor: pointer;
-        }
-
-        /* Pop details card */
-        .pop-details-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            backdrop-filter: blur(5px);
-            box-shadow: var(--shadow);
-            min-height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #a0c6e8;
-            transition: var(--transition);
-        }
-
-        .pop-details-card h4 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--light);
-        }
-
-        .pop-details-card .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 10px;
-            background: rgba(39, 174, 96, 0.2);
-            color: var(--success);
-            border: 1px solid rgba(39, 174, 96, 0.3);
-        }
-
-        .pop-details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .pop-detail-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: left;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .pop-detail-item p:first-child {
-            font-size: 0.9rem;
-            color: #a0c6e8;
-            margin-bottom: 5px;
-        }
-
-        .pop-detail-item p:last-child {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-
-        .pop-pppoe {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 10px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.95rem;
-            word-break: break-all;
-            margin-top: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .pop-obs {
-            background: rgba(52, 152, 219, 0.1);
-            border-left: 4px solid var(--secondary);
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 20px;
-            color: #a0c6e8;
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.15);
-        }
-        
-        .pop-obs strong {
-            color: var(--secondary);
-        }
-
-        /* Info cards */
-        .info-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            backdrop-filter: blur(5px);
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-        
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .info-card h4 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-        
-        .info-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .info-card li {
-            margin-bottom: 10px;
-        }
-        
-        .info-card a {
-            color: #a0c6e8;
-            text-decoration: none;
-            transition: var(--transition);
-            display: block;
-            padding: 8px 0;
-            border-radius: 5px;
-        }
-        
-        .info-card a:hover {
-            color: var(--secondary);
-            padding-left: 5px;
-            background: rgba(52, 152, 219, 0.05);
-        }
-        
-        .info-card .password-entry {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-            word-break: break-all;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        
-        .info-card .password-entry strong {
-            color: var(--light);
-        }
-
-        /* PPPoE Generator */
-        .pppoe-result-area {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 30px;
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            text-align: left;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .pppoe-result-area p {
-            margin-bottom: 10px;
-            color: #a0c6e8;
-        }
-        
-        .pppoe-result-area strong {
-            color: var(--light);
-        }
-        
-        .pppoe-generated-text {
-            font-family: 'Fira Code', monospace;
-            font-size: 1.1rem;
-            color: var(--secondary);
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px 12px;
-            border-radius: 5px;
-            word-break: break-all;
-            margin-top: 10px;
-            display: inline-block;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
-        .copy-button {
-            background: var(--secondary);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 15px;
-            font-weight: 500;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-            position: relative;
-            overflow: hidden;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .copy-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: all 0.4s ease;
-        }
-        
-        .copy-button:hover::before {
-            left: 100%;
-        }
-        
-        .copy-button:hover {
-            background: #2980b9;
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.5);
-        }
-        
-        .loading-indicator {
-            display: flex;
-            align-items: center;
-            color: var(--secondary);
-            font-style: italic;
-            margin-top: 20px;
-        }
-        
-        .loading-indicator i {
-            margin-right: 10px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .error-message {
-            color: var(--accent);
-            margin-top: 15px;
-            font-weight: 500;
-        }
-
-        /* Favorite toggle */
-        .favorite-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: #aaa;
-            cursor: pointer;
-            transition: var(--transition);
-            z-index: 10;
-        }
-        
-        .favorite-toggle:hover, 
-        .favorite-toggle.active {
-            color: var(--warning);
-            transform: scale(1.2);
-        }
-        
-        .favorite-toggle.active {
-            color: var(--warning);
-        }
-        
-        /* Recent activity */
-        .recent-activity {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-top: 30px;
-            backdrop-filter: blur(5px);
-            box-shadow: var(--shadow);
-        }
-        
-        .recent-activity h4 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .recent-item {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .recent-item:last-child {
-            border-bottom: none;
-        }
-        
-        .recent-item .time {
-            font-size: 0.8rem;
-            color: #a0c6e8;
-            margin-top: 5px;
-        }
-        
-        /* Theme toggle */
-        .theme-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--secondary);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            transition: var(--transition);
-        }
-        
-        .theme-toggle:hover {
-            transform: scale(1.1) rotate(30deg);
-            background: var(--success);
-        }
     </style>
 </head>
 <body>
@@ -1178,364 +961,211 @@
                     <div class="logo-icon floating">
                         <i class="fas fa-network-wired"></i>
                     </div>
-                    <div class="logo-text">Suporte Técnico</div>
+                    <span class="logo-text">Suporte Técnico</span>
                 </a>
                 
                 <div class="search-container">
-                    <input type="text" placeholder="Buscar no guia...">
-                    <button><i class="fas fa-search"></i></button>
+                    <input type="text" placeholder="Buscar no guia..." aria-label="Buscar no guia">
+                    <button type="button" aria-label="Buscar"><i class="fas fa-search"></i></button>
                 </div>
                 
-                <div class="nav-menu">
-                    <div class="nav-item active" data-target="responsabilidades">
-                        <i class="fas fa-tasks"></i> Responsabilidades
-                    </div>
-                    <div class="nav-item" data-target="diagnostico">
-                        <i class="fas fa-stethoscope"></i> Diagnóstico
-                    </div>
-                    <div class="nav-item" data-target="procedimentos">
-                        <i class="fas fa-clipboard-list"></i> Procedimentos
-                    </div>
-                    <div class="nav-item" data-target="uteis">
-                        <i class="fas fa-bookmark"></i> Informações Úteis
-                    </div>
-                    <div class="nav-item" data-target="consulta">
-                        <i class="fas fa-search-location"></i> Consulta POP
-                    </div>
-                    <div class="nav-item" data-target="gerador-pppoe">
-                        <i class="fas fa-key"></i> Gerador PPPoE
-                    </div>
-                </div>
+                <nav class="nav-menu" aria-label="Navegação principal">
+                    <button type="button" class="nav-item active" data-target="responsabilidades"><i class="fas fa-tasks"></i> Responsabilidades</button>
+                    <button type="button" class="nav-item" data-target="diagnostico"><i class="fas fa-stethoscope"></i> Diagnóstico</button>
+                    <button type="button" class="nav-item" data-target="procedimentos"><i class="fas fa-clipboard-list"></i> Procedimentos</button>
+                    <button type="button" class="nav-item" data-target="uteis"><i class="fas fa-bookmark"></i> Informações Úteis</button>
+                    <button type="button" class="nav-item" data-target="consulta"><i class="fas fa-search-location"></i> Consulta POP</button>
+                    <button type="button" class="nav-item" data-target="gerador-pppoe"><i class="fas fa-key"></i> Gerador PPPoE</button>
+                </nav>
             </div>
         </div>
     </header>
     
-    <section class="hero">
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Processos de Suporte Técnico</h1>
+                <p>Documentação completa dos processos operacionais para a equipe de suporte técnico da Internet Mais e Freeway</p>
+                <nav class="breadcrumb" aria-label="Navegação estrutural">
+                    <a href="#"><i class="fas fa-home"></i> Início</a>
+                    <span>/</span>
+                    <span id="current-section">Responsabilidades</span>
+                </nav>
+            </div>
+        </section>
+        
         <div class="container">
-            <h1>Processos de Suporte Técnico</h1>
-            <p>Documentação completa dos processos operacionais para a equipe de suporte técnico da Internet Mais e Freeway</p>
-            
-            <div class="breadcrumb">
-                <a href="#"><i class="fas fa-home"></i> Início</a>
-                <span>/</span>
-                <span id="current-section">Responsabilidades</span>
-            </div>
-        </div>
-    </section>
-    
-    <div class="container">
-        <!-- Responsabilidades Section -->
-        <section class="section active" id="responsabilidades">
-            <h2 class="section-title">Responsabilidades do Setor</h2>
-            <p class="section-subtitle">Esta seção descreve as principais responsabilidades e atribuições do setor de suporte, garantindo clareza sobre o escopo de atuação da equipe.</p>
-            
-            <div class="card">
-                <div class="card-content">
-                    <ul>
-                        <li>Suporte a clientes fibra com lentidão ou sem conexão (Freeway e Internet Mais).</li>
-                        <li>Suporte para todo tipo de ativação de fibra (Freeway e Internet Mais).</li>
-                        <li>Suporte para equipes externas em caso de rompimento ou falha massiva (Freeway e Internet Mais).</li>
-                        <li>Suporte para ativação de todos os aplicativos ofertados pela Internet Mais.</li>
-                        <li>Setor responsável pela abertura de chamados de rompimentos ou visitas técnicas.</li>
-                        <li>Suporte ao setor comercial e financeiro para mudança de titularidade, upgrade e downgrade de link.</li>
-                        <li>Suporte ao cliente com o envio de segunda via de boleto e desbloqueio de confiança.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Diagnóstico Section -->
-        <section class="section" id="diagnostico">
-            <h2 class="section-title">Diagnóstico de Problemas</h2>
-            <p class="section-subtitle">Esta seção apresenta fluxos de trabalho interativos para diagnosticar e resolver os problemas mais comuns relatados pelos clientes. Use estes guias para um atendimento padronizado e eficiente.</p>
-            
-            <details>
-                <summary>Internet Lenta</summary>
-                <div class="content">
-                    <p><strong>1. Boas-vindas e Coleta de Informações:</strong> Dê as boas-vindas e solicite detalhes: tipo de lentidão, se ocorre em site/aplicativo específico e se é via cabo ou Wi-Fi.</p>
-                    <p><strong>2. Verificação de Cadastro:</strong> Verifique o cadastro do cliente no IXC para confirmar se não há redução de velocidade. Se houver, transfira para o setor responsável.</p>
-                    <p><strong>3. Análise Técnica Remota:</strong> Sem redução, verifique os equipamentos: potência da fibra, canais e potência do Wi-Fi, testes de `tracert` e `ping` pelo roteador. Reinicie o roteador se estiver ligado há mais de 10 dias.</p>
-                    <p><strong>4. Validação e Encerramento:</strong> Verifique com o cliente se a conexão normalizou. Se sim, encerre o chamado com o motivo pertinente. Se não, abra um chamado de visita técnica.</p>
-                    <div class="note">
-                        <p><strong>OBS (IPTV):</strong> Se o problema for relacionado a IPTV, informe ao cliente que o serviço deve funcionar na rede, mas a garantia de funcionamento não é possível devido à falta de informação, falta de homologação e quedas de servidores por conta de operações da PF.</p>
-                    </div>
-                </div>
-            </details>
-
-            <details>
-                <summary>Sem Conexão</summary>
-                <div class="content">
-                    <p><strong>1. Análise de Cadastro:</strong> Dê as boas-vindas e verifique no IXC por bloqueios financeiros. Se houver, informe e transfira o cliente para o setor financeiro.</p>
-                    <p><strong>2. Verificação de Status da ONU:</strong> Verifique o status da ONU nas plataformas: aba Fibra (IXC), Smartolt ou UNM2000.</p>
-                    <p><strong>3. Cenário ONU Bridge:</strong> Se a ONU estiver em modo bridge e a mesma esteja com sinal de fibra, verificar se o cabo de rede que conecta no roteador que faz a autenticação pppoe está na porta WAN do mesmo, caso esteja verificar junto ao cliente se o roteador está aparecendo o nome do wifi, caso não esteja questionar o cliente se o mesmo foi resetado. Se for o caso abrir chamado de visita para verificação no local.</p>
-                    <p><strong>4. Cenário ONU Roteada:</strong> Verifique a potência e os alarmes da ONU: <strong style="color: var(--accent);">LINKLOSS</strong> (rompimento), <strong style="color: var(--warning);">DYING_GASP</strong> (falha de energia) ou <strong style="color: #a0c6e8;">OFFLINE</strong> (falha massiva). Abra chamado de visita para LINKLOSS e OFFLINE. Para DYING_GASP, verifique a energia na residência do cliente.</p>
-                    <div class="note" style="border-left-color: var(--secondary); background: rgba(52, 152, 219, 0.1);">
-                        <p><strong style="color: var(--secondary);">IMPORTANTE:</strong> Para TODOS os atendimentos, abra um chamado no IXC para consultas futuras.</p>
-                    </div>
-                </div>
-            </details>
-        </section>
-
-        <!-- Procedimentos Section -->
-        <section class="section" id="procedimentos">
-            <h2 class="section-title">Guias de Procedimentos</h2>
-            <p class="section-subtitle">Esta seção contém guias passo a passo para processos padrão. Clique em um procedimento para visualizar o passo a passo completo.</p>
-            
-            <details>
-                <summary>Processo de Ativação de Cliente Novo</summary>
-                <div class="content">
-                    <div class="step-list">
-                        <div class="step-item">
-                            <h4 class="step-title">1. Verificação do Contrato</h4>
-                            <ul>
-                                <li>Acessar o cadastro do cliente no IXC</li>
-                                <li>Verificar status do contrato:
-                                    <ul>
-                                        <li><strong>Verde:</strong> Contrato assinado</li>
-                                        <li><strong>Azul:</strong> Aguardando assinatura (com mensagem "aguardando assinatura")</li>
-                                    </ul>
-                                </li>
-                                <li>Em caso de status azul, solicitar ao técnico coletar a assinatura via Central do Assinante</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step-item">
-                            <h4 class="step-title">2. Configuração do Cliente</h4>
-                            <ul>
-                                <li>Acessar o campo de edição de login no IXC</li>
-                                <li>Criar login PPPoE seguindo o padrão do POP (ver tabela de POPs)</li>
-                                <li>Configurar nome (SSID) e senha do Wi-Fi</li>
-                                <li>Configurar o IP POOL com o ID da região da ONU</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step-item">
-                            <h4 class="step-title">3. Autorização da ONU</h4>
-                            <ul>
-                                <li>Navegar para a guia PROVEDOR dentro do IXC</li>
-                                <li>Acessar a opção AUTORIZAR ONUs</li>
-                                <li>Clicar em CONSULTAR TODAS</li>
-                                <li>Localizar a ONU pelo MAC correspondente à ativação</li>
-                                <li>Clicar em AUTORIZAR ONU e preencher os campos:
-                                    <ul>
-                                        <li><strong>Login:</strong> Login do cliente configurado anteriormente</li>
-                                        <li><strong>Nome:</strong> Para Moreninha ou Aero Rancho usar padrão específico, para outros POPs não alterar</li>
-                                        <li><strong>Perfil:</strong> ID referente à região</li>
-                                        <li><strong>VLAN UPLINK:</strong> VLAN referente à região</li>
-                                    </ul>
-                                </li>
-                                <li>Clicar em SALVAR e depois em AUTORIZAR ONU</li>
-                                <li>Verificar resposta:
-                                    <ul>
-                                        <li><strong>Tela Verde:</strong> Ativação bem-sucedida</li>
-                                        <li><strong>Tela Vermelha:</strong> Revisar configurações e tentar novamente</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step-item">
-                            <h4 class="step-title">4. Validação Pós-Ativação</h4>
-                            <ul>
-                                <li>Acessar a opção POTENCIA/RESUMO DA ONU</li>
-                                <li>Verificar potência óptica:
-                                    <ul>
-                                        <li><strong>Aceitável:</strong> Entre -15 dBm e -24 dBm</li>
-                                        <li><strong>Fora do padrão:</strong> Solicitar reparo nos conectores</li>
-                                    </ul>
-                                </li>
-                                <li>Informar ao técnico a potência medida</li>
-                                <li>Solicitar testes de velocidade:
-                                    <ul>
-                                        <li>Rede Wi-Fi 2.4GHz</li>
-                                        <li>Rede Wi-Fi 5GHz</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="highlight">
-                        <strong>OBSERVAÇÕES IMPORTANTES:</strong>
+            <!-- Responsabilidades Section -->
+            <section class="section active" id="responsabilidades" role="tabpanel">
+                <h2 class="section-title">Responsabilidades do Setor</h2>
+                <p class="section-subtitle">Esta seção descreve as principais responsabilidades e atribuições do setor de suporte, garantindo clareza sobre o escopo de atuação da equipe.</p>
+                <article class="card">
+                    <div class="card-content">
                         <ul>
-                            <li><strong>Clientes Empresariais (Freeway):</strong> Substituir "@imais" por "@freeway" no login PPPoE</li>
-                            <li><strong>Configuração Wi-Fi:</strong> 
-                                <ul>
-                                    <li>OLTs ZTE e FiberHome: Configurar na ativação (aba Login do IXC)</li>
-                                    <li>OLTs Huawei: Configurar após a ativação</li>
-                                </ul>
-                            </li>
-                            <li><strong>Nome do Equipamento:</strong> Em Moreninha e Aero Rancho usar padrão "VLAN + Nome + Sobrenome + Rua" (ex: 1003 ALESSANDRO NUNES RUA AMARILIS 106)</li>
+                            <li>Suporte a clientes fibra com lentidão ou sem conexão (Freeway e Internet Mais).</li>
+                            <li>Suporte para todo tipo de ativação de fibra (Freeway e Internet Mais).</li>
+                            <li>Suporte para equipes externas em caso de rompimento ou falha massiva (Freeway e Internet Mais).</li>
+                            <li>Suporte para ativação de todos os aplicativos ofertados pela Internet Mais.</li>
+                            <li>Setor responsável pela abertura de chamados de rompimentos ou visitas técnicas.</li>
+                            <li>Suporte ao setor comercial e financeiro para mudança de titularidade, upgrade e downgrade de link.</li>
+                            <li>Suporte ao cliente com o envio de segunda via de boleto e desbloqueio de confiança.</li>
                         </ul>
                     </div>
-                </div>
-            </details>
+                </article>
+            </section>
 
-            <details>
-                <summary>Processo de Troca de Equipamento</summary>
-                <div class="content">
-                    <div class="step-list">
-                        <div class="step-item">
-                            <h4 class="step-title">1. Verificar Perfil Antigo</h4>
-                            <ul>
-                                <li>Acessar o cadastro do cliente, aba Login, campo Fibra.</li>
-                                <li>Se houver uma ONU configurada, acesse-a.</li>
-                            </ul>
-                        </div>
-                        <div class="step-item">
-                            <h4 class="step-title">2. Remover Perfil Antigo</h4>
-                            <ul>
-                                <li>Desautorize a ONU antiga no IXC e delete o perfil de fibra associado.</li>
-                                <li><strong style="color: var(--accent);">A não remoção causará erro no provisionamento da nova ONU.</strong></li>
-                            </ul>
-                        </div>
-                        <div class="step-item">
-                            <h4 class="step-title">3. Caso Especial (Moreninha/Aero Rancho)</h4>
-                            <ul>
-                                <li>Se não houver perfil de fibra, o cliente provavelmente é desses bairros.</li>
-                                <li>Após a ativação normal, acesse o UNM2000, encontre a ONU antiga e desprovisione-a (clique direito > ONU Deauthorization).</li>
-                            </ul>
-                        </div>
-                        <div class="step-item">
-                            <h4 class="step-title">4. Proceder com a Ativação</h4>
-                            <ul>
-                                <li>Após a remoção (se aplicável), siga o procedimento de "Ativação de Cliente Novo" normalmente.</li>
-                            </ul>
+            <!-- Diagnóstico Section -->
+            <section class="section" id="diagnostico" role="tabpanel">
+                <h2 class="section-title">Diagnóstico de Problemas</h2>
+                <p class="section-subtitle">Use estes guias para um atendimento padronizado e eficiente.</p>
+                <details>
+                    <summary>Internet Lenta</summary>
+                    <div class="content">
+                        <p><strong>1. Boas-vindas e Coleta de Informações:</strong> Dê as boas-vindas e solicite detalhes: tipo de lentidão, se ocorre em site/aplicativo específico e se é via cabo ou Wi-Fi.</p>
+                        <p><strong>2. Verificação de Cadastro:</strong> Verifique o cadastro do cliente no IXC para confirmar se não há redução de velocidade. Se houver, transfira para o setor responsável.</p>
+                        <p><strong>3. Análise Técnica Remota:</strong> Sem redução, verifique os equipamentos: potência da fibra, canais e potência do Wi-Fi, testes de `tracert` e `ping` pelo roteador. Reinicie o roteador se estiver ligado há mais de 10 dias.</p>
+                        <p><strong>4. Validação e Encerramento:</strong> Verifique com o cliente se a conexão normalizou. Se sim, encerre o chamado com o motivo pertinente. Se não, abra um chamado de visita técnica.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Sem Conexão</summary>
+                    <div class="content">
+                        <p><strong>1. Análise de Cadastro:</strong> Dê as boas-vindas e verifique no IXC por bloqueios financeiros. Se houver, informe e transfira o cliente para o setor financeiro.</p>
+                        <p><strong>2. Verificação de Status da ONU:</strong> Verifique o status da ONU nas plataformas: aba Fibra (IXC), Smartolt ou UNM2000.</p>
+                        <p><strong>3. Cenário ONU Roteada:</strong> Verifique a potência e os alarmes da ONU: <strong style="color: var(--accent);">LINKLOSS</strong> (rompimento), <strong style="color: var(--warning);">DYING_GASP</strong> (falha de energia) ou <strong style="color: #a0c6e8;">OFFLINE</strong> (falha massiva). Abra chamado de visita para LINKLOSS e OFFLINE. Para DYING_GASP, verifique a energia na residência do cliente.</p>
+                    </div>
+                </details>
+            </section>
+
+            <!-- Procedimentos Section -->
+            <section class="section" id="procedimentos" role="tabpanel">
+                <h2 class="section-title">Guias de Procedimentos</h2>
+                <p class="section-subtitle">Guias passo a passo para processos padrão.</p>
+                <details>
+                    <summary>Processo de Ativação de Cliente Novo</summary>
+                    <div class="content">
+                        <div class="step-list">
+                            <div class="step-item">
+                                <h4 class="step-title">1. Verificação do Contrato</h4>
+                                <ul><li>Acessar o cadastro do cliente no IXC e verificar status do contrato.</li></ul>
+                            </div>
+                            <div class="step-item">
+                                <h4 class="step-title">2. Configuração do Cliente</h4>
+                                <ul><li>Criar login PPPoE, configurar Wi-Fi e IP POOL no IXC.</li></ul>
+                            </div>
+                            <div class="step-item">
+                                <h4 class="step-title">3. Autorização da ONU</h4>
+                                <ul><li>Autorizar a nova ONU na guia PROVEDOR do IXC, preenchendo os dados corretamente.</li></ul>
+                            </div>
+                            <div class="step-item">
+                                <h4 class="step-title">4. Validação Pós-Ativação</h4>
+                                <ul><li>Verificar potência óptica e solicitar testes de velocidade.</li></ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </details>
-            
-            <div class="recent-activity">
-                <h4><i class="fas fa-history"></i> Atividades Recentes</h4>
-                <div class="recent-item">
-                    <div>Você visualizou "Processo de Ativação de Cliente Novo"</div>
-                    <div class="time">Há 15 minutos</div>
-                </div>
-                <div class="recent-item">
-                    <div>Você visualizou "Processo de Troca de Equipamento"</div>
-                    <div class="time">Há 30 minutos</div>
-                </div>
-            </div>
-        </section>
+                </details>
+            </section>
 
-        <!-- Informações Úteis Section -->
-        <section class="section" id="uteis">
-            <h2 class="section-title">Informações Úteis</h2>
-            <p class="section-subtitle">Aqui você encontra links rápidos para sistemas importantes e senhas de roteadores frequentemente utilizadas para facilitar o seu dia a dia.</p>
-            
-            <div class="cards-container">
-                <div class="info-card">
-                    <h4><i class="fas fa-link"></i> Links Rápidos</h4>
-                    <ul>
-                        <li><a href="https://sistema.freewaynet.com.br/app/login" target="_blank"><i class="fas fa-external-link-alt"></i> LINK IXC</a></li>
-                        <li><a href="https://opasuite.freewaynet.com.br/auth/login" target="_blank"><i class="fas fa-external-link-alt"></i> LINK OPA</a></li>
-                        <li><a href="https://freewaynet.smartolt.com/auth/login" target="_blank"><i class="fas fa-external-link-alt"></i> LINK SMAROLT</a></li>
-                        <li><a href="https://gerador-sage.vercel.app/" target="_blank"><i class="fas fa-external-link-alt"></i> LINK GERADOR DE OS</a></li>
-                        <li><a href="https://172.16.30.199:3000/" target="_blank"><i class="fas fa-external-link-alt"></i> LINK GERADOR DE RELATORIO</a></li>
-                        <li><a href="https://acs.freewaynet.com.br/login" target="_blank"><i class="fas fa-external-link-alt"></i> LINK ACS</a></li>
-                        <!-- Novos links adicionados -->
-                        <li><a href="https://maistv.internetmais.net/" target="_blank"><i class="fas fa-tv"></i> LINK MAIS TV</a></li>
-                        <li><a href="https://internetmais.net/" target="_blank"><i class="fas fa-globe"></i> SITE INTERNET MAIS</a></li>
-                        <li><a href="https://www.facebook.com/InternetMaisMS/" target="_blank"><i class="fab fa-facebook"></i> FACEBOOK INTERNET MAIS</a></li>
-                        <li><a href="https://www.instagram.com/internetmaisms/" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM INTERNET MAIS</a></li>
-                    </ul>
+            <!-- Informações Úteis Section -->
+            <section class="section" id="uteis" role="tabpanel">
+                <h2 class="section-title">Informações Úteis</h2>
+                <p class="section-subtitle">Links rápidos e senhas comuns para facilitar seu dia a dia.</p>
+                <div class="cards-container">
+                    <article class="info-card">
+                        <h4><i class="fas fa-link"></i> Links Rápidos</h4>
+                        <ul>
+                            <li><a href="https://sistema.freewaynet.com.br/app/login" target="_blank"><i class="fas fa-external-link-alt"></i> LINK IXC</a></li>
+                            <li><a href="https://opasuite.freewaynet.com.br/auth/login" target="_blank"><i class="fas fa-external-link-alt"></i> LINK OPA</a></li>
+                            <li><a href="https://freewaynet.smartolt.com/auth/login" target="_blank"><i class="fas fa-external-link-alt"></i> LINK SMAROLT</a></li>
+                        </ul>
+                    </article>
+                    <article class="info-card">
+                        <h4><i class="fas fa-lock"></i> Senhas de Roteadores</h4>
+                        <ul>
+                            <li><div class="password-entry"><strong>Login:</strong> admin | <strong>Senha:</strong> jpspeedy123</div></li>
+                            <li><div class="password-entry"><strong>Login:</strong> telecomadmin | <strong>Senha:</strong> admintelecom</div></li>
+                        </ul>
+                    </article>
                 </div>
-                <div class="info-card">
-                    <h4><i class="fas fa-lock"></i> Senhas de Roteadores Comuns</h4>
-                    <ul>
-                        <li><div class="password-entry"><strong>Login:</strong> admin | <strong>Senha:</strong> jpspeedy123</div></li>
-                        <li><div class="password-entry"><strong>Login:</strong> admin | <strong>Senha:</strong> NOC@Inter2000#</div></li>
-                        <li><div class="password-entry"><strong>Login:</strong> admin | <strong>Senha:</strong> Admin@freewaynet2023</div></li>
-                        <li><div class="password-entry"><strong>Login:</strong> admin | <strong>Senha:</strong> Admin@freeway2023</div></li>
-                        <li><div class="password-entry"><strong>Login:</strong> Epadmin | <strong>Senha:</strong> adminEp</div></li>
-                        <li><div class="password-entry"><strong>Login:</strong> telecomadmin | <strong>Senha:</strong> admintelecom</div></li>
-                        <li><div class="password-entry"><strong>Login:</strong> admin | <strong>Senha:</strong> Paratinet2963@</div></li>
-                        <li><div class="password-entry"><strong>Login:</strong> admin | <strong>Senha:</strong> paratinet</div></li>
-                        <li><div class="password-entry"><strong>Login:</strong> Admin@ramires2024 | <strong>Senha:</strong> Senh@123!</div></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Consulta POP Section -->
-        <section class="section" id="consulta">
-            <h2 class="section-title">Consulta Rápida de POPs</h2>
-            <p class="section-subtitle">Precisa dos dados de um POP específico para uma ativação? Use esta ferramenta para encontrar rapidamente todas as informações técnicas necessárias, como VLANs, IDs e padrões de PPPoE.</p>
-            
-            <div class="card">
-                <div class="card-content">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="network-select"><i class="fas fa-network-wired"></i> Selecione a Rede:</label>
-                            <select id="network-select">
-                                <option value="">-- Escolha uma rede --</option>
-                                <option value="imais">Internet Mais</option>
-                                <option value="flextel">FlexTel (Rede Neutra)</option>
-                            </select>
+            <!-- Consulta POP Section -->
+            <section class="section" id="consulta" role="tabpanel">
+                <h2 class="section-title">Consulta Rápida de POPs</h2>
+                <p class="section-subtitle">Encontre rapidamente as informações técnicas de um POP.</p>
+                <article class="card">
+                    <div class="card-content">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="network-select"><i class="fas fa-network-wired"></i> Selecione a Rede:</label>
+                                <select id="network-select">
+                                    <option value="">-- Escolha uma rede --</option>
+                                    <option value="imais">Internet Mais</option>
+                                    <option value="flextel">FlexTel (Rede Neutra)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pop-select"><i class="fas fa-map-marker-alt"></i> Selecione o POP:</label>
+                                <select id="pop-select" disabled>
+                                    <option value="">-- Primeiro escolha a rede --</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="pop-select"><i class="fas fa-map-marker-alt"></i> Selecione o POP:</label>
-                            <select id="pop-select" disabled>
-                                <option value="">-- Primeiro escolha a rede --</option>
-                            </select>
+                        <div id="pop-details" class="pop-details-card" aria-live="polite">
+                           <p>Selecione uma rede e um POP para ver os detalhes.</p>
                         </div>
                     </div>
+                </article>
+            </section>
 
-                    <div id="pop-details" class="pop-details-card">
-                       <p>Selecione uma rede e um POP para ver os detalhes.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PPPoE Generator Section -->
-        <section class="section" id="gerador-pppoe">
-            <h2 class="section-title">Gerador de PPPoE</h2>
-            <p class="section-subtitle">Gere logins PPPoE para clientes de forma rápida e precisa.</p>
-            
-            <div class="card">
-                <div class="card-content">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="client-name"><i class="fas fa-user"></i> Nome do Cliente:</label>
-                            <input type="text" id="client-name" placeholder="Ex: João" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="client-lastname"><i class="fas fa-user"></i> Sobrenome do Cliente:</label>
-                            <input type="text" id="client-lastname" placeholder="Ex: Silva" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="gen-network-select"><i class="fas fa-network-wired"></i> Rede:</label>
-                            <select id="gen-network-select">
-                                <option value="">-- Escolha uma rede --</option>
-                                <option value="imais">Internet Mais</option>
-                                <option value="flextel">FlexTel (Rede Neutra)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="gen-pop-select"><i class="fas fa-map-marker-alt"></i> POP:</label>
-                            <select id="gen-pop-select" disabled>
-                                <option value="">-- Primeiro escolha a rede --</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="business-client">
-                        <label for="business-client">Cliente Empresarial (Freeway)</label>
-                    </div>
-                    <button id="generate-pppoe-btn" class="copy-button">
-                        <i class="fas fa-key"></i> Gerar PPPoE
-                    </button>
-
-                    <div id="pppoe-result" class="pppoe-result-area">
-                        <p>Preencha os campos acima para gerar o login PPPoE.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
+            <!-- Gerador PPPoE Section -->
+            <section class="section" id="gerador-pppoe" role="tabpanel">
+                 <h2 class="section-title">Gerador de PPPoE</h2>
+                 <p class="section-subtitle">Gere logins PPPoE para clientes de forma rápida e precisa.</p>
+                 <article class="card">
+                     <div class="card-content">
+                         <form id="pppoe-form">
+                            <div class="form-grid">
+                                 <div class="form-group">
+                                     <label for="client-name"><i class="fas fa-user"></i> Nome do Cliente:</label>
+                                     <input type="text" id="client-name" name="client-name" placeholder="Ex: João" required>
+                                 </div>
+                                 <div class="form-group">
+                                     <label for="client-lastname"><i class="fas fa-user"></i> Sobrenome:</label>
+                                     <input type="text" id="client-lastname" name="client-lastname" placeholder="Ex: Silva" required>
+                                 </div>
+                                 <div class="form-group">
+                                     <label for="gen-network-select"><i class="fas fa-network-wired"></i> Rede:</label>
+                                     <select id="gen-network-select" name="gen-network-select" required>
+                                         <option value="">-- Escolha a rede --</option>
+                                         <option value="imais">Internet Mais</option>
+                                         <option value="flextel">FlexTel</option>
+                                     </select>
+                                 </div>
+                                 <div class="form-group">
+                                     <label for="gen-pop-select"><i class="fas fa-map-marker-alt"></i> POP:</label>
+                                     <select id="gen-pop-select" name="gen-pop-select" disabled required>
+                                         <option value="">-- Escolha o POP --</option>
+                                     </select>
+                                 </div>
+                                 <div class="checkbox-group">
+                                     <input type="checkbox" id="business-client" name="business-client">
+                                     <label for="business-client">Cliente Empresarial (Freeway)</label>
+                                 </div>
+                                 <button type="submit" class="copy-button">
+                                     <i class="fas fa-key"></i> Gerar PPPoE
+                                 </button>
+                             </div>
+                         </form>
+                         <div id="pppoe-result" class="pppoe-result-area" aria-live="polite">
+                             <p>Preencha os campos acima para gerar o login PPPoE.</p>
+                         </div>
+                     </div>
+                 </article>
+            </section>
+        </div>
+    </main>
+    
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -1544,33 +1174,24 @@
                     <p>Este guia foi desenvolvido para otimizar os processos de suporte técnico, garantindo agilidade e padronização no atendimento.</p>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-title">Links Rápidos</h4>
-                    <ul class="footer-links">
-                        <li><a href="#responsabilidades"><i class="fas fa-arrow-right"></i> Responsabilidades</a></li>
-                        <li><a href="#diagnostico"><i class="fas fa-arrow-right"></i> Diagnóstico de Problemas</a></li>
-                        <li><a href="#procedimentos"><i class="fas fa-arrow-right"></i> Guias de Procedimentos</a></li>
-                        <li><a href="#uteis"><i class="fas fa-arrow-right"></i> Informações Úteis</a></li>
-                        <li><a href="#consulta"><i class="fas fa-arrow-right"></i> Consulta Rápida de POPs</a></li>
-                        <li><a href="#gerador-pppoe"><i class="fas fa-arrow-right"></i> Gerador PPPoE</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
                     <h4 class="footer-title">Contato</h4>
                     <p><i class="fas fa-envelope"></i> Email: alessandro.nunes@freewaynet.com.br</p>
                     <p><i class="fas fa-phone"></i> Telefone: (67) 9129-1949</p>
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2024 Guia Interativo de Suporte. Todos os direitos reservados.
+                &copy; 2024 Guia Interativo de Suporte. Desenvolvido por Alessandro Nunes.
             </div>
         </div>
     </footer>
     
-    <div class="theme-toggle" title="Alternar tema">
+    <button type="button" class="theme-toggle" title="Alternar tema" aria-label="Alternar tema">
         <i class="fas fa-moon"></i>
-    </div>
+    </button>
 
     <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DADOS ---
         const popData = [
             { network: 'imais', name: 'Moreninha', olt: 'FiberHome', vlan: 1003, poolId: 18, profileId: 70, pppoe: 'nomesobrenome@imais@mor', obs: 'Padrão do nome do equipamento: 1003 NOME SOBRENOME RUA NUMERO. Configurar Wi-Fi no IXC.' },
             { network: 'imais', name: 'Aero Rancho', olt: 'FiberHome', vlan: 1002, poolId: 19, profileId: 70, pppoe: 'nomesobrenome@imais@aer', obs: 'Padrão do nome do equipamento: 1002 NOME SOBRENOME RUA NUMERO. Configurar Wi-Fi no IXC.' },
@@ -1595,134 +1216,100 @@
             { network: 'flextel', name: 'Campo Nobre', olt: 'Huawei', vlan: 1369, poolId: 15, profileId: 54, pppoe: 'flextel@nobre-nomesobrenome', obs: 'Configurar Wi-Fi após autenticação.' }
         ];
 
-        // DOM Elements
-        const navItems = document.querySelectorAll('.nav-item');
+        // --- ELEMENTOS DO DOM ---
+        const navMenu = document.querySelector('.nav-menu');
         const sections = document.querySelectorAll('.section');
         const currentSectionElement = document.getElementById('current-section');
+        
+        // Consulta POP
         const networkSelect = document.getElementById('network-select');
         const popSelect = document.getElementById('pop-select');
         const popDetailsContainer = document.getElementById('pop-details');
+        
+        // Gerador PPPoE
+        const pppoeForm = document.getElementById('pppoe-form');
         const genNetworkSelect = document.getElementById('gen-network-select');
         const genPopSelect = document.getElementById('gen-pop-select');
-        const clientNameInput = document.getElementById('client-name');
-        const clientLastnameInput = document.getElementById('client-lastname');
-        const businessClientCheckbox = document.getElementById('business-client');
-        const generatePppoeBtn = document.getElementById('generate-pppoe-btn');
         const pppoeResultDiv = document.getElementById('pppoe-result');
-        const themeToggle = document.querySelector('.theme-toggle');
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', () => {
-            // Activate initial tab
-            const initialTab = document.querySelector('.nav-item.active');
-            if (initialTab) {
-                const targetId = initialTab.getAttribute('data-target');
-                const initialSection = document.getElementById(targetId);
-                if (initialSection) {
-                    initialSection.classList.add('active');
-                    currentSectionElement.textContent = initialTab.textContent.trim();
-                }
+        /**
+         * Alterna a aba de conteúdo visível.
+         * @param {string} targetId - O ID da seção a ser mostrada.
+         */
+        const switchTab = (targetId) => {
+            const targetSection = document.getElementById(targetId);
+            if (!targetSection) return;
+
+            sections.forEach(section => section.classList.remove('active'));
+            targetSection.classList.add('active');
+
+            const activeNavItem = navMenu.querySelector('.nav-item.active');
+            if (activeNavItem) activeNavItem.classList.remove('active');
+            
+            const newActiveNavItem = navMenu.querySelector(`[data-target="${targetId}"]`);
+            if (newActiveNavItem) {
+                 newActiveNavItem.classList.add('active');
+                 currentSectionElement.textContent = newActiveNavItem.textContent.trim();
             }
-            
-            // Setup event listeners
-            setupEventListeners();
-        });
-
-        function setupEventListeners() {
-            // Navigation
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    item.classList.add('active');
-                    
-                    const targetId = item.getAttribute('data-target');
-                    sections.forEach(section => {
-                        section.classList.remove('active');
-                        if (section.id === targetId) {
-                            section.classList.add('active');
-                            currentSectionElement.textContent = item.textContent.trim();
-                        }
-                    });
-                });
-            });
-            
-            // POP Selects
-            networkSelect.addEventListener('change', () => populatePopSelect(networkSelect, popSelect));
-            genNetworkSelect.addEventListener('change', () => populatePopSelect(genNetworkSelect, genPopSelect));
-            
-            popSelect.addEventListener('change', () => showPopDetails(networkSelect.value, popSelect.value));
-            genPopSelect.addEventListener('change', () => {});
-            
-            // PPPoE Generator
-            generatePppoeBtn.addEventListener('click', generatePppoe);
-            
-            // Theme toggle
-            themeToggle.addEventListener('click', toggleTheme);
-        }
+        };
         
-        function populatePopSelect(networkSelectElement, popSelectElement) {
-            const selectedNetwork = networkSelectElement.value;
+        /**
+         * Popula o select de POPs com base na rede.
+         * @param {string} network - A rede selecionada.
+         * @param {HTMLSelectElement} popSelectElement - O elemento select de POPs.
+         */
+        const populatePopSelect = (network, popSelectElement) => {
+            const filteredPops = popData.filter(pop => pop.network === network);
             popSelectElement.innerHTML = '<option value="">-- Escolha um POP --</option>';
             
-            if (selectedNetwork) {
-                const filteredPops = popData.filter(pop => pop.network === selectedNetwork);
-                filteredPops.forEach(pop => {
-                    const option = document.createElement('option');
-                    option.value = pop.name;
-                    option.textContent = pop.name;
-                    popSelectElement.appendChild(option);
-                });
-                popSelectElement.disabled = false;
-            } else {
-                popSelectElement.disabled = true;
-            }
-        }
-        
-        function showPopDetails(network, popName) {
-            if (network && popName) {
-                const pop = popData.find(p => p.network === network && p.name === popName);
-                if (pop) {
-                    popDetailsContainer.innerHTML = `
-                        <div class="w-full text-left">
-                            <h4>${pop.name} <span class="badge">${pop.olt}</span></h4>
-                            <div class="pop-details-grid">
-                                <div class="pop-detail-item">
-                                    <p>VLAN PPPoE</p>
-                                    <p>${pop.vlan}</p>
-                                </div>
-                                <div class="pop-detail-item">
-                                    <p>ID POOL IXC</p>
-                                    <p>${pop.poolId}</p>
-                                </div>
-                                <div class="pop-detail-item">
-                                    <p>ID Perfil Fibra</p>
-                                    <p>${pop.profileId}</p>
-                                </div>
-                            </div>
-                            <div class="pop-pppoe">
-                                <p><strong>Padrão PPPoE:</strong> ${pop.pppoe}</p>
-                            </div>
-                            <div class="pop-obs">
-                                <p><strong>Observação:</strong> ${pop.obs}</p>
-                            </div>
-                        </div>
-                    `;
-                    return;
-                }
-            }
+            filteredPops.forEach(pop => {
+                const option = document.createElement('option');
+                option.value = pop.name;
+                option.textContent = pop.name;
+                popSelectElement.appendChild(option);
+            });
             
-            popDetailsContainer.innerHTML = '<p>Selecione uma rede e um POP para ver os detalhes.</p>';
-        }
-        
-        function generatePppoe() {
-            const clientName = clientNameInput.value.trim();
-            const clientLastname = clientLastnameInput.value.trim();
+            popSelectElement.disabled = !network;
+        };
+
+        /**
+         * Mostra os detalhes do POP selecionado.
+         * @param {string} network - A rede selecionada.
+         * @param {string} popName - O nome do POP selecionado.
+         */
+        const showPopDetails = (network, popName) => {
+            const pop = popData.find(p => p.network === network && p.name === popName);
+            if (pop) {
+                popDetailsContainer.innerHTML = `
+                    <div style="width: 100%; text-align: left;">
+                        <h4>${pop.name} <span class="badge">${pop.olt}</span></h4>
+                        <div class="pop-details-grid">
+                            <div class="pop-detail-item"><p>VLAN PPPoE</p><p>${pop.vlan}</p></div>
+                            <div class="pop-detail-item"><p>ID POOL IXC</p><p>${pop.poolId}</p></div>
+                            <div class="pop-detail-item"><p>ID Perfil Fibra</p><p>${pop.profileId}</p></div>
+                        </div>
+                        <div class="pop-pppoe"><p><strong>Padrão PPPoE:</strong> ${pop.pppoe}</p></div>
+                        <div class="pop-obs"><p><strong>Observação:</strong> ${pop.obs}</p></div>
+                    </div>`;
+            } else {
+                popDetailsContainer.innerHTML = '<p>Selecione uma rede e um POP para ver os detalhes.</p>';
+            }
+        };
+
+        /**
+         * Lida com a geração do PPPoE a partir do formulário.
+         * @param {Event} event - O evento de submissão do formulário.
+         */
+        const handlePppoeGeneration = (event) => {
+            event.preventDefault();
+            const clientName = document.getElementById('client-name').value.trim();
+            const clientLastname = document.getElementById('client-lastname').value.trim();
             const selectedNetwork = genNetworkSelect.value;
             const selectedPopName = genPopSelect.value;
-            const isBusinessClient = businessClientCheckbox.checked;
+            const isBusinessClient = document.getElementById('business-client').checked;
 
             if (!clientName || !clientLastname || !selectedNetwork || !selectedPopName) {
-                pppoeResultDiv.innerHTML = '<p class="error-message">Por favor, preencha todos os campos obrigatórios.</p>';
+                pppoeResultDiv.innerHTML = '<p class="error-message">Por favor, preencha todos os campos.</p>';
                 return;
             }
 
@@ -1733,45 +1320,61 @@
             }
 
             let generatedPppoe = selectedPop.pppoe
-                .replace('nomesobrenome', `${clientName.toLowerCase()}${clientLastname.toLowerCase()}`);
+                .replace('nomesobrenome', `${clientName.toLowerCase().replace(/\s/g, '')}${clientLastname.toLowerCase().replace(/\s/g, '')}`);
 
-            if (isBusinessClient && selectedPop.name === 'Freeway') {
+            // ### CORREÇÃO APLICADA AQUI ###
+            // Se a caixa de cliente empresarial estiver marcada E o pppoe gerado incluir '@imais', substitua por '@freeway'.
+            if (isBusinessClient && generatedPppoe.includes('@imais')) {
                 generatedPppoe = generatedPppoe.replace('@imais', '@freeway');
             }
 
-            // Show loading state
             pppoeResultDiv.innerHTML = `
-                <div class="loading-indicator">
-                    <i class="fas fa-spinner"></i> Gerando PPPoE...
-                </div>
-            `;
-            
-            // Simulate processing time
-            setTimeout(() => {
-                pppoeResultDiv.innerHTML = `
-                    <p><strong>Login PPPoE Gerado:</strong> <span class="pppoe-generated-text">${generatedPppoe}</span></p>
-                    <button class="copy-button" onclick="copyToClipboard('${generatedPppoe}')"><i class="fas fa-copy"></i> Copiar</button>
-                    <p class="mt-4"><strong>Observação:</strong> O login foi gerado com base no padrão do POP selecionado.</p>
-                `;
-            }, 800);
-        }
+                <p><strong>Login PPPoE Gerado:</strong> <span class="pppoe-generated-text" id="pppoe-text-to-copy">${generatedPppoe}</span></p>
+                <button type="button" class="copy-button" id="copy-pppoe-btn"><i class="fas fa-copy"></i> Copiar</button>`;
+        };
+
+        /**
+         * Copia um texto para a área de transferência.
+         * @param {string} text - O texto a ser copiado.
+         */
+        const copyToClipboard = (text) => {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('Login PPPoE copiado!');
+                }).catch(err => {
+                    console.error('Erro ao copiar com a API Clipboard:', err);
+                    fallbackCopyToClipboard(text);
+                });
+            } else {
+                fallbackCopyToClipboard(text);
+            }
+        };
         
-        function copyToClipboard(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
+        /**
+         * Método alternativo para copiar, para navegadores mais antigos.
+         */
+        const fallbackCopyToClipboard = (text) => {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
             try {
                 document.execCommand('copy');
-                showNotification('Login PPPoE copiado para a área de transferência!');
+                showNotification('Login PPPoE copiado!');
             } catch (err) {
-                console.error('Erro ao copiar:', err);
-                showNotification('Não foi possível copiar o texto. Por favor, copie manualmente.', true);
+                showNotification('Falha ao copiar.', true);
             }
-            document.body.removeChild(textarea);
-        }
-        
-        function showNotification(message, isError = false) {
+            document.body.removeChild(textArea);
+        };
+
+
+        /**
+         * Mostra uma notificação na tela.
+         * @param {string} message - A mensagem da notificação.
+         * @param {boolean} isError - Se a notificação é de erro.
+         */
+        const showNotification = (message, isError = false) => {
             const notification = document.createElement('div');
             notification.textContent = message;
             notification.style.position = 'fixed';
@@ -1783,41 +1386,53 @@
             notification.style.padding = '15px 30px';
             notification.style.borderRadius = '8px';
             notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
-            notification.style.zIndex = '1000';
+            notification.style.zIndex = '1001';
             notification.style.opacity = '0';
-            notification.style.transition = 'opacity 0.3s ease';
+            notification.style.transition = 'opacity 0.3s ease, bottom 0.3s ease';
             
             document.body.appendChild(notification);
             
-            // Fade in
             setTimeout(() => {
                 notification.style.opacity = '1';
+                notification.style.bottom = '30px';
             }, 10);
             
-            // Remove after delay
             setTimeout(() => {
                 notification.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
+                notification.style.bottom = '20px';
+                setTimeout(() => document.body.removeChild(notification), 300);
             }, 3000);
-        }
-        
-        function toggleTheme() {
-            document.body.classList.toggle('light-theme');
-            const icon = themeToggle.querySelector('i');
-            
-            if (document.body.classList.contains('light-theme')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+        };
+
+        // --- EVENT LISTENERS ---
+
+        // Delegação de eventos para o menu de navegação
+        navMenu.addEventListener('click', (e) => {
+            const targetButton = e.target.closest('.nav-item');
+            if (targetButton) {
+                switchTab(targetButton.dataset.target);
             }
-        }
+        });
+
+        // Consulta de POPs
+        networkSelect.addEventListener('change', () => populatePopSelect(networkSelect.value, popSelect));
+        popSelect.addEventListener('change', () => showPopDetails(networkSelect.value, popSelect.value));
+
+        // Gerador de PPPoE
+        genNetworkSelect.addEventListener('change', () => populatePopSelect(genNetworkSelect.value, genPopSelect));
+        pppoeForm.addEventListener('submit', handlePppoeGeneration);
         
-        // Expose function to global scope for onclick attribute
-        window.copyToClipboard = copyToClipboard;
+        // Delegação de evento para o botão de copiar
+        pppoeResultDiv.addEventListener('click', (e) => {
+            if (e.target.closest('#copy-pppoe-btn')) {
+                const textToCopy = document.getElementById('pppoe-text-to-copy').textContent;
+                copyToClipboard(textToCopy);
+            }
+        });
+
+        // --- INICIALIZAÇÃO ---
+        switchTab('responsabilidades');
+    });
     </script>
 </body>
 </html>
