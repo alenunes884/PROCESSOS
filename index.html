@@ -287,6 +287,21 @@
         .copy-mini { margin-left: auto; flex: none; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; border: 1px solid var(--stroke); background: var(--surface); color: var(--text-3); cursor: pointer; transition: .2s; font-size: .75rem; }
         .copy-mini:hover { color: var(--brand); border-color: var(--brand); }
 
+        /* ============ GERADORES DE TEXTO ============ */
+        .hide-field { display: none !important; }
+        textarea.input { min-height: 88px; resize: vertical; line-height: 1.6; }
+        .field label.switch { margin-bottom: 0; font-size: .87rem; color: var(--text-2); }
+        .switch-row { padding: 2px 0 4px; }
+        .nested-grid { gap: 16px; margin: 0; }
+        .gen-out { margin-top: 20px; }
+        .out-pre {
+            white-space: pre-wrap; word-break: break-word; max-height: 340px; overflow: auto;
+            padding: 16px; border-radius: 12px; border: 1px solid var(--stroke);
+            background: #070d19; color: #cbd5e1; font: .84rem/1.75 'JetBrains Mono', monospace;
+        }
+        html[data-theme="light"] .out-pre { background: rgba(15,23,42,.04); color: #1e293b; }
+        .gen-hint { font-size: .78rem; color: var(--text-3); margin-top: 6px; }
+
         /* ============ COMBOBOX / RESULT ============ */
         .combo { position: relative; }
         .combo-list { position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 30; max-height: 285px; overflow-y: auto; padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--stroke-2); background: var(--surface-2); backdrop-filter: blur(22px); box-shadow: var(--shadow); display: none; }
@@ -465,6 +480,8 @@
             <button class="nav-item" data-target="uteis" title="Informações Úteis"><i class="fas fa-layer-group"></i><span class="txt">Informações Úteis</span></button>
             <button class="nav-item" data-target="consulta" title="Consulta POP"><i class="fas fa-satellite-dish"></i><span class="txt">Consulta POP</span><span class="nav-count" id="navPopCount">22</span></button>
             <button class="nav-item" data-target="gerador-pppoe" title="Gerador PPPoE"><i class="fas fa-terminal"></i><span class="txt">Gerador PPPoE</span></button>
+            <button class="nav-item" data-target="gerador-os" title="Gerador de OS"><i class="fas fa-file-lines"></i><span class="txt">Gerador de OS</span></button>
+            <button class="nav-item" data-target="gerador-agendamento" title="Gerador de Agendamento"><i class="fas fa-calendar-day"></i><span class="txt">Gerador de Agendamento</span></button>
         </nav>
         <div class="side-foot">
             <div class="profile">
@@ -657,6 +674,8 @@
                     <div class="tile">
                         <h4><i class="fas fa-wand-magic-sparkles"></i> Geradores Otimizados</h4>
                         <ul class="link-list">
+                            <li><a href="#gerador-os"><i class="fas fa-file-lines"></i> Gerador de OS <span class="pill success" style="margin-left:auto">interno</span></a></li>
+                            <li><a href="#gerador-agendamento"><i class="fas fa-calendar-day"></i> Gerador de Agendamento <span class="pill success" style="margin-left:auto">interno</span></a></li>
                             <li><a href="https://solicitacao-agenda.vercel.app" target="_blank" rel="noopener"><i class="fas fa-calendar-check"></i> Gerador de Agenda <i class="fas fa-arrow-up-right"></i></a></li>
                             <li><a href="https://gerador-de-atendimento.vercel.app" target="_blank" rel="noopener"><i class="fas fa-headset"></i> Padrão de Atendimento <i class="fas fa-arrow-up-right"></i></a></li>
                             <li><a href="https://gerador-sage.vercel.app/" target="_blank" rel="noopener"><i class="fas fa-clipboard-list"></i> Gerador de OS (Sage) <i class="fas fa-arrow-up-right"></i></a></li>
@@ -736,6 +755,97 @@
                                 <div id="genHistory"></div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ GERADOR DE OS ============ -->
+            <section class="section" id="gerador-os">
+                <div class="section-head reveal">
+                    <span class="eyebrow">Automação · 07</span>
+                    <h2 class="section-title">Gerador de <span class="accent">OS</span></h2>
+                    <p class="section-sub">Gere o texto padrão de Ordem de Serviço no modo convencional ou NOC, com todos os campos do fluxo.</p>
+                </div>
+
+                <div class="card reveal">
+                    <form id="os-form" autocomplete="off">
+                        <div class="form-grid">
+                            <div class="field full switch-row"><label class="switch"><input type="checkbox" id="os-noc"><span class="track"></span><span>NOC <span style="color:var(--text-3)">— usa link do endereço e cliente referência</span></span></label></div>
+                            <div class="field"><label for="os-id">ID OS</label><input class="input" type="text" id="os-id" required></div>
+                            <div class="field" id="os-protBox"><label for="os-prot">Protocolo</label><input class="input" type="text" id="os-prot" required></div>
+                            <div class="field full" id="os-cliBox"><label for="os-cli">Cliente</label><input class="input" type="text" id="os-cli" required></div>
+                            <div class="field full"><label for="os-desc">Solicitação</label><select class="input" id="os-desc" required></select></div>
+                            <div class="field full hide-field" id="os-sigBox"><label for="os-sinal">Sinal</label><input class="input" type="text" id="os-sinal"></div>
+                            <div class="field full hide-field" id="os-vtBox">
+                                <label class="switch"><input type="checkbox" id="os-sc"><span class="track"></span><span>Cliente sem conexão</span></label>
+                                <label for="os-vel" style="margin-top:14px">Velocidade Contratada</label>
+                                <input class="input" type="text" id="os-vel">
+                            </div>
+                            <div class="field full"><label for="os-descr">Descrição</label><textarea class="input" id="os-descr"></textarea></div>
+                            <div class="field"><label for="os-per">Período</label><select class="input" id="os-per"><option>Manhã</option><option>Tarde</option><option selected>Qualquer</option></select></div>
+                            <div class="field"><label for="os-data">Data</label><input class="input" type="date" id="os-data" required></div>
+                            <div class="field full"><label for="os-obs">OBS</label><textarea class="input" id="os-obs"></textarea></div>
+                            <div class="nested-grid form-grid" id="os-endBox" style="grid-column:1 / -1">
+                                <div class="field"><label for="os-rua">Rua</label><input class="input" type="text" id="os-rua" required></div>
+                                <div class="field"><label for="os-num">Número</label><input class="input" type="text" id="os-num" required></div>
+                                <div class="field"><label for="os-bairro">Bairro</label><input class="input" type="text" id="os-bairro" required></div>
+                            </div>
+                            <div class="field full hide-field" id="os-linkBox"><label for="os-link">Link do Endereço</label><input class="input" type="text" id="os-link"></div>
+                            <div class="field"><label for="os-atend">Atendente</label><input class="input" type="text" id="os-atend" required></div>
+                            <div class="field" id="os-telBox"><label for="os-tel">Telefone</label><input class="input" type="tel" id="os-tel" required></div>
+                            <div class="field full hide-field" id="os-refBox"><label for="os-ref">Cliente Referência</label><input class="input" type="text" id="os-ref"></div>
+                        </div>
+                        <button class="btn wide" type="submit" style="margin-top:20px"><i class="fas fa-wand-magic-sparkles"></i> Gerar texto da OS</button>
+                    </form>
+                    <div class="gen-out hide-field" id="os-out">
+                        <div class="card-head" style="margin-bottom:12px"><span class="chead-ico"><i class="fas fa-file-lines"></i></span><h3>Texto gerado</h3></div>
+                        <pre class="out-pre" id="os-txt"></pre>
+                        <button class="btn ghost sm" type="button" id="os-copy"><i class="fas fa-copy"></i> Copiar texto</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ GERADOR DE AGENDAMENTO ============ -->
+            <section class="section" id="gerador-agendamento">
+                <div class="section-head reveal">
+                    <span class="eyebrow">Automação · 08</span>
+                    <h2 class="section-title">Gerador de <span class="accent">Agendamento</span></h2>
+                    <p class="section-sub">Texto pronto para agendamentos com endereço, data desejada, motivo e identificação do atendente.</p>
+                </div>
+
+                <div class="card reveal">
+                    <form id="ag-form" autocomplete="off">
+                        <div class="form-grid">
+                            <div class="field"><label for="ag-rua">Rua</label><input class="input" type="text" id="ag-rua" required></div>
+                            <div class="field"><label for="ag-num">Número</label><input class="input" type="text" id="ag-num" required></div>
+                            <div class="field full"><label for="ag-bairro">Bairro</label><input class="input" type="text" id="ag-bairro" required></div>
+                            <div class="field"><label for="ag-data">Data Desejada</label><input class="input" type="date" id="ag-data" required></div>
+                            <div class="field"><label for="ag-per">Período Desejado</label><select class="input" id="ag-per"><option>MANHÃ</option><option>TARDE</option><option selected>QUALQUER</option></select></div>
+                            <div class="field full"><label for="ag-motivo">Motivo</label>
+                                <select class="input" id="ag-motivo" required>
+                                    <option value="" disabled selected>Selecione...</option>
+                                    <option>Rompimento</option><option>Visita Técnica</option><option>Sinal Atenuado</option>
+                                    <option>Migração de Rede</option><option>Mudança de Cômodo</option><option>Mudança de Endereço</option>
+                                    <option>Ativação</option><option>Remanejamento de Drop</option><option>Segundo Ponto - Repetidor</option>
+                                </select>
+                            </div>
+                            <div class="field full hide-field" id="ag-vtBox">
+                                <label class="switch"><input type="checkbox" id="ag-sc"><span class="track"></span><span>Cliente sem conexão</span></label>
+                                <label for="ag-vel" style="margin-top:14px">Velocidade Contratada</label>
+                                <input class="input" type="text" id="ag-vel">
+                            </div>
+                            <div class="field full switch-row"><label class="switch"><input type="checkbox" id="ag-emp"><span class="track"></span><span>Cliente Empresarial</span></label></div>
+                            <div class="field full hide-field" id="ag-empBox"><label for="ag-empNome">Nome do cliente empresarial</label><input class="input" type="text" id="ag-empNome"></div>
+                            <div class="field full switch-row"><label class="switch"><input type="checkbox" id="ag-rec"><span class="track"></span><span>Instalação recente (menos de 7 dias)</span></label></div>
+                            <div class="field full hide-field" id="ag-recBox"><label for="ag-recNome">Nome do cliente</label><input class="input" type="text" id="ag-recNome"></div>
+                            <div class="field full"><label for="ag-atend">Nome do Atendente</label><input class="input" type="text" id="ag-atend" required></div>
+                        </div>
+                        <button class="btn wide" type="submit" style="margin-top:20px"><i class="fas fa-wand-magic-sparkles"></i> Gerar texto de agendamento</button>
+                    </form>
+                    <div class="gen-out hide-field" id="ag-out">
+                        <div class="card-head" style="margin-bottom:12px"><span class="chead-ico"><i class="fas fa-calendar-day"></i></span><h3>Texto gerado</h3></div>
+                        <pre class="out-pre" id="ag-txt"></pre>
+                        <button class="btn ghost sm" type="button" id="ag-copy"><i class="fas fa-copy"></i> Copiar texto</button>
                     </div>
                 </div>
             </section>
@@ -1224,6 +1334,146 @@
             btn.appendChild(r);
             r.addEventListener('animationend', () => r.remove());
         });
+
+        // ============ GERADOR DE OS ============
+        (function () {
+            const el = id => $('#' + id);
+            const d = new Date(), pad = n => String(n).padStart(2, '0');
+            el('os-data').value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+            const BASE = [
+                'Rompimento de Fibra - LOS', 'Visita Técnica', 'Sinal Atenuado', 'Migração de Rede',
+                'Mudança de Cômodo', 'Mudança de Endereço', 'Ativação', 'Remanejamento de Drop',
+                'Segundo Ponto - Repetidor'
+            ];
+            const NOCL = ['CTO SEM SINAL', 'CTO COM ATENUAÇÃO', 'VERIFICAÇÃO DE PORTA'];
+            const needSig = x => x === 'Sinal Atenuado' || x === 'CTO COM ATENUAÇÃO';
+
+            function sig() {
+                const n = needSig(el('os-desc').value);
+                el('os-sigBox').classList.toggle('hide-field', !n);
+                el('os-sinal').required = n;
+                if (!n) el('os-sinal').value = '';
+                const vt = el('os-desc').value === 'Visita Técnica';
+                el('os-vtBox').classList.toggle('hide-field', !vt);
+                el('os-vel').required = vt;
+                if (!vt) { el('os-vel').value = ''; el('os-sc').checked = false; }
+            }
+            function fill() {
+                const s = el('os-desc'), old = s.value;
+                const list = el('os-noc').checked ? NOCL.concat(BASE) : BASE;
+                s.innerHTML = '<option value="" disabled selected>Selecione...</option>' +
+                    list.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+                s.value = list.indexOf(old) > -1 ? old : '';
+                sig();
+            }
+            function applyNoc() {
+                const n = el('os-noc').checked;
+                function sw(box, off, ids) {
+                    el(box).classList.toggle('hide-field', off);
+                    ids.forEach(i => { el(i).required = !off; });
+                }
+                sw('os-protBox', n, ['os-prot']);
+                sw('os-telBox', n, ['os-tel']);
+                sw('os-cliBox', n, ['os-cli']);
+                sw('os-endBox', n, ['os-rua', 'os-num', 'os-bairro']);
+                sw('os-linkBox', !n, ['os-link']);
+                sw('os-refBox', !n, ['os-ref']);
+            }
+            el('os-noc').addEventListener('change', () => { fill(); applyNoc(); });
+            el('os-desc').addEventListener('change', sig);
+            fill();
+            applyNoc();
+
+            el('os-form').addEventListener('submit', e => {
+                e.preventDefault();
+                const dt = el('os-data').value.split('-');
+                const dataBR = `${dt[2]}/${dt[1]}/${dt[0]}`;
+                const v = id => el(id).value.trim();
+                const L = [], n = el('os-noc').checked;
+                if (n) L.push('NOC');
+                if (el('os-desc').value) L.push('*' + el('os-desc').value.toUpperCase() + '*');
+                L.push(
+                    'ID OS: ' + v('os-id'),
+                    n ? null : 'PROTOCOLO: ' + v('os-prot'),
+                    n ? null : 'CLIENTE: ' + v('os-cli'),
+                    'DESCRIÇÃO: ' + v('os-descr'),
+                    needSig(el('os-desc').value) ? 'SINAL: ' + v('os-sinal') : null,
+                    el('os-desc').value === 'Visita Técnica' ? 'STATUS DO CLIENTE: ' + (el('os-sc').checked ? 'SEM CONEXÃO' : 'CONECTADO') : null,
+                    el('os-desc').value === 'Visita Técnica' ? 'VELOCIDADE: ' + v('os-vel') : null,
+                    'PERÍODO: ' + el('os-per').value,
+                    'DATA: ' + dataBR,
+                    v('os-obs') ? 'OBS: ' + v('os-obs') : null,
+                    n ? 'LINK DO ENDEREÇO: ' + v('os-link') : `ENDEREÇO: ${v('os-rua')}, nº ${v('os-num')}, ${v('os-bairro')}`,
+                    'ATENDENTE: ' + v('os-atend'),
+                    n ? null : 'TELEFONE: ' + v('os-tel'),
+                    n ? 'CLIENTE REFERENCIA: ' + v('os-ref') : null
+                );
+                el('os-txt').textContent = L.filter(x => x !== null).join('\n');
+                el('os-out').classList.remove('hide-field');
+                el('os-copy').innerHTML = '<i class="fas fa-copy"></i> Copiar texto';
+                el('os-out').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                showNotification('Texto da OS gerado!');
+            });
+            el('os-copy').addEventListener('click', function () {
+                copyToClipboard(el('os-txt').textContent);
+                this.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                setTimeout(() => { this.innerHTML = '<i class="fas fa-copy"></i> Copiar texto'; }, 2200);
+            });
+        })();
+
+        // ============ GERADOR DE AGENDAMENTO ============
+        (function () {
+            const el = id => $('#' + id);
+            const d = new Date(), pad = n => String(n).padStart(2, '0');
+            el('ag-data').value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+            function toggle(check, box, input) {
+                el(check).addEventListener('change', function () {
+                    el(box).classList.toggle('hide-field', !this.checked);
+                    el(input).required = this.checked;
+                    if (!this.checked) el(input).value = '';
+                });
+            }
+            toggle('ag-emp', 'ag-empBox', 'ag-empNome');
+            toggle('ag-rec', 'ag-recBox', 'ag-recNome');
+
+            el('ag-motivo').addEventListener('change', function () {
+                const vt = this.value === 'Visita Técnica';
+                el('ag-vtBox').classList.toggle('hide-field', !vt);
+                el('ag-vel').required = vt;
+                if (!vt) { el('ag-vel').value = ''; el('ag-sc').checked = false; }
+            });
+
+            el('ag-form').addEventListener('submit', e => {
+                e.preventDefault();
+                const dt = el('ag-data').value.split('-');
+                const dataBR = `${dt[2]}/${dt[1]}/${dt[0]}`;
+                const v = id => el(id).value.trim();
+                const vt = el('ag-motivo').value === 'Visita Técnica';
+                const L = [
+                    'Endereço: ' + v('ag-rua') + ', nº ' + v('ag-num'),
+                    'Bairro: ' + v('ag-bairro'),
+                    'Data Desejada: ' + dataBR,
+                    'Período: ' + el('ag-per').value,
+                    'Motivo: ' + el('ag-motivo').value
+                ];
+                if (vt) L.push('Status do cliente: ' + (el('ag-sc').checked ? 'SEM CONEXÃO' : 'CONECTADO'), 'Velocidade: ' + v('ag-vel'));
+                if (el('ag-emp').checked) L.push('Cliente Empresarial: ' + v('ag-empNome'));
+                if (el('ag-rec').checked) L.push('Instalação recente (menos de 7 dias): ' + v('ag-recNome'));
+                L.push('', '#' + v('ag-atend'), '', '@Agendamento');
+                el('ag-txt').textContent = L.join('\n');
+                el('ag-out').classList.remove('hide-field');
+                el('ag-copy').innerHTML = '<i class="fas fa-copy"></i> Copiar texto';
+                el('ag-out').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                showNotification('Texto de agendamento gerado!');
+            });
+            el('ag-copy').addEventListener('click', function () {
+                copyToClipboard(el('ag-txt').textContent);
+                this.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                setTimeout(() => { this.innerHTML = '<i class="fas fa-copy"></i> Copiar texto'; }, 2200);
+            });
+        })();
 
         // ============ INICIALIZAÇÃO POR URL ============
         const initialId = location.hash.slice(1);
