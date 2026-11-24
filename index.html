@@ -3,628 +3,789 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia Interativo de Processos de Suporte</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            /* Paleta de Cores Moderna */
-            --primary-bg: #0b1120;         
-            --secondary: #3b82f6;          
-            --secondary-hover: #2563eb;    
-            --accent: #ef4444;             
-            --success: #10b981;            
-            --warning: #f59e0b;            
-            --light: #f8fafc;              
-            --text-muted: #94a3b8;         
-            
-            /* Novo Tema "Premium Glass" */
-            --glass-bg: rgba(15, 23, 42, 0.6); 
-            --glass-bg-hover: rgba(30, 41, 59, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-border-light: rgba(255, 255, 255, 0.15);
-            --sidebar-bg: rgba(11, 17, 32, 0.85);
-            --header-bg: rgba(11, 17, 32, 0.75);
-            
-            /* Utilitários */
-            --transition-fast: all 0.2s ease;
-            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            --border-radius: 16px; 
-            --border-radius-sm: 10px;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
-            
-            --sidebar-width: 280px; 
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    <meta name="theme-color" content="#060a14">
+    <meta name="description" content="Hub centralizado de suporte técnico: diagnóstico, procedimentos, consulta de POPs e geração de credenciais PPPoE.">
+    <title>Suporte Pro · Central de Operações</title>
 
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
-        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
-        
+    <script>
+        document.documentElement.dataset.theme = localStorage.getItem('sp-theme') === 'light' ? 'light' : 'dark';
+        document.documentElement.classList.add('js');
+        if (localStorage.getItem('sp-compact') === '1') document.documentElement.classList.add('compact');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* ============ DESIGN TOKENS ============ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            color-scheme: dark;
+            --bg: #060a14;
+            --surface: rgba(16, 24, 43, .64);
+            --surface-2: rgba(20, 29, 51, .88);
+            --surface-3: rgba(35, 47, 76, .72);
+            --stroke: rgba(148, 163, 184, .14);
+            --stroke-2: rgba(148, 163, 184, .28);
+            --text: #eef3fb;
+            --text-2: #a7b4cc;
+            --text-3: #73839f;
+            --brand: #5b8cff;
+            --brand-2: #9b6cff;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --amber: #fbbf24;
+            --red: #fb7185;
+            --brand-soft: rgba(91, 140, 255, .12);
+            --sidebar-w: 272px;
+            --header-h: 76px;
+            --radius: 20px;
+            --radius-sm: 14px;
+            --radius-xs: 10px;
+            --ease: cubic-bezier(.22, 1, .36, 1);
+            --shadow: 0 18px 50px -20px rgba(0, 0, 0, .75);
+        }
+        html[data-theme="light"] {
+            color-scheme: light;
+            --bg: #eef2f9;
+            --surface: rgba(255, 255, 255, .74);
+            --surface-2: rgba(255, 255, 255, .92);
+            --surface-3: rgba(226, 232, 240, .85);
+            --stroke: rgba(30, 41, 59, .1);
+            --stroke-2: rgba(30, 41, 59, .2);
+            --text: #0f172a;
+            --text-2: #475569;
+            --text-3: #64748b;
+            --brand: #2563eb;
+            --brand-2: #7c3aed;
+            --cyan: #0891b2;
+            --green: #059669;
+            --amber: #d97706;
+            --red: #e11d48;
+            --brand-soft: rgba(37, 99, 235, .09);
+            --shadow: 0 18px 45px -22px rgba(15, 23, 42, .28);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--primary-bg);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.12), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.08), transparent 25%),
-                linear-gradient(rgba(11, 17, 32, 0.9), rgba(11, 17, 32, 0.95)), 
-                url('https://i.ibb.co/Gv4P6xRL/Logo-internet-MAIS.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--light);
-            line-height: 1.7;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background .4s var(--ease), color .4s var(--ease);
         }
+        h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; letter-spacing: -.035em; line-height: 1.2; }
+        a { color: inherit; }
+        button, input, select { font-family: inherit; }
+        ::selection { background: var(--brand); color: #fff; }
+        ::-webkit-scrollbar { width: 9px; height: 9px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--stroke-2); border-radius: 99px; border: 2px solid transparent; background-clip: padding-box; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brand); background-clip: padding-box; }
+        :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
 
-        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; letter-spacing: -0.02em; }
-        
-        .container { max-width: 1400px; margin: 0 auto; padding: 24px; animation: fadeIn 0.6s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* ============ ANIMATED BACKGROUND ============ */
+        .backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: var(--bg); }
+        .backdrop .grid {
+            position: absolute; inset: -40%;
+            background-image: linear-gradient(var(--stroke) 1px, transparent 1px), linear-gradient(90deg, var(--stroke) 1px, transparent 1px);
+            background-size: 62px 62px;
+            -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 5%, transparent 68%);
+            mask-image: radial-gradient(ellipse at 50% 0%, #000 5%, transparent 68%);
+            opacity: .5;
+        }
+        .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .34; mix-blend-mode: screen; animation: drift 24s ease-in-out infinite alternate; }
+        html[data-theme="light"] .orb { opacity: .17; mix-blend-mode: multiply; }
+        .orb.a { width: 540px; height: 540px; top: -190px; left: 6%; background: #2563eb; }
+        .orb.b { width: 480px; height: 480px; top: 20%; right: -140px; background: #7c3aed; animation-delay: -8s; }
+        .orb.c { width: 420px; height: 420px; bottom: -160px; left: 38%; background: #0d9488; animation-delay: -15s; }
+        @keyframes drift { to { transform: translate3d(70px, 55px, 0) scale(1.18); } }
 
+        .skip-link { position: fixed; top: -60px; left: 16px; z-index: 500; padding: 10px 16px; border-radius: 10px; background: var(--brand); color: #fff; text-decoration: none; font-weight: 700; transition: top .2s; }
+        .skip-link:focus { top: 12px; }
+
+        /* ============ SIDEBAR ============ */
         .sidebar {
-            position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh;
-            background: var(--sidebar-bg); border-right: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 100;
-            transition: transform var(--transition-smooth); display: flex; flex-direction: column;
-            box-shadow: var(--shadow-md);
+            position: fixed; inset: 0 auto 0 0; width: var(--sidebar-w); z-index: 60;
+            display: flex; flex-direction: column;
+            background: var(--surface-2);
+            backdrop-filter: blur(26px) saturate(150%); -webkit-backdrop-filter: blur(26px) saturate(150%);
+            border-right: 1px solid var(--stroke);
+            transition: width .4s var(--ease), transform .4s var(--ease);
         }
-        
-        .sidebar-header {
-            padding: 28px 24px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--glass-border);
+        html.compact { --sidebar-w: 84px; }
+        .brand { height: var(--header-h); flex: none; display: flex; align-items: center; gap: 12px; padding: 0 22px; border-bottom: 1px solid var(--stroke); overflow: hidden; }
+        .brand-mark {
+            width: 42px; height: 42px; flex: none; border-radius: 13px; display: grid; place-items: center;
+            background: linear-gradient(145deg, var(--brand), var(--brand-2)); color: #fff; font-size: 1.05rem;
+            box-shadow: 0 8px 24px -7px var(--brand), inset 0 1px 0 rgba(255,255,255,.35);
+            position: relative; overflow: hidden;
         }
-        
-        .logo-icon {
-            width: 48px; height: 48px; background: linear-gradient(135deg, var(--secondary), #1e3a8a);
-            border-radius: 14px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; color: white; flex-shrink: 0; transition: var(--transition-smooth);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-        }
-        
-        .logo-text { font-weight: 700; font-size: 1.4rem; color: var(--light); white-space: nowrap; letter-spacing: -0.03em; }
-        .sidebar-header:hover .logo-icon { transform: scale(1.05) rotate(-5deg); background: linear-gradient(135deg, var(--success), #047857); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
-        
-        .nav-menu { flex-grow: 1; padding: 24px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        
+        .brand-mark::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 32%, rgba(255,255,255,.4) 50%, transparent 68%); transform: translateX(-130%); transition: transform .8s var(--ease); }
+        .sidebar:hover .brand-mark::after { transform: translateX(130%); }
+        .brand-copy { min-width: 0; }
+        .brand-name { font: 800 1.05rem 'Plus Jakarta Sans'; letter-spacing: -.04em; white-space: nowrap; }
+        .brand-sub { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
+
+        .nav { flex: 1; overflow-y: auto; padding: 20px 12px; }
+        .nav-caption { font-size: .65rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); padding: 6px 14px 12px; }
         .nav-item {
-            display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: var(--border-radius-sm);
-            cursor: pointer; transition: var(--transition-fast); font-weight: 500; color: var(--text-muted); position: relative; border: 1px solid transparent;
+            position: relative; width: 100%; display: flex; align-items: center; gap: 13px;
+            padding: 12px 14px; margin-bottom: 4px; border: 0; border-radius: var(--radius-sm);
+            background: transparent; color: var(--text-2); font: 600 .89rem 'Inter';
+            cursor: pointer; text-align: left; transition: .25s var(--ease);
         }
-        
-        .nav-item i { width: 20px; text-align: center; font-size: 1.2rem; transition: var(--transition-fast); }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--light); }
-        .nav-item:hover i { transform: scale(1.1); }
-        
-        .nav-item.active { background: rgba(59, 130, 246, 0.1); color: var(--secondary); border-color: rgba(59, 130, 246, 0.2); font-weight: 600; }
-        .nav-item.active::before {
-            content: ''; position: absolute; left: -16px; top: 50%; transform: translateY(-50%); height: 60%; width: 4px;
-            background: var(--secondary); border-radius: 0 4px 4px 0; box-shadow: var(--shadow-glow);
+        .nav-item i { width: 22px; flex: none; text-align: center; font-size: 1.05rem; transition: transform .25s var(--ease); }
+        .nav-item:hover { background: var(--surface); color: var(--text); transform: translateX(3px); }
+        .nav-item:hover i { transform: scale(1.14); }
+        .nav-item.active { background: linear-gradient(90deg, var(--brand-soft), transparent); color: var(--text); }
+        .nav-item.active::before { content: ''; position: absolute; left: 0; top: 22%; bottom: 22%; width: 3px; border-radius: 3px; background: linear-gradient(var(--brand), var(--brand-2)); box-shadow: 0 0 14px var(--brand); }
+        .nav-item.active i { color: var(--brand); }
+        .nav-count { margin-left: auto; font: 700 .67rem 'Inter'; padding: 2px 8px; border-radius: 99px; background: var(--surface-3); color: var(--text-3); }
+
+        .side-foot { flex: none; padding: 14px; border-top: 1px solid var(--stroke); }
+        .profile { display: flex; align-items: center; gap: 11px; padding: 10px; border-radius: var(--radius-sm); background: var(--surface); }
+        .avatar { width: 36px; height: 36px; flex: none; border-radius: 11px; display: grid; place-items: center; background: linear-gradient(145deg, var(--cyan), var(--brand)); color: #fff; font-weight: 800; box-shadow: 0 6px 16px -8px var(--brand); }
+        .profile-meta { min-width: 0; }
+        .profile-meta b { display: block; font-size: .82rem; }
+        .status { display: flex; align-items: center; gap: 6px; font-size: .68rem; color: var(--text-3); font-weight: 600; }
+        .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(52,211,153,.13); animation: pulse 2s infinite; }
+        @keyframes pulse { 50% { box-shadow: 0 0 0 8px rgba(52,211,153,0); } }
+        html.compact .brand { justify-content: center; padding: 0; }
+        html.compact .brand-copy, html.compact .nav-caption, html.compact .nav-item .txt, html.compact .nav-count, html.compact .profile-meta { display: none; }
+        html.compact .nav-item { justify-content: center; padding: 13px 0; }
+        html.compact .profile { justify-content: center; padding: 8px 0; }
+        .scrim { display: none; }
+
+        /* ============ MAIN / TOPBAR ============ */
+        .main-wrap { margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; transition: margin-left .4s var(--ease); }
+        .topbar {
+            position: sticky; top: 0; z-index: 50; height: var(--header-h); flex: none;
+            display: flex; align-items: center; gap: 12px; padding: 0 clamp(18px, 3vw, 38px);
+            background: var(--surface-2); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border-bottom: 1px solid var(--stroke);
         }
-        
-        .main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); transition: margin-left var(--transition-smooth), width var(--transition-smooth); min-height: 100vh; display: flex; flex-direction: column; }
-        
-        .main-header {
-            display: flex; align-items: center; justify-content: space-between; padding: 20px 32px; background: var(--header-bg); border-bottom: 1px solid var(--glass-border);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 90;
+        .icon-btn { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--stroke); background: var(--surface); color: var(--text-2); cursor: pointer; transition: .25s var(--ease); }
+        .icon-btn:hover { color: var(--brand); border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 8px 20px -12px var(--brand); }
+        #menuBtn { display: none; }
+        .crumb { display: flex; align-items: center; gap: 9px; font-size: .82rem; color: var(--text-3); font-weight: 600; white-space: nowrap; }
+        .crumb i { font-size: .65rem; }
+        .crumb strong { color: var(--text); font-weight: 700; }
+        .search-trigger {
+            display: flex; align-items: center; gap: 10px; margin-left: auto; min-width: 250px; max-width: 360px; flex: 1;
+            padding: 10px 13px; border-radius: 12px; border: 1px solid var(--stroke); background: var(--surface);
+            color: var(--text-3); cursor: pointer; text-align: left; font-size: .86rem; transition: .25s var(--ease);
         }
-        
-        #mobile-menu-toggle { display: none; background: none; border: none; color: var(--light); font-size: 1.5rem; cursor: pointer; padding: 8px; border-radius: 8px; transition: var(--transition-fast); }
-        #mobile-menu-toggle:hover { background: rgba(255,255,255,0.1); }
-        #current-section-title { font-size: 1.8rem; font-weight: 700; color: var(--light); }
-        
-        .search-container { display: flex; align-items: center; background: rgba(15, 23, 42, 0.8); border-radius: 30px; padding: 10px 20px; width: 320px; transition: var(--transition-smooth); border: 1px solid var(--glass-border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
-        .search-container:focus-within { border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2), inset 0 2px 4px rgba(0,0,0,0.2); width: 350px; }
-        .search-container input { background: transparent; border: none; color: var(--light); width: 100%; outline: none; font-size: 0.95rem; font-family: 'Inter', sans-serif; }
-        .search-container input::placeholder { color: var(--text-muted); }
-        .search-container button { background: transparent; border: none; color: var(--text-muted); cursor: pointer; transition: var(--transition-fast); font-size: 1.1rem; }
-        .search-container button:hover { color: var(--secondary); transform: scale(1.1); }
+        .search-trigger:hover { color: var(--text-2); border-color: var(--stroke-2); box-shadow: 0 0 0 4px var(--brand-soft); }
+        .search-trigger kbd { margin-left: auto; flex: none; }
+        kbd { font: 600 .7rem 'JetBrains Mono', monospace; padding: 3px 7px; border-radius: 6px; border: 1px solid var(--stroke-2); background: var(--surface-3); color: var(--text-3); }
+        .container { width: min(100%, 1440px); margin-inline: auto; padding: clamp(20px, 3vw, 38px); flex: 1; }
+        /* ============ SECTIONS ============ */
+        .section { display: none; }
+        .section.active { display: block; animation: sectionIn .5s var(--ease); }
+        @keyframes sectionIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+        .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: .67rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--brand); }
+        .eyebrow::before { content: ''; width: 22px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--brand), var(--brand-2)); }
+        .section-head { margin-bottom: 28px; }
+        .section-title { font-size: clamp(1.9rem, 3.4vw, 2.7rem); font-weight: 800; margin: 10px 0 8px; }
+        .section-title .accent { background: linear-gradient(90deg, var(--brand), var(--brand-2) 55%, var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .section-sub { color: var(--text-2); max-width: 780px; font-size: .98rem; }
 
-        .section { padding: 10px 0 40px 0; display: none; animation: fadeInSection 0.5s ease forwards; }
-        @keyframes fadeInSection { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .section.active { display: block; }
-        
-        .section-title { font-size: 2.2rem; margin-bottom: 8px; position: relative; display: inline-block; padding-bottom: 12px; color: var(--light); }
-        .section-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 5px; background: linear-gradient(90deg, var(--secondary), transparent); border-radius: 4px; }
-        .section-subtitle { font-size: 1.1rem; margin-bottom: 32px; color: var(--text-muted); font-weight: 400; max-width: 800px; }
-        
-        .card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--border-radius); padding: 32px; transition: var(--transition-smooth); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--secondary), #8b5cf6); opacity: 0.8; }
-        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); background: var(--glass-bg-hover); border-color: var(--glass-border-light); }
-        
-        .card-content ul { padding-left: 10px; margin: 10px 0; list-style: none; }
-        .card-content li { margin-bottom: 16px; position: relative; padding-left: 32px; color: var(--light); }
-        .card-content li::before { content: '\f058'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; top: 2px; color: var(--secondary); font-size: 1.1rem; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 14px; margin-bottom: 24px; }
+        .stat { position: relative; overflow: hidden; padding: 19px; border-radius: var(--radius); border: 1px solid var(--stroke); background: var(--surface); backdrop-filter: blur(16px); text-align: left; color: inherit; cursor: pointer; transition: .35s var(--ease); }
+        .stat::after { content: ''; position: absolute; width: 130px; height: 130px; right: -45px; top: -55px; border-radius: 50%; background: var(--brand); filter: blur(50px); opacity: .13; transition: .35s var(--ease); }
+        .stat:hover { transform: translateY(-5px); border-color: var(--stroke-2); box-shadow: var(--shadow); }
+        .stat:hover::after { opacity: .3; transform: scale(1.25); }
+        .stat-top { display: flex; align-items: center; justify-content: space-between; }
+        .stat-ico { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); }
+        .stat-arrow { color: var(--text-3); font-size: .8rem; transition: .25s var(--ease); }
+        .stat:hover .stat-arrow { color: var(--brand); transform: translate(3px, -3px); }
+        .stat-num { font: 800 2rem 'Plus Jakarta Sans'; line-height: 1; margin-top: 14px; }
+        .stat-lbl { font-size: .8rem; font-weight: 600; color: var(--text-3); margin-top: 5px; }
 
-        details { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--border-radius-sm); margin-bottom: 16px; box-shadow: var(--shadow-sm); transition: var(--transition-smooth); overflow: hidden; }
-        details:hover { border-color: rgba(59, 130, 246, 0.3); background: var(--glass-bg-hover); }
-        details summary { font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 600; padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--light); background: rgba(255, 255, 255, 0.02); transition: var(--transition-fast); list-style: none; user-select: none; }
-        details summary::-webkit-details-marker { display: none; }
-        details summary::after { content: '\f078'; font-family: "Font Awesome 6 Free"; font-weight: 900; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 1rem; color: var(--text-muted); background: rgba(255, 255, 255, 0.05); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-        details[open] summary::after { transform: rotate(180deg); background: rgba(59, 130, 246, 0.1); color: var(--secondary); }
-        details[open] summary { border-bottom: 1px solid var(--glass-border); background: rgba(59, 130, 246, 0.05); }
-        details .content { padding: 24px; background: rgba(0, 0, 0, 0.2); color: var(--text-muted); line-height: 1.8; animation: expandContent 0.3s ease-out; }
-        @keyframes expandContent { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        details .content p { margin-bottom: 12px; }
-        details .content strong { color: var(--light); font-weight: 600; }
-        details .content .note { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--accent); padding: 16px; border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0; margin-top: 20px; color: #fca5a5; }
-        details .content .note strong { color: var(--accent); }
+        /* ============ CARDS ============ */
+        .card { position: relative; overflow: hidden; padding: clamp(20px, 2.5vw, 30px); border-radius: var(--radius); border: 1px solid var(--stroke); background: var(--surface); backdrop-filter: blur(18px) saturate(140%); box-shadow: var(--shadow); }
+        .card::before { content: ''; position: absolute; inset: 0 0 auto; height: 1px; background: linear-gradient(90deg, transparent, var(--brand), var(--brand-2), transparent); opacity: .65; }
+        .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+        .card-head .chead-ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); }
+        .card-head h3 { font-size: 1.12rem; font-weight: 700; }
+        .card-head .pill { margin-left: auto; }
+        .pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 99px; font: 700 .68rem 'Inter'; letter-spacing: .05em; text-transform: uppercase; background: var(--surface-3); color: var(--text-3); border: 1px solid var(--stroke); }
+        .pill.success { background: rgba(52,211,153,.12); border-color: rgba(52,211,153,.25); color: var(--green); }
 
-        .step-list { counter-reset: step-counter; padding-left: 10px; margin-top: 10px; }
-        .step-item { margin-bottom: 32px; padding-left: 56px; position: relative; border-left: 2px dashed rgba(59, 130, 246, 0.3); padding-bottom: 10px; }
-        .step-item:last-child { border-left-color: transparent; padding-bottom: 0; margin-bottom: 0; }
-        .step-item::before { counter-increment: step-counter; content: counter(step-counter); position: absolute; left: -19px; top: 0; width: 36px; height: 36px; background: linear-gradient(135deg, var(--secondary), #1e3a8a); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1rem; box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.8), var(--shadow-glow); }
-        .step-title { font-size: 1.3rem; margin-bottom: 16px; color: var(--light); font-weight: 600; padding-top: 4px; }
-        
-        .highlight { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); padding: 20px; border-radius: var(--border-radius-sm); margin: 24px 0; position: relative; }
-        .highlight strong { color: var(--warning); }
+        .duty-list { list-style: none; display: grid; gap: 9px; }
+        .duty-list li { position: relative; padding: 14px 16px 14px 48px; border-radius: var(--radius-sm); background: rgba(148,163,184,.045); border: 1px solid transparent; color: var(--text-2); font-size: .92rem; transition: .25s var(--ease); }
+        .duty-list li::before { content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 17px; top: 15px; color: var(--brand); }
+        .duty-list li:hover { background: var(--brand-soft); border-color: var(--stroke); color: var(--text); transform: translateX(4px); }
 
-        .cards-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; margin-bottom: 32px; }
-        .info-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--border-radius); padding: 28px; backdrop-filter: blur(16px); transition: var(--transition-smooth); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
-        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(59, 130, 246, 0.3); background: var(--glass-bg-hover); }
-        .info-card h4 { font-size: 1.3rem; margin-bottom: 20px; color: var(--light); display: flex; align-items: center; gap: 12px; }
-        .info-card h4 i { color: var(--secondary); background: rgba(59, 130, 246, 0.1); padding: 10px; border-radius: 10px; }
-        .info-card ul { list-style: none; padding: 0; margin: 0; }
-        .info-card li { margin-bottom: 8px; padding: 0; }
-        .info-card li::before { content: none; }
-        .info-card a { color: var(--text-muted); text-decoration: none; transition: var(--transition-fast); display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid transparent; }
-        .info-card a:hover { color: var(--light); background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); transform: translateX(4px); }
-        
-        .password-entry { background: rgba(0, 0, 0, 0.4); padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; font-size: 0.95rem; word-break: break-all; border: 1px solid var(--glass-border); font-family: 'Inter', monospace; color: var(--text-muted); }
-        .password-entry strong { color: var(--secondary); font-family: 'Inter', sans-serif; }
+        /* ============ ACCORDION ============ */
+        .accordion { border: 1px solid var(--stroke); border-radius: var(--radius); background: var(--surface); backdrop-filter: blur(16px); margin-bottom: 13px; overflow: hidden; transition: .3s var(--ease); }
+        .accordion:hover { border-color: var(--stroke-2); }
+        .accordion.open { border-color: rgba(91,140,255,.42); box-shadow: 0 14px 45px -26px var(--brand); }
+        .acc-trigger { width: 100%; display: flex; align-items: center; gap: 14px; padding: 17px 20px; border: 0; background: transparent; color: var(--text); cursor: pointer; text-align: left; font: 700 1rem 'Plus Jakarta Sans'; }
+        .acc-ico { width: 40px; height: 40px; flex: none; border-radius: 12px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); transition: .3s var(--ease); }
+        .accordion.open .acc-ico { background: linear-gradient(145deg, var(--brand), var(--brand-2)); color: #fff; transform: rotate(-8deg); box-shadow: 0 7px 18px -8px var(--brand); }
+        .acc-label { flex: 1; }
+        .acc-tag { font: 700 .66rem 'Inter'; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); padding: 5px 10px; border-radius: 99px; background: var(--surface-3); white-space: nowrap; }
+        .acc-chev { width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--text-3); background: var(--surface-3); transition: .3s var(--ease); font-size: .8rem; }
+        .accordion.open .acc-chev { transform: rotate(180deg); color: var(--brand); }
+        .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .42s var(--ease); }
+        .accordion.open .acc-panel { grid-template-rows: 1fr; }
+        .acc-inner { min-height: 0; overflow: hidden; }
+        .acc-body { padding: 4px 22px 24px; border-top: 1px solid transparent; }
+        .accordion.open .acc-body { border-top-color: var(--stroke); }
 
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px; }
-        .form-group label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-weight: 500; color: var(--text-muted); font-size: 0.95rem; }
-        .form-group label i { color: var(--secondary); }
-        .form-group select, .form-group input[type="text"] { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(0, 0, 0, 0.3); color: var(--light); font-size: 1rem; font-family: 'Inter', sans-serif; transition: var(--transition-fast); box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); appearance: none; }
-        .form-group select { background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%24%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
-        .form-group select:disabled { opacity: 0.5; cursor: not-allowed; }
-        .form-group select:focus, .form-group input[type="text"]:focus { outline: none; border-color: var(--secondary); background: rgba(0, 0, 0, 0.5); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), inset 0 2px 4px rgba(0,0,0,0.1); }
-        .form-group select option { background: var(--primary-bg); color: var(--light); }
+        .prose p { color: var(--text-2); font-size: .92rem; margin-bottom: 12px; }
+        .prose strong { color: var(--text); font-weight: 700; }
+        .prose code, .code { font-family: 'JetBrains Mono', monospace; font-size: .84em; color: var(--cyan); background: var(--surface-3); border: 1px solid var(--stroke); padding: 2px 7px; border-radius: 6px; }
+        .tag { display: inline-block; padding: 1px 8px; border-radius: 6px; font: 700 .8rem 'JetBrains Mono'; background: var(--surface-3); color: var(--text-2); }
+        .tag.red { background: rgba(251,113,133,.13); color: var(--red); }
+        .tag.amber { background: rgba(251,191,36,.13); color: var(--amber); }
+        .note { display: flex; gap: 12px; padding: 16px; border-radius: var(--radius-sm); background: rgba(251,113,133,.075); border: 1px solid rgba(251,113,133,.2); border-left: 3px solid var(--red); margin-top: 18px; }
+        .note.blue { background: rgba(91,140,255,.08); border-color: rgba(91,140,255,.22); border-left-color: var(--brand); }
+        .note > i { color: var(--red); margin-top: 3px; }
+        .note.blue > i { color: var(--brand); }
+        .note p { color: var(--text-2); font-size: .89rem; margin: 0; }
+        .highlight { padding: 18px; border-radius: var(--radius-sm); background: linear-gradient(135deg, rgba(251,191,36,.1), rgba(251,191,36,.025)); border: 1px solid rgba(251,191,36,.22); margin-top: 24px; }
+        .highlight strong { color: var(--amber); }
+        .highlight ul { margin: 10px 0 0 18px; color: var(--text-2); font-size: .91rem; }
+        .highlight li { margin-bottom: 5px; }
 
-        .checkbox-group { display: flex; align-items: center; margin-top: 8px; grid-column: 1 / -1; }
-        .checkbox-group input[type="checkbox"] { margin-right: 12px; width: 20px; height: 20px; accent-color: var(--secondary); cursor: pointer; border-radius: 4px; }
-        .checkbox-group label { margin-bottom: 0; cursor: pointer; color: var(--light); font-weight: 500; }
+        .steps { list-style: none; position: relative; padding-left: 46px; margin-top: 6px; counter-reset: step; }
+        .steps::before { content: ''; position: absolute; left: 17px; top: 14px; bottom: 22px; width: 2px; background: linear-gradient(var(--brand), rgba(155,108,255,.2)); }
+        .step { position: relative; counter-increment: step; padding-bottom: 26px; }
+        .step:last-child { padding-bottom: 0; }
+        .step::before { content: counter(step, decimal-leading-zero); position: absolute; left: -46px; top: 0; width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; background: var(--surface-2); border: 1px solid var(--stroke-2); color: var(--brand); font: 700 .78rem 'JetBrains Mono'; box-shadow: 0 0 0 5px var(--surface); }
+        .step h4 { font-size: 1.04rem; font-weight: 700; margin-bottom: 8px; }
+        .step p { color: var(--text-2); font-size: .92rem; }
 
-        .primary-button { background: linear-gradient(135deg, var(--secondary), #1d4ed8); color: white; padding: 16px 32px; border-radius: 12px; border: none; cursor: pointer; transition: var(--transition-smooth); font-weight: 600; font-size: 1.05rem; display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); font-family: 'Inter', sans-serif; position: relative; overflow: hidden; }
-        .primary-button::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transform: skewX(-20deg); transition: 0.5s; }
-        .primary-button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4); }
-        .primary-button:hover::after { left: 150%; }
-        
-        .result-panel { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 30px; margin-top: 24px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); color: var(--text-muted); }
-        .result-panel h4 { font-size: 1.5rem; color: var(--light); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
-        .badge { background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.3); text-transform: uppercase; letter-spacing: 0.05em; }
-        .pop-details-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
-        .pop-detail-item { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border); border-radius: 10px; padding: 16px; }
-        .pop-detail-item p:first-child { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-        .pop-detail-item p:last-child { font-size: 1.25rem; font-weight: 700; color: var(--light); }
+        /* ============ TILES / CREDENTIALS ============ */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .tile { padding: 22px; border-radius: var(--radius); border: 1px solid var(--stroke); background: var(--surface); backdrop-filter: blur(16px); transition: .3s var(--ease); }
+        .tile:hover { transform: translateY(-4px); border-color: var(--stroke-2); box-shadow: var(--shadow); }
+        .tile.wide { grid-column: 1 / -1; }
+        .tile h4 { display: flex; align-items: center; gap: 11px; font-size: 1.08rem; font-weight: 700; margin-bottom: 18px; }
+        .tile h4 i { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); }
+        .link-list { list-style: none; display: grid; gap: 7px; }
+        .link-list a { display: flex; align-items: center; gap: 10px; padding: 11px 13px; border-radius: 11px; background: rgba(148,163,184,.05); border: 1px solid transparent; color: var(--text-2); text-decoration: none; font-size: .89rem; transition: .25s var(--ease); }
+        .link-list a:hover { color: var(--text); background: var(--brand-soft); border-color: var(--stroke-2); transform: translateX(4px); }
+        .link-list a > i:first-child { color: var(--brand); width: 17px; }
+        .link-list a > i:last-child { margin-left: auto; font-size: .75rem; color: var(--text-3); }
+        .mini-search { display: flex; align-items: center; gap: 9px; padding: 9px 13px; border: 1px solid var(--stroke); border-radius: 10px; background: var(--surface-3); color: var(--text-3); }
+        .mini-search input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--text); font-size: .85rem; }
+        .cred-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 10px; margin-top: 14px; }
+        .cred { display: flex; align-items: center; gap: 10px; padding: 12px 13px; border-radius: 12px; background: rgba(0,0,0,.2); border: 1px solid var(--stroke); font: .77rem 'JetBrains Mono'; color: var(--text-2); line-height: 1.7; transition: .25s var(--ease); }
+        html[data-theme="light"] .cred { background: rgba(15,23,42,.035); }
+        .cred:hover { border-color: var(--brand); }
+        .cred b { color: var(--brand); }
+        .copy-mini { margin-left: auto; flex: none; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; border: 1px solid var(--stroke); background: var(--surface); color: var(--text-3); cursor: pointer; transition: .2s; font-size: .75rem; }
+        .copy-mini:hover { color: var(--brand); border-color: var(--brand); }
 
-        .terminal-block { background: #0f172a; padding: 16px; border-radius: 8px; font-family: 'Menlo', 'Monaco', 'Courier New', monospace; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px; color: var(--success); position: relative; }
-        .pppoe-generated-text { display: block; background: #0f172a; color: var(--success); font-family: monospace; font-size: 1.2rem; padding: 16px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); margin: 10px 0 20px 0; word-break: break-all; }
-        
-        .btn-copy-small { background: rgba(255,255,255,0.1); border: none; color: var(--light); padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: var(--transition-fast); display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
-        .btn-copy-small:hover { background: rgba(255,255,255,0.2); }
-
-        .loading-indicator { display: flex; align-items: center; gap: 12px; color: var(--secondary); font-weight: 500; }
+        /* ============ COMBOBOX / RESULT ============ */
+        .combo { position: relative; }
+        .combo-list { position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 30; max-height: 285px; overflow-y: auto; padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--stroke-2); background: var(--surface-2); backdrop-filter: blur(22px); box-shadow: var(--shadow); display: none; }
+        .combo-list.show { display: block; animation: pop .18s var(--ease); }
+        @keyframes pop { from { opacity: 0; transform: scale(.97) translateY(-5px); } to { opacity: 1; transform: none; } }
+        .combo-opt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border: 0; border-radius: 9px; background: transparent; color: var(--text-2); cursor: pointer; text-align: left; font: .89rem 'Inter'; transition: .18s; }
+        .combo-opt:hover, .combo-opt.hover { background: var(--brand-soft); color: var(--text); }
+        .combo-opt i { color: var(--brand); }
+        .combo-opt .olt { margin-left: auto; font: 700 .66rem 'Inter'; padding: 3px 8px; border-radius: 99px; background: var(--surface-3); color: var(--text-3); }
+        .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+        .chip { padding: 7px 14px; border-radius: 99px; border: 1px solid var(--stroke); background: var(--surface); color: var(--text-2); font: 600 .79rem 'Inter'; cursor: pointer; transition: .25s var(--ease); }
+        .chip:hover { border-color: var(--brand); color: var(--text); }
+        .chip.active { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; border-color: transparent; box-shadow: 0 7px 18px -9px var(--brand); }
+        .result { min-height: 165px; padding: 24px; border-radius: var(--radius); border: 1px dashed var(--stroke-2); background: rgba(148,163,184,.03); display: grid; place-items: center; text-align: center; color: var(--text-3); }
+        .result.filled { display: block; text-align: left; border-style: solid; animation: sectionIn .35s var(--ease); }
+        .result h3 { font-size: 1.3rem; font-weight: 800; }
+        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 12px; margin: 18px 0; }
+        .metric { padding: 15px; border-radius: var(--radius-sm); background: var(--surface-2); border: 1px solid var(--stroke); }
+        .metric span { display: block; font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); }
+        .metric strong { display: block; font: 800 1.45rem 'Plus Jakarta Sans'; margin-top: 3px; }
+        .term { position: relative; padding: 16px; border-radius: 12px; background: #070d19; border: 1px solid rgba(91,140,255,.22); color: var(--cyan); font: .89rem 'JetBrains Mono'; overflow-x: auto; }
+        .term .cmt { color: #64748b; }
+        .term-copy { position: absolute; right: 10px; top: 10px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.06); color: #cbd5e1; cursor: pointer; transition: .2s; }
+        .term-copy:hover { background: var(--brand); color: #fff; }
+        .result-head { display: flex; align-items: flex-start; gap: 14px; }
+        .result-head .btn { margin-left: auto; }
+        /* ============ BUTTONS / FORMS ============ */
+        .btn { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 13px 20px; border: 0; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; font: 700 .9rem 'Inter'; cursor: pointer; box-shadow: 0 10px 25px -12px var(--brand); transition: .28s var(--ease); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -10px var(--brand); }
+        .btn:active { transform: translateY(0) scale(.98); }
+        .btn.sm { padding: 9px 14px; font-size: .8rem; }
+        .btn.wide { width: 100%; }
+        .btn.ghost { background: var(--surface); color: var(--text-2); border: 1px solid var(--stroke); box-shadow: none; }
+        .btn.ghost:hover { color: var(--text); border-color: var(--stroke-2); }
+        .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,.32); transform: scale(0); pointer-events: none; animation: ripple .6s linear forwards; }
+        @keyframes ripple { to { transform: scale(2.4); opacity: 0; } }
+        .gen-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+        .field.full { grid-column: 1 / -1; }
+        .field label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: .84rem; font-weight: 600; color: var(--text-2); }
+        .field label i { color: var(--brand); }
+        .input { width: 100%; padding: 13px 15px; border-radius: 12px; border: 1px solid var(--stroke); background: rgba(0,0,0,.18); color: var(--text); font-size: .93rem; outline: 0; transition: .25s var(--ease); }
+        html[data-theme="light"] .input { background: rgba(15,23,42,.035); }
+        .input::placeholder { color: var(--text-3); }
+        .input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-soft); }
+        select.input { appearance: none; padding-right: 42px; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
+        select.input option { background: #111a2d; color: #eef3fb; }
+        html[data-theme="light"] select.input option { background: #fff; color: #0f172a; }
+        .switch { display: flex; align-items: center; gap: 11px; cursor: pointer; font-size: .87rem; color: var(--text-2); user-select: none; }
+        .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .track { position: relative; width: 44px; height: 25px; flex: none; border-radius: 99px; background: var(--surface-3); border: 1px solid var(--stroke-2); transition: .3s var(--ease); }
+        .track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 17px; height: 17px; border-radius: 50%; background: var(--text-3); transition: .3s var(--ease); }
+        .switch input:checked + .track { background: linear-gradient(135deg, var(--brand), var(--brand-2)); border-color: transparent; box-shadow: 0 0 15px -5px var(--brand); }
+        .switch input:checked + .track::after { transform: translateX(19px); background: #fff; }
+        .preview { position: relative; overflow: hidden; padding: 22px; border-radius: var(--radius); border: 1px solid var(--stroke); background: linear-gradient(160deg, var(--surface), transparent); }
+        .preview::after { content: ''; position: absolute; width: 180px; height: 180px; right: -70px; bottom: -90px; border-radius: 50%; background: var(--brand-2); filter: blur(60px); opacity: .18; }
+        .preview .lbl { font-size: .67rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--text-3); }
+        .preview-cred { display: block; margin: 12px 0; padding: 14px; border-radius: 11px; background: #070d19; border: 1px solid rgba(52,211,153,.25); color: var(--green); font: .95rem 'JetBrains Mono'; word-break: break-all; min-height: 50px; }
+        .preview small { color: var(--text-3); font-size: .78rem; }
+        .pppoe-generated-text { display: block; padding: 16px; border-radius: 11px; background: #070d19; border: 1px solid rgba(52,211,153,.28); color: var(--green); font: 1.05rem 'JetBrains Mono'; word-break: break-all; margin: 12px 0 16px; }
+        .loading-indicator { display: flex; align-items: center; gap: 11px; color: var(--brand); font-weight: 600; justify-content: center; }
         .loading-indicator i { animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .history { margin-top: 14px; }
+        .history-title { font-size: .7rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 9px; }
+        .hist { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 12px; margin-bottom: 6px; border-radius: 10px; border: 1px solid var(--stroke); background: var(--surface); color: var(--text-2); cursor: pointer; text-align: left; font: .76rem 'JetBrains Mono'; transition: .22s; }
+        .hist:hover { border-color: var(--brand); color: var(--text); transform: translateX(3px); }
+        .hist i { color: var(--brand); }
+        .hist small { margin-left: auto; color: var(--text-3); font: 600 .68rem 'Inter'; white-space: nowrap; }
 
-        .image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 24px; }
-        .gallery-img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: var(--transition-smooth); border: 1px solid var(--glass-border); }
-        .gallery-img:hover { transform: scale(1.05); box-shadow: var(--shadow-lg); border-color: var(--secondary); }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(11, 17, 32, 0.95); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
-        .modal-content { max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: var(--shadow-lg); animation: zoomIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .close-modal { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: 300; cursor: pointer; transition: 0.2s; }
-        .close-modal:hover { color: var(--accent); }
+        /* ============ GALLERY / LIGHTBOX ============ */
+        .image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; margin-top: 22px; }
+        .gallery-img { width: 100%; height: 118px; object-fit: cover; border-radius: 12px; cursor: zoom-in; border: 1px solid var(--stroke); transition: .35s var(--ease); }
+        .gallery-img:hover { transform: translateY(-4px) scale(1.02); box-shadow: var(--shadow); border-color: var(--brand); }
+        .zoomable { cursor: zoom-in; border-radius: 12px; border: 1px solid var(--stroke); transition: .3s var(--ease); }
+        .zoomable:hover { border-color: var(--brand); box-shadow: var(--shadow); }
+        .lightbox { position: fixed; inset: 0; z-index: 210; display: none; align-items: center; justify-content: center; padding: 46px; background: rgba(3,7,15,.92); backdrop-filter: blur(10px); }
+        .lightbox.show { display: flex; animation: fadeIn .2s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .lightbox img { max-width: min(1100px, 90vw); max-height: 80vh; object-fit: contain; border-radius: 14px; box-shadow: 0 30px 90px -20px #000; }
+        .lb-close, .lb-nav { position: absolute; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #fff; cursor: pointer; display: grid; place-items: center; transition: .25s; font-size: 1.05rem; }
+        .lb-close:hover, .lb-nav:hover { background: var(--brand); border-color: var(--brand); transform: scale(1.09); }
+        .lb-close { top: 22px; right: 28px; }
+        .lb-prev { left: 26px; } .lb-next { right: 26px; }
+        .lb-count { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; background: rgba(255,255,255,.1); padding: 6px 14px; border-radius: 99px; font: .8rem 'JetBrains Mono'; }
 
-        .notification { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); opacity: 0; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--light); padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 1001; font-weight: 500; display: flex; align-items: center; gap: 12px; }
-        .notification i { color: var(--success); font-size: 1.2rem; }
-        .notification.error { border-color: rgba(239, 68, 68, 0.3); }
-        .notification.error i { color: var(--accent); }
-        .notification.show { transform: translate(-50%, 0); opacity: 1; }
+        /* ============ COMMAND PALETTE ============ */
+        .cmdk { position: fixed; inset: 0; z-index: 200; display: none; align-items: flex-start; justify-content: center; padding: 11vh 18px 18px; background: rgba(3,7,15,.66); backdrop-filter: blur(8px); }
+        .cmdk.show { display: flex; animation: fadeIn .18s; }
+        .cmdk-box { width: min(640px, 100%); border-radius: 18px; overflow: hidden; border: 1px solid var(--stroke-2); background: var(--surface-2); backdrop-filter: blur(24px); box-shadow: 0 40px 100px -30px #000; animation: pop .25s var(--ease); }
+        .cmdk-input-wrap { display: flex; align-items: center; gap: 12px; padding: 17px 20px; border-bottom: 1px solid var(--stroke); color: var(--brand); }
+        .cmdk-input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--text); font-size: 1rem; }
+        .cmdk-input::placeholder { color: var(--text-3); }
+        .cmdk-results { max-height: min(52vh, 440px); overflow-y: auto; padding: 8px; }
+        .cmdk-group { padding: 12px 12px 6px; font-size: .65rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--text-3); }
+        .cmdk-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border: 0; border-radius: 11px; background: transparent; color: var(--text-2); cursor: pointer; text-align: left; font: .88rem 'Inter'; }
+        .cmdk-item:hover, .cmdk-item.sel { background: var(--brand-soft); color: var(--text); }
+        .cmdk-item .ico { width: 32px; height: 32px; flex: none; border-radius: 9px; display: grid; place-items: center; background: var(--surface-3); color: var(--brand); }
+        .cmdk-item .hint { margin-left: auto; font-size: .69rem; color: var(--text-3); white-space: nowrap; }
+        .cmdk-foot { display: flex; gap: 18px; padding: 10px 18px; border-top: 1px solid var(--stroke); font-size: .71rem; color: var(--text-3); }
+        .cmdk-foot span { display: flex; align-items: center; gap: 6px; }
 
-        footer { margin-top: auto; padding: 40px 32px 20px; background: rgba(11, 17, 32, 0.9); border-top: 1px solid var(--glass-border); }
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
-        .footer-title { font-size: 1.2rem; margin-bottom: 20px; color: var(--light); }
-        .footer-links { list-style: none; }
-        .footer-links li { margin-bottom: 10px; }
-        .footer-links a { color: var(--text-muted); text-decoration: none; transition: var(--transition-fast); }
-        .footer-links a:hover { color: var(--secondary); padding-left: 6px; }
-        .copyright { text-align: center; padding-top: 30px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.9rem; }
+        /* ============ TOASTS / REVEAL / FOOTER ============ */
+        .toast-stack { position: fixed; top: calc(var(--header-h) + 16px); right: 20px; z-index: 300; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .toast { position: relative; overflow: hidden; min-width: 265px; max-width: 360px; display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--stroke-2); background: var(--surface-2); backdrop-filter: blur(18px); box-shadow: var(--shadow); color: var(--text); font-size: .86rem; font-weight: 600; animation: toastIn .35s var(--ease); }
+        .toast i { color: var(--green); }
+        .toast.error i { color: var(--red); }
+        .toast::after { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 100%; background: linear-gradient(90deg, var(--brand), var(--green)); transform-origin: left; animation: toastBar 3.2s linear forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(40px) scale(.95); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateX(40px) scale(.95); } }
+        @keyframes toastBar { to { transform: scaleX(0); } }
+        html.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+        html.js .reveal.in { opacity: 1; transform: none; }
+        footer { flex: none; padding: 34px clamp(18px, 3vw, 38px) 20px; border-top: 1px solid var(--stroke); background: var(--surface); }
+        .footer-inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; max-width: 1440px; margin: 0 auto; }
+        .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font: 800 1.1rem 'Plus Jakarta Sans'; }
+        .footer-brand i { color: var(--brand); font-size: 1.4rem; }
+        footer p { color: var(--text-3); font-size: .88rem; }
+        footer .f-title { color: var(--text); font: 700 .95rem 'Plus Jakarta Sans'; margin-bottom: 12px; }
+        footer p i { color: var(--brand); width: 20px; }
+        .footer-logo { max-width: 150px; max-height: 38px; object-fit: contain; margin-top: 14px; opacity: .75; filter: grayscale(.2); }
+        .copyright { max-width: 1440px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid var(--stroke); text-align: center; color: var(--text-3); font-size: .79rem; }
 
-        @media (max-width: 992px) {
-            :root { --sidebar-width: 0px; }
-            .sidebar { transform: translateX(-100%); width: 280px; box-shadow: 20px 0 50px rgba(0,0,0,0.5); }
-            body.sidebar-open .sidebar { transform: translateX(0); }
-            .main-content { margin-left: 0; width: 100%; }
-            #mobile-menu-toggle { display: block; }
-            .search-container { flex-grow: 1; margin-left: 16px; width: auto; }
-            .search-container:focus-within { width: auto; }
-            #current-section-title { display: none; }
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1100px) { .gen-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) {
+            .sidebar { width: 280px; transform: translateX(-100%); box-shadow: 30px 0 70px rgba(0,0,0,.5); }
+            body.sidebar-open .sidebar { transform: none; }
+            html.compact .sidebar { width: 280px; }
+            html.compact .brand-copy, html.compact .nav-caption, html.compact .nav-item .txt, html.compact .nav-count, html.compact .profile-meta { display: block; }
+            html.compact .brand { justify-content: flex-start; padding: 0 22px; }
+            html.compact .nav-item { justify-content: flex-start; padding: 12px 14px; }
+            .scrim { display: block; position: fixed; inset: 0; z-index: 55; background: rgba(3,7,15,.62); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: .3s; }
+            body.sidebar-open .scrim { opacity: 1; pointer-events: auto; }
+            .main-wrap { margin-left: 0; }
+            #menuBtn { display: grid; }
+            #collapseBtn, .crumb { display: none; }
         }
-        @media (max-width: 600px) {
-            .container { padding: 16px; }
-            .card { padding: 20px; }
-            .main-header { padding: 16px; flex-wrap: wrap; gap: 16px; }
-            .search-container { order: 3; width: 100%; margin-left: 0; }
+        @media (max-width: 640px) {
+            :root { --header-h: 66px; }
+            .topbar { padding: 0 14px; gap: 9px; }
+            .search-trigger { min-width: 0; }
+            .search-trigger .st-text, .search-trigger kbd { display: none; }
+            .container { padding: 18px 14px; }
+            .acc-tag { display: none; }
+            .acc-trigger { padding: 15px; }
+            .acc-body { padding: 4px 16px 20px; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .result-head { flex-direction: column; }
+            .result-head .btn { margin-left: 0; }
+            .lightbox { padding: 20px; }
+            .lb-prev { left: 8px; } .lb-next { right: 8px; }
+            .toast-stack { top: auto; bottom: 16px; left: 14px; right: 14px; }
+            .toast { max-width: none; width: 100%; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+            html.js .reveal { opacity: 1; transform: none; }
         }
     </style>
 </head>
 <body>
-    
-    <nav class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-icon">
-                <i class="fas fa-network-wired"></i>
-            </div>
-            <div class="logo-text">Suporte Pro</div>
-        </div>
-        
-        <div class="nav-menu">
-            <div class="nav-item active" data-target="responsabilidades">
-                <i class="fas fa-shield-alt"></i> Responsabilidades
-            </div>
-            <div class="nav-item" data-target="diagnostico">
-                <i class="fas fa-stethoscope"></i> Diagnóstico
-            </div>
-            <div class="nav-item" data-target="procedimentos">
-                <i class="fas fa-clipboard-check"></i> Procedimentos
-            </div>
-            <div class="nav-item" data-target="uteis">
-                <i class="fas fa-layer-group"></i> Informações Úteis
-            </div>
-            <div class="nav-item" data-target="consulta">
-                <i class="fas fa-satellite-dish"></i> Consulta POP
-            </div>
-            <div class="nav-item" data-target="gerador-pppoe">
-                <i class="fas fa-terminal"></i> Gerador PPPoE
-            </div>
-        </div>
-    </nav>
-    
-    <main class="main-content">
-        
-        <header class="main-header">
-            <button id="mobile-menu-toggle" title="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <h1 id="current-section-title">Responsabilidades</h1>
-            <div class="search-container">
-                <i class="fas fa-search" style="color: var(--text-muted); margin-right: 10px;"></i>
-                <input type="text" placeholder="Pesquisar guias, pop, pppoe...">
-            </div>
-        </header>
-        
-        <div class="container">
+    <div class="backdrop" aria-hidden="true"><div class="grid"></div><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
+    <a class="skip-link" href="#main">Pular para o conteúdo</a>
 
+    <aside class="sidebar" id="sidebar" aria-label="Navegação principal">
+        <div class="brand">
+            <div class="brand-mark"><i class="fas fa-network-wired"></i></div>
+            <div class="brand-copy"><div class="brand-name">Suporte Pro</div><div class="brand-sub">Internet Mais · Freeway</div></div>
+        </div>
+        <nav class="nav">
+            <div class="nav-caption">Central de operações</div>
+            <button class="nav-item active" data-target="responsabilidades" title="Responsabilidades"><i class="fas fa-shield-halved"></i><span class="txt">Responsabilidades</span></button>
+            <button class="nav-item" data-target="diagnostico" title="Diagnóstico"><i class="fas fa-stethoscope"></i><span class="txt">Diagnóstico</span></button>
+            <button class="nav-item" data-target="procedimentos" title="Procedimentos"><i class="fas fa-clipboard-check"></i><span class="txt">Procedimentos</span></button>
+            <button class="nav-item" data-target="uteis" title="Informações Úteis"><i class="fas fa-layer-group"></i><span class="txt">Informações Úteis</span></button>
+            <button class="nav-item" data-target="consulta" title="Consulta POP"><i class="fas fa-satellite-dish"></i><span class="txt">Consulta POP</span><span class="nav-count" id="navPopCount">22</span></button>
+            <button class="nav-item" data-target="gerador-pppoe" title="Gerador PPPoE"><i class="fas fa-terminal"></i><span class="txt">Gerador PPPoE</span></button>
+        </nav>
+        <div class="side-foot">
+            <div class="profile">
+                <div class="avatar">SP</div>
+                <div class="profile-meta"><b>Suporte Técnico</b><span class="status"><span class="dot"></span> Sistema operacional</span></div>
+            </div>
+        </div>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+
+    <div class="main-wrap">
+        <header class="topbar">
+            <button class="icon-btn" id="menuBtn" title="Abrir menu" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+            <div class="crumb"><span>Início</span><i class="fas fa-chevron-right"></i><strong id="crumbCurrent">Responsabilidades</strong></div>
+            <button class="search-trigger" id="searchTrigger" aria-label="Abrir busca">
+                <i class="fas fa-magnifying-glass"></i><span class="st-text">Buscar guias, POPs, credenciais...</span><kbd>Ctrl K</kbd>
+            </button>
+            <button class="icon-btn" id="collapseBtn" title="Recolher menu" aria-label="Recolher menu"><i class="fas fa-indent"></i></button>
+            <button class="icon-btn" id="themeBtn" title="Alternar tema" aria-label="Alternar tema"><i class="fas fa-moon" id="themeIcon"></i></button>
+        </header>
+        <main id="main" class="container">
+
+            <!-- ============ RESPONSABILIDADES ============ -->
             <section class="section active" id="responsabilidades">
-                <h2 class="section-title">Responsabilidades do Setor</h2>
-                <p class="section-subtitle">Escopo de atuação da equipe técnica e delimitação clara das atribuições para um suporte de excelência.</p>
-                
-                <div class="card">
-                    <div class="card-content">
-                        <ul>
-                            <li>Suporte a clientes fibra com lentidão ou sem conexão (Freeway e Internet Mais).</li>
-                            <li>Suporte para todo tipo de ativação de fibra (Freeway e Internet Mais).</li>
-                            <li>Suporte para equipes externas em caso de rompimento ou falha massiva.</li>
-                            <li>Suporte para ativação de todos os aplicativos ofertados pela Internet Mais.</li>
-                            <li>Setor responsável pela abertura de chamados de rompimentos ou visitas técnicas.</li>
-                            <li>Suporte ao setor comercial e financeiro para mudança de titularidade, upgrade e downgrade de link.</li>
-                            <li>Suporte ao cliente com o envio de segunda via de boleto e desbloqueio de confiança.</li>
-                        </ul>
-                    </div>
+                <div class="section-head reveal">
+                    <span class="eyebrow">Visão geral · 01</span>
+                    <h1 class="section-title">Responsabilidades <span class="accent">do Setor</span></h1>
+                    <p class="section-sub">Escopo de atuação da equipe técnica e delimitação clara das atribuições para um suporte de excelência.</p>
+                </div>
+
+                <div class="stat-grid reveal">
+                    <button class="stat" data-goto="responsabilidades"><div class="stat-top"><span class="stat-ico"><i class="fas fa-shield-halved"></i></span><i class="fas fa-arrow-up-right stat-arrow"></i></div><div class="stat-num" id="statModules">6</div><div class="stat-lbl">Módulos disponíveis</div></button>
+                    <button class="stat" data-goto="consulta"><div class="stat-top"><span class="stat-ico"><i class="fas fa-satellite-dish"></i></span><i class="fas fa-arrow-up-right stat-arrow"></i></div><div class="stat-num" id="statPops">22</div><div class="stat-lbl">POPs cadastrados</div></button>
+                    <button class="stat" data-goto="procedimentos"><div class="stat-top"><span class="stat-ico"><i class="fas fa-book-open"></i></span><i class="fas fa-arrow-up-right stat-arrow"></i></div><div class="stat-num" id="statDocs">5</div><div class="stat-lbl">Fluxos guiados</div></button>
+                    <button class="stat" data-goto="uteis"><div class="stat-top"><span class="stat-ico"><i class="fas fa-key"></i></span><i class="fas fa-arrow-up-right stat-arrow"></i></div><div class="stat-num" id="statCreds">9</div><div class="stat-lbl">Credenciais de equipamentos</div></button>
+                </div>
+
+                <div class="card reveal">
+                    <div class="card-head"><span class="chead-ico"><i class="fas fa-list-check"></i></span><h3>Escopo de atuação</h3><span class="pill success">7 diretrizes</span></div>
+                    <ul class="duty-list">
+                        <li>Suporte a clientes fibra com lentidão ou sem conexão (Freeway e Internet Mais).</li>
+                        <li>Suporte para todo tipo de ativação de fibra (Freeway e Internet Mais).</li>
+                        <li>Suporte para equipes externas em caso de rompimento ou falha massiva.</li>
+                        <li>Suporte para ativação de todos os aplicativos ofertados pela Internet Mais.</li>
+                        <li>Setor responsável pela abertura de chamados de rompimentos ou visitas técnicas.</li>
+                        <li>Suporte ao setor comercial e financeiro para mudança de titularidade, upgrade e downgrade de link.</li>
+                        <li>Suporte ao cliente com o envio de segunda via de boleto e desbloqueio de confiança.</li>
+                    </ul>
                 </div>
             </section>
 
+            <!-- ============ DIAGNÓSTICO ============ -->
             <section class="section" id="diagnostico">
-                <h2 class="section-title">Diagnóstico Estruturado</h2>
-                <p class="section-subtitle">Siga os fluxos de trabalho abaixo para resolver os problemas técnicos mais comuns relatados pelos clientes.</p>
-                
-                <details>
-                    <summary>Internet Lenta (Lentidão)</summary>
-                    <div class="content">
+                <div class="section-head reveal">
+                    <span class="eyebrow">Triagem · 02</span>
+                    <h2 class="section-title">Diagnóstico <span class="accent">Estruturado</span></h2>
+                    <p class="section-sub">Siga os fluxos de trabalho abaixo para resolver os problemas técnicos mais comuns relatados pelos clientes.</p>
+                </div>
+
+                <div class="accordion reveal">
+                    <button class="acc-trigger" aria-expanded="false" aria-controls="acc-lenta"><span class="acc-ico"><i class="fas fa-gauge-high"></i></span><span class="acc-label">Internet Lenta (Lentidão)</span><span class="acc-tag">4 etapas</span><span class="acc-chev"><i class="fas fa-chevron-down"></i></span></button>
+                    <div class="acc-panel" id="acc-lenta" role="region" aria-hidden="true"><div class="acc-inner"><div class="acc-body prose">
                         <p><strong>1. Triagem Inicial:</strong> Dê as boas-vindas. Solicite detalhes: tipo de lentidão, se ocorre em site/aplicativo específico e se o teste está sendo via cabo ou Wi-Fi.</p>
                         <p><strong>2. Cadastro e Redução:</strong> Verifique o cadastro no IXC. Confirme se não há redução de velocidade por pendência. Se houver, oriente e transfira para o setor responsável.</p>
                         <p><strong>3. Análise Remota:</strong> Verifique os equipamentos (potência da fibra, canais e potência do Wi-Fi). Realize testes de <code>tracert</code> e <code>ping</code>. Reinicie o roteador se o uptime for superior a 10 dias.</p>
                         <p><strong>4. Encerramento:</strong> Valide se a conexão normalizou. Se sim, encerre com o motivo correto. Se não, abra chamado de visita técnica.</p>
-                        <div class="note">
-                            <p><strong><i class="fas fa-exclamation-triangle"></i> Atenção IPTV:</strong> Se o problema for com IPTV, informe que a rede está operante, mas não garantimos funcionamento do serviço devido a instabilidades de servidores externos ou falta de homologação.</p>
-                        </div>
-                    </div>
-                </details>
+                        <div class="note"><i class="fas fa-triangle-exclamation"></i><p><strong>Atenção IPTV:</strong> Se o problema for com IPTV, informe que a rede está operante, mas não garantimos funcionamento do serviço devido a instabilidades de servidores externos ou falta de homologação.</p></div>
+                    </div></div></div>
+                </div>
 
-                <details>
-                    <summary>Sem Conexão (Offline)</summary>
-                    <div class="content">
+                <div class="accordion reveal">
+                    <button class="acc-trigger" aria-expanded="false" aria-controls="acc-offline"><span class="acc-ico"><i class="fas fa-wifi-slash"></i></span><span class="acc-label">Sem Conexão (Offline)</span><span class="acc-tag">4 etapas</span><span class="acc-chev"><i class="fas fa-chevron-down"></i></span></button>
+                    <div class="acc-panel" id="acc-offline" role="region" aria-hidden="true"><div class="acc-inner"><div class="acc-body prose">
                         <p><strong>1. Bloqueio Financeiro:</strong> Verifique no IXC se há bloqueios. Em caso positivo, informe o cliente e transfira para o setor financeiro.</p>
                         <p><strong>2. Status da ONU:</strong> Acesse a aba Fibra (IXC), Smartolt ou UNM2000 para conferir o status atual.</p>
                         <p><strong>3. Cenário Bridge:</strong> Se a ONU (com sinal) estiver em bridge, valide se o cabo conecta o roteador na porta WAN. Questione se o SSID (nome do wifi) aparece. Se não, o roteador pode ter sido resetado (abrir visita).</p>
-                        <p><strong>4. Cenário Roteada:</strong> Verifique alarmes: 
-                            <strong style="color: var(--accent);">LINKLOSS</strong> (rompimento), 
-                            <strong style="color: var(--warning);">DYING_GASP</strong> (falha de energia) ou 
-                            <strong style="color: var(--text-muted);">OFFLINE</strong> (falha massiva). Abra visita para Linkloss/Offline. Para energia, peça para o cliente checar as tomadas.
-                        </p>
-                        <div class="note" style="border-left-color: var(--secondary); background: rgba(59, 130, 246, 0.1);">
-                            <p><strong><i class="fas fa-info-circle"></i> REGISTRO OBRIGATÓRIO:</strong> Para TODOS os atendimentos, abra um chamado no IXC documentando o ocorrido.</p>
-                        </div>
-                    </div>
-                </details>
+                        <p><strong>4. Cenário Roteada:</strong> Verifique alarmes: <span class="tag red">LINKLOSS</span> (rompimento), <span class="tag amber">DYING_GASP</span> (falha de energia) ou <span class="tag">OFFLINE</span> (falha massiva). Abra visita para Linkloss/Offline. Para energia, peça para o cliente checar as tomadas.</p>
+                        <div class="note blue"><i class="fas fa-circle-info"></i><p><strong>REGISTRO OBRIGATÓRIO:</strong> Para TODOS os atendimentos, abra um chamado no IXC documentando o ocorrido.</p></div>
+                    </div></div></div>
+                </div>
             </section>
 
+            <!-- ============ PROCEDIMENTOS ============ -->
             <section class="section" id="procedimentos">
-                <h2 class="section-title">Guias e Procedimentos</h2>
-                <p class="section-subtitle">Passo a passo padronizado para execuções operacionais do dia a dia.</p>
-                
-                <details>
-                    <summary>Ativação de Cliente Novo</summary>
-                    <div class="content">
-                        <div class="step-list">
-                            <div class="step-item">
-                                <h4 class="step-title">Verificação de Contrato</h4>
-                                <p>No IXC, valide o status. <strong>Verde:</strong> Assinado. <strong>Azul:</strong> Aguardando assinatura. (Solicite ao técnico coletar via Central do Assinante).</p>
-                            </div>
-                            
-                            <div class="step-item">
-                                <h4 class="step-title">Configuração do Login</h4>
-                                <p>Crie o login PPPoE no IXC seguindo o padrão do POP. Configure nome (SSID) e senha Wi-Fi e o IP POOL com o ID da região da ONU.</p>
-                            </div>
-                            
-                            <div class="step-item">
-                                <h4 class="step-title">Autorização da ONU</h4>
-                                <p>No IXC > PROVEDOR > AUTORIZAR ONUs > CONSULTAR TODAS. Localize o MAC. Preencha Login, Nome (apenas se Moreninha/Aero Rancho), Perfil e VLAN. Salve e autorize.</p>
-                            </div>
-                            
-                            <div class="step-item">
-                                <h4 class="step-title">Validação Final</h4>
-                                <p>Verifique a potência óptica (ideal: -15 a -24 dBm). Solicite ao técnico teste de velocidade no local (2.4GHz e 5GHz).</p>
-                            </div>
-                        </div>
-                        
-                        <div class="highlight">
-                            <strong><i class="fas fa-star"></i> Dicas Rápidas:</strong>
-                            <ul style="margin-top: 10px; margin-left: 20px;">
-                                <li><strong>Empresarial (Freeway):</strong> Mudar final de <code>@imais</code> para <code>@freeway</code>.</li>
-                                <li><strong>Nomeclatura (Moreninha/Aero):</strong> <code>VLAN NOME SOBRENOME RUA NUMERO</code>.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </details>
+                <div class="section-head reveal">
+                    <span class="eyebrow">Playbooks · 03</span>
+                    <h2 class="section-title">Guias e <span class="accent">Procedimentos</span></h2>
+                    <p class="section-sub">Passo a passo padronizado para execuções operacionais do dia a dia.</p>
+                </div>
 
-                <details>
-                    <summary>Processo de Troca de Equipamento</summary>
-                    <div class="content">
-                        <div class="step-list">
-                            <div class="step-item">
-                                <h4 class="step-title">Verificar e Remover Perfil Antigo</h4>
-                                <p>Acesse o cadastro, aba Login > Fibra. Desautorize a ONU antiga no IXC e delete o perfil de fibra. <strong>A não remoção causará erro no provisionamento da nova ONU.</strong></p>
-                            </div>
-                            <div class="step-item">
-                                <h4 class="step-title">Caso Especial UNM2000 (Moreninha/Aero Rancho)</h4>
-                                <p>Se não houver perfil de fibra, o cliente provavelmente é desses bairros. Após a ativação normal, acesse o UNM2000, encontre a ONU antiga e desprovisione-a (clique direito > ONU Deauthorization).</p>
-                            </div>
-                            <div class="step-item">
-                                <h4 class="step-title">Nova Ativação</h4>
-                                <p>Após a remoção, prossiga com o fluxo normal de ativação de cliente novo.</p>
-                            </div>
+                <div class="accordion reveal">
+                    <button class="acc-trigger" aria-expanded="false" aria-controls="acc-ativacao"><span class="acc-ico"><i class="fas fa-user-plus"></i></span><span class="acc-label">Ativação de Cliente Novo</span><span class="acc-tag">4 etapas</span><span class="acc-chev"><i class="fas fa-chevron-down"></i></span></button>
+                    <div class="acc-panel" id="acc-ativacao" role="region" aria-hidden="true"><div class="acc-inner"><div class="acc-body prose">
+                        <ol class="steps">
+                            <li class="step"><h4>Verificação de Contrato</h4><p>No IXC, valide o status. <strong>Verde:</strong> Assinado. <strong>Azul:</strong> Aguardando assinatura. (Solicite ao técnico coletar via Central do Assinante).</p></li>
+                            <li class="step"><h4>Configuração do Login</h4><p>Crie o login PPPoE no IXC seguindo o padrão do POP. Configure nome (SSID) e senha Wi-Fi e o IP POOL com o ID da região da ONU.</p></li>
+                            <li class="step"><h4>Autorização da ONU</h4><p>No IXC &gt; PROVEDOR &gt; AUTORIZAR ONUs &gt; CONSULTAR TODAS. Localize o MAC. Preencha Login, Nome (apenas se Moreninha/Aero Rancho), Perfil e VLAN. Salve e autorize.</p></li>
+                            <li class="step"><h4>Validação Final</h4><p>Verifique a potência óptica (ideal: -15 a -24 dBm). Solicite ao técnico teste de velocidade no local (2.4GHz e 5GHz).</p></li>
+                        </ol>
+                        <div class="highlight"><strong><i class="fas fa-star"></i> Dicas Rápidas:</strong>
+                            <ul><li><strong>Empresarial (Freeway):</strong> Mudar final de <code>@imais</code> para <code>@freeway</code>.</li>
+                            <li><strong>Nomeclatura (Moreninha/Aero):</strong> <code>VLAN NOME SOBRENOME RUA NUMERO</code>.</li></ul>
                         </div>
-                    </div>
-                </details>
-                
-                <details>
-                    <summary>Ativação de Aplicativos (SVA)</summary>
-                    <div class="content">
-                        <p style="margin-bottom: 20px;">
-                            <a href="https://drive.google.com/file/d/1-dE0bQUscTaHUHdzFZ0sDUjMQhKQhHII/view" target="_blank" class="btn-copy-small" style="background: var(--secondary); color: white;">
-                                <i class="fas fa-file-pdf"></i> Abrir PDF Completo de SVAs
-                            </a>
-                        </p>
-                        <div class="step-list">
-                            <div class="step-item">
-                                <h4 class="step-title">Apps Standard/Premium (PlayHub)</h4>
-                                <p>Ativar PlayHub no contrato (Aba TV) com status Ativo. Enviar o link <a href="https://www.portaldoassinante.cominternetmals/login" target="_blank" style="color: var(--secondary);">portaldoassinante.cominternetmals/login</a> para o cliente. Login é o CPF. Ele recebe código no WhatsApp e escolhe APENAS UM app.</p>
-                            </div>
-                            <div class="step-item">
-                                <h4 class="step-title">Apps Padrão (Sem PlayHub)</h4>
-                                <p><strong>UBOOK GO e Kaspersky:</strong> Acesso via comologar.com.br.</p>
-                                <p><strong>Mais TV (CDNTV):</strong> Acesso pelo site maisty.internetmais.net ou app. Provedor: INTERNET MAIS. Login/Senha: CPF (só números).</p>
-                            </div>
-                        </div>
-                        
-                        <h4 style="margin-top: 30px; color: var(--light); font-size: 1.2rem;">Telas do Processo de SVAs</h4>
+                    </div></div></div>
+                </div>
+
+                <div class="accordion reveal">
+                    <button class="acc-trigger" aria-expanded="false" aria-controls="acc-troca"><span class="acc-ico"><i class="fas fa-arrows-rotate"></i></span><span class="acc-label">Processo de Troca de Equipamento</span><span class="acc-tag">3 etapas</span><span class="acc-chev"><i class="fas fa-chevron-down"></i></span></button>
+                    <div class="acc-panel" id="acc-troca" role="region" aria-hidden="true"><div class="acc-inner"><div class="acc-body prose">
+                        <ol class="steps">
+                            <li class="step"><h4>Verificar e Remover Perfil Antigo</h4><p>Acesse o cadastro, aba Login &gt; Fibra. Desautorize a ONU antiga no IXC e delete o perfil de fibra. <strong>A não remoção causará erro no provisionamento da nova ONU.</strong></p></li>
+                            <li class="step"><h4>Caso Especial UNM2000 (Moreninha/Aero Rancho)</h4><p>Se não houver perfil de fibra, o cliente provavelmente é desses bairros. Após a ativação normal, acesse o UNM2000, encontre a ONU antiga e desprovisione-a (clique direito &gt; ONU Deauthorization).</p></li>
+                            <li class="step"><h4>Nova Ativação</h4><p>Após a remoção, prossiga com o fluxo normal de ativação de cliente novo.</p></li>
+                        </ol>
+                    </div></div></div>
+                </div>
+
+                <div class="accordion reveal">
+                    <button class="acc-trigger" aria-expanded="false" aria-controls="acc-sva"><span class="acc-ico"><i class="fas fa-mobile-screen-button"></i></span><span class="acc-label">Ativação de Aplicativos (SVA)</span><span class="acc-tag">PDF + telas</span><span class="acc-chev"><i class="fas fa-chevron-down"></i></span></button>
+                    <div class="acc-panel" id="acc-sva" role="region" aria-hidden="true"><div class="acc-inner"><div class="acc-body prose">
+                        <p style="margin-bottom:20px"><a href="https://drive.google.com/file/d/1-dE0bQUscTaHUHdzFZ0sDUjMQhKQhHII/view" target="_blank" rel="noopener" class="btn sm"><i class="fas fa-file-pdf"></i> Abrir PDF Completo de SVAs</a></p>
+                        <ol class="steps">
+                            <li class="step"><h4>Apps Standard/Premium (PlayHub)</h4><p>Ativar PlayHub no contrato (Aba TV) com status Ativo. Enviar o link <a href="https://www.portaldoassinante.cominternetmals/login" target="_blank" rel="noopener" style="color:var(--brand)">portaldoassinante.cominternetmals/login</a> para o cliente. Login é o CPF. Ele recebe código no WhatsApp e escolhe APENAS UM app.</p></li>
+                            <li class="step"><h4>Apps Padrão (Sem PlayHub)</h4><p><strong>UBOOK GO e Kaspersky:</strong> Acesso via comologar.com.br.</p><p><strong>Mais TV (CDNTV):</strong> Acesso pelo site maisty.internetmais.net ou app. Provedor: INTERNET MAIS. Login/Senha: CPF (só números).</p></li>
+                        </ol>
+                        <h4 style="margin:28px 0 4px;font-size:1.08rem">Telas do Processo de SVAs</h4>
                         <div class="image-gallery">
-                            <img src="https://i.ibb.co/1wK02v3/passo-a-passo-aplicativos-2025-4-page-0001.jpg" alt="Passo 1" class="gallery-img">
-                            <img src="https://i.ibb.co/LDFPLrrt/passo-a-passo-aplicativos-2025-4-page-0002.jpg" alt="Passo 2" class="gallery-img">
-                            <img src="https://i.ibb.co/tTvB9XWw/passo-a-passo-aplicativos-2025-4-page-0003.jpg" alt="Passo 3" class="gallery-img">
-                            <img src="https://i.ibb.co/VWDXxTSB/passo-a-passo-aplicativos-2025-4-page-0004.jpg" alt="Passo 4" class="gallery-img">
-                            <img src="https://i.ibb.co/Rk8njn5s/passo-a-passo-aplicativos-2025-4-page-0005.jpg" alt="Passo 5" class="gallery-img">
-                            <img src="https://i.ibb.co/xtvYvVG7/passo-a-passo-aplicativos-2025-4-page-0006.jpg" alt="Passo 6" class="gallery-img">
+                            <img src="https://i.ibb.co/1wK02v3/passo-a-passo-aplicativos-2025-4-page-0001.jpg" alt="Passo 1" class="gallery-img" data-zoom>
+                            <img src="https://i.ibb.co/LDFPLrrt/passo-a-passo-aplicativos-2025-4-page-0002.jpg" alt="Passo 2" class="gallery-img" data-zoom>
+                            <img src="https://i.ibb.co/tTvB9XWw/passo-a-passo-aplicativos-2025-4-page-0003.jpg" alt="Passo 3" class="gallery-img" data-zoom>
+                            <img src="https://i.ibb.co/VWDXxTSB/passo-a-passo-aplicativos-2025-4-page-0004.jpg" alt="Passo 4" class="gallery-img" data-zoom>
+                            <img src="https://i.ibb.co/Rk8njn5s/passo-a-passo-aplicativos-2025-4-page-0005.jpg" alt="Passo 5" class="gallery-img" data-zoom>
+                            <img src="https://i.ibb.co/xtvYvVG7/passo-a-passo-aplicativos-2025-4-page-0006.jpg" alt="Passo 6" class="gallery-img" data-zoom>
                         </div>
-                    </div>
-                </details>
+                    </div></div></div>
+                </div>
 
-                <details>
-                    <summary>Configuração TR069 ZTE</summary>
-                    <div class="content">
-                        <h4 class="step-title" style="margin-top: 10px; color: var(--light); font-size: 1.3rem;">Apontamento do equipamento ao servidor ACS</h4>
-                        <img src="https://i.ibb.co/vC5VdSQ1/Whats-App-Image-2025-07-11-at-09-02-31.jpg" alt="Configuração TR069 ZTE" style="max-width: 100%; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--glass-border);">
-                        
-                        <div class="info-card" style="background: rgba(0,0,0,0.2); border: none;">
-                            <h4 style="color: var(--secondary);"><i class="fas fa-cogs"></i> Parâmetros</h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px;">
-                                <div class="password-entry"><strong>URL ACS:</strong> http://acs.freewaynet.com.br/tr069</div>
-                                <div class="password-entry"><strong>User:</strong> admin</div>
-                                <div class="password-entry"><strong>Password:</strong> Admin@freeway2023</div>
-                                <div class="password-entry"><strong>Req User:</strong> IXCSoft</div>
-                                <div class="password-entry"><strong>Req Pass:</strong> Admin@freeway2023</div>
-                                <div class="password-entry"><strong>Porta:</strong> 7547</div>
-                            </div>
+                <div class="accordion reveal">
+                    <button class="acc-trigger" aria-expanded="false" aria-controls="acc-tr069"><span class="acc-ico"><i class="fas fa-gears"></i></span><span class="acc-label">Configuração TR069 ZTE</span><span class="acc-tag">Parâmetros</span><span class="acc-chev"><i class="fas fa-chevron-down"></i></span></button>
+                    <div class="acc-panel" id="acc-tr069" role="region" aria-hidden="true"><div class="acc-inner"><div class="acc-body prose">
+                        <h4 style="margin-top:10px;font-size:1.05rem">Apontamento do equipamento ao servidor ACS</h4>
+                        <img src="https://i.ibb.co/vC5VdSQ1/Whats-App-Image-2025-07-11-at-09-02-31.jpg" alt="Configuração TR069 ZTE" class="zoomable" style="max-width:100%;margin:14px 0 20px" data-zoom>
+                        <div class="cred-grid">
+                            <div class="cred" data-search="URL ACS http://acs.freewaynet.com.br/tr069"><span><b>URL ACS:</b><br>http://acs.freewaynet.com.br/tr069</span><button class="copy-mini" data-copy="http://acs.freewaynet.com.br/tr069" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="User admin"><span><b>User:</b><br>admin</span><button class="copy-mini" data-copy="admin" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="Password Admin@freeway2023"><span><b>Password:</b><br>Admin@freeway2023</span><button class="copy-mini" data-copy="Admin@freeway2023" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="Req User IXCSoft"><span><b>Req User:</b><br>IXCSoft</span><button class="copy-mini" data-copy="IXCSoft" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="Req Pass Admin@freeway2023"><span><b>Req Pass:</b><br>Admin@freeway2023</span><button class="copy-mini" data-copy="Admin@freeway2023" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="Porta 7547"><span><b>Porta:</b><br>7547</span><button class="copy-mini" data-copy="7547" title="Copiar"><i class="fas fa-copy"></i></button></div>
                         </div>
-                    </div>
-                </details>
-                
-                <details>
-                    <summary>Fluxo 12x36 (Financeiro / Comercial)</summary>
-                    <div class="content">
-                        <div class="info-card" style="margin-top: 10px; background: rgba(0,0,0,0.2); border: none;">
-                            <h4 style="color: var(--success);"><i class="fas fa-dollar-sign"></i> Escalonamento Financeiro</h4>
-                            <p style="margin-bottom: 10px;"><strong>Redução/Bloqueio:</strong> Informe o motivo, faça liberação de confiança e oriente contato comercial no dia seguinte.</p>
-                            <p style="margin-bottom: 10px;"><strong>Fatura:</strong> Envie a 2ª via pelo OPA Suite.</p>
+                    </div></div></div>
+                </div>
+
+                <div class="accordion reveal">
+                    <button class="acc-trigger" aria-expanded="false" aria-controls="acc-12x36"><span class="acc-ico"><i class="fas fa-arrow-right-arrow-left"></i></span><span class="acc-label">Fluxo 12x36 (Financeiro / Comercial)</span><span class="acc-tag">Escalonamento</span><span class="acc-chev"><i class="fas fa-chevron-down"></i></span></button>
+                    <div class="acc-panel" id="acc-12x36" role="region" aria-hidden="true"><div class="acc-inner"><div class="acc-body prose">
+                        <div class="tile" style="margin-top:10px;background:transparent;box-shadow:none">
+                            <h4 style="color:var(--green)"><i class="fas fa-dollar-sign"></i> Escalonamento Financeiro</h4>
+                            <p style="margin-bottom:10px"><strong>Redução/Bloqueio:</strong> Informe o motivo, faça liberação de confiança e oriente contato comercial no dia seguinte.</p>
+                            <p style="margin-bottom:10px"><strong>Fatura:</strong> Envie a 2ª via pelo OPA Suite.</p>
                             <p><strong>Renegociação:</strong> Abra chamado "VERIFICAÇÃO CALL CENTER" e mande resumo no grupo.</p>
                         </div>
-                        <div class="info-card" style="margin-top: 10px; background: rgba(0,0,0,0.2); border: none;">
-                            <h4 style="color: var(--secondary);"><i class="fas fa-chart-line"></i> Escalonamento Comercial</h4>
+                        <div class="tile" style="margin-top:12px;background:transparent;box-shadow:none">
+                            <h4><i class="fas fa-chart-line"></i> Escalonamento Comercial</h4>
                             <p><strong>Planos/Endereço:</strong> Abra chamado "VERIFICAÇÃO CALL CENTER" para o departamento comercial e mande o resumo no grupo.</p>
                         </div>
-                    </div>
-                </details>
+                    </div></div></div>
+                </div>
             </section>
-
+            <!-- ============ INFORMAÇÕES ÚTEIS ============ -->
             <section class="section" id="uteis">
-                <h2 class="section-title">Central de Recursos</h2>
-                <p class="section-subtitle">Links para sistemas, portais de acesso e senhas padrão de roteadores homologados.</p>
-                
-                <div class="cards-container">
-                    <div class="info-card">
+                <div class="section-head reveal">
+                    <span class="eyebrow">Recursos · 04</span>
+                    <h2 class="section-title">Central de <span class="accent">Recursos</span></h2>
+                    <p class="section-sub">Links para sistemas, portais de acesso e senhas padrão de roteadores homologados.</p>
+                </div>
+
+                <div class="grid-cards reveal">
+                    <div class="tile">
                         <h4><i class="fas fa-link"></i> Sistemas Principais</h4>
-                        <ul>
-                            <li><a href="https://sistema.freewaynet.com.br/app/login" target="_blank"><i class="fas fa-external-link-square-alt"></i> IXC Provedor</a></li>
-                            <li><a href="https://opasuite.freewaynet.com.br/auth/login" target="_blank"><i class="fas fa-external-link-square-alt"></i> OPA Suite</a></li>
-                            <li><a href="https://freewaynet.smartolt.com/auth/login" target="_blank"><i class="fas fa-external-link-square-alt"></i> SmartOLT</a></li>
-                            <li><a href="https://acs.freewaynet.com.br/login" target="_blank"><i class="fas fa-external-link-square-alt"></i> Servidor ACS (TR069)</a></li>
-                            <li><a href="https://wiki-erp.ixcsoft.com.br/" target="_blank"><i class="fas fa-book"></i> Base de Conhecimento IXC</a></li>
+                        <ul class="link-list">
+                            <li><a href="https://sistema.freewaynet.com.br/app/login" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> IXC Provedor <i class="fas fa-arrow-up-right"></i></a></li>
+                            <li><a href="https://opasuite.freewaynet.com.br/auth/login" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> OPA Suite <i class="fas fa-arrow-up-right"></i></a></li>
+                            <li><a href="https://freewaynet.smartolt.com/auth/login" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> SmartOLT <i class="fas fa-arrow-up-right"></i></a></li>
+                            <li><a href="https://acs.freewaynet.com.br/login" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> Servidor ACS (TR069) <i class="fas fa-arrow-up-right"></i></a></li>
+                            <li><a href="https://wiki-erp.ixcsoft.com.br/" target="_blank" rel="noopener"><i class="fas fa-book"></i> Base de Conhecimento IXC <i class="fas fa-arrow-up-right"></i></a></li>
                         </ul>
                     </div>
-                    
-                    <div class="info-card">
-                        <h4><i class="fas fa-tools"></i> Geradores Otimizados</h4>
-                        <ul>
-                            <li><a href="https://solicitacao-agenda.vercel.app" target="_blank"><i class="fas fa-calendar-check"></i> Gerador de Agenda</a></li>
-                            <li><a href="https://gerador-de-atendimento.vercel.app" target="_blank"><i class="fas fa-headset"></i> Padrão de Atendimento</a></li>
-                            <li><a href="https://gerador-sage.vercel.app/" target="_blank"><i class="fas fa-clipboard-list"></i> Gerador de OS (Sage)</a></li>
-                            <li><a href="https://172.16.30.199:3000/" target="_blank"><i class="fas fa-chart-bar"></i> Gerador de Relatório</a></li>
+
+                    <div class="tile">
+                        <h4><i class="fas fa-wand-magic-sparkles"></i> Geradores Otimizados</h4>
+                        <ul class="link-list">
+                            <li><a href="https://solicitacao-agenda.vercel.app" target="_blank" rel="noopener"><i class="fas fa-calendar-check"></i> Gerador de Agenda <i class="fas fa-arrow-up-right"></i></a></li>
+                            <li><a href="https://gerador-de-atendimento.vercel.app" target="_blank" rel="noopener"><i class="fas fa-headset"></i> Padrão de Atendimento <i class="fas fa-arrow-up-right"></i></a></li>
+                            <li><a href="https://gerador-sage.vercel.app/" target="_blank" rel="noopener"><i class="fas fa-clipboard-list"></i> Gerador de OS (Sage) <i class="fas fa-arrow-up-right"></i></a></li>
+                            <li><a href="https://172.16.30.199:3000/" target="_blank" rel="noopener"><i class="fas fa-chart-bar"></i> Gerador de Relatório <i class="fas fa-arrow-up-right"></i></a></li>
                         </ul>
                     </div>
-                    
-                    <div class="info-card" style="grid-column: 1 / -1;">
+
+                    <div class="tile wide">
                         <h4><i class="fas fa-key"></i> Credenciais de Equipamentos</h4>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px;">
-                            <div class="password-entry"><strong>U:</strong> admin <br><strong>P:</strong> jpspeedy123</div>
-                            <div class="password-entry"><strong>U:</strong> admin <br><strong>P:</strong> NOC@Inter2000#</div>
-                            <div class="password-entry"><strong>U:</strong> admin <br><strong>P:</strong> Admin@freewaynet2023</div>
-                            <div class="password-entry"><strong>U:</strong> admin <br><strong>P:</strong> Admin@freeway2023</div>
-                            <div class="password-entry"><strong>U:</strong> telecomadmin <br><strong>P:</strong> admintelecom</div>
-                            <div class="password-entry"><strong>U:</strong> Epadmin <br><strong>P:</strong> adminEp</div>
-                            <div class="password-entry"><strong>U:</strong> admin <br><strong>P:</strong> paratinet</div>
-                            <div class="password-entry"><strong>U:</strong> admin <br><strong>P:</strong> Paratinet2963@</div>
-                            <div class="password-entry" style="grid-column: 1 / -1; max-width: 300px;"><strong>U:</strong> Admin@ramires2024 <br><strong>P:</strong> Senh@123!</div>
+                        <div class="mini-search"><i class="fas fa-magnifying-glass"></i><input type="text" id="credSearch" placeholder="Filtrar por usuário ou senha..." autocomplete="off"></div>
+                        <div class="cred-grid">
+                            <div class="cred" data-search="admin jpspeedy123"><span><b>U:</b> admin <br><b>P:</b> jpspeedy123</span><button class="copy-mini" data-copy="admin:jpspeedy123" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="admin NOC@Inter2000#"><span><b>U:</b> admin <br><b>P:</b> NOC@Inter2000#</span><button class="copy-mini" data-copy="admin:NOC@Inter2000#" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="admin Admin@freewaynet2023"><span><b>U:</b> admin <br><b>P:</b> Admin@freewaynet2023</span><button class="copy-mini" data-copy="admin:Admin@freewaynet2023" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="admin Admin@freeway2023"><span><b>U:</b> admin <br><b>P:</b> Admin@freeway2023</span><button class="copy-mini" data-copy="admin:Admin@freeway2023" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="telecomadmin admintelecom"><span><b>U:</b> telecomadmin <br><b>P:</b> admintelecom</span><button class="copy-mini" data-copy="telecomadmin:admintelecom" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="Epadmin adminEp"><span><b>U:</b> Epadmin <br><b>P:</b> adminEp</span><button class="copy-mini" data-copy="Epadmin:adminEp" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="admin paratinet"><span><b>U:</b> admin <br><b>P:</b> paratinet</span><button class="copy-mini" data-copy="admin:paratinet" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="admin Paratinet2963@"><span><b>U:</b> admin <br><b>P:</b> Paratinet2963@</span><button class="copy-mini" data-copy="admin:Paratinet2963@" title="Copiar"><i class="fas fa-copy"></i></button></div>
+                            <div class="cred" data-search="Admin@ramires2024 Senh@123!"><span><b>U:</b> Admin@ramires2024 <br><b>P:</b> Senh@123!</span><button class="copy-mini" data-copy="Admin@ramires2024:Senh@123!" title="Copiar"><i class="fas fa-copy"></i></button></div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- ============ CONSULTA POP ============ -->
             <section class="section" id="consulta">
-                <h2 class="section-title">Consulta de POPs (Internet Mais)</h2>
-                <p class="section-subtitle">A lista agora é unificada. Localize configurações (VLANs, IDs e Padrões) para qualquer POP rapidamente.</p>
-                
-                <div class="card">
-                    <div class="form-grid">
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label for="pop-select"><i class="fas fa-server"></i> Selecione o POP na Rede Internet Mais:</label>
-                            <!-- Carregado via JS -->
-                            <select id="pop-select">
-                                <option value="">-- Carregando lista de POPs --</option>
-                            </select>
+                <div class="section-head reveal">
+                    <span class="eyebrow">Telemetria · 05</span>
+                    <h2 class="section-title">Consulta de <span class="accent">POPs</span> <span style="font-size:.45em;color:var(--text-3);font-weight:600;letter-spacing:0">(Internet Mais)</span></h2>
+                    <p class="section-sub">A lista agora é unificada. Localize configurações (VLANs, IDs e Padrões) para qualquer POP rapidamente.</p>
+                </div>
+
+                <div class="card reveal">
+                    <div class="field">
+                        <label for="popSearch"><i class="fas fa-magnifying-glass"></i> Buscar POP na rede (nome ou OLT)</label>
+                        <div class="combo">
+                            <input class="input" type="text" id="popSearch" placeholder="Ex.: Moreninha, ZTE, Nasser..." autocomplete="off" role="combobox" aria-expanded="false" aria-controls="popList">
+                            <div class="combo-list" id="popList" role="listbox"></div>
                         </div>
                     </div>
-
-                    <div id="pop-details" class="result-panel" style="text-align: center; align-items: center;">
-                        <i class="fas fa-satellite-dish" style="font-size: 2rem; color: var(--text-muted); opacity: 0.5; margin-bottom: 10px;"></i>
-                        <p>Aguardando seleção para exibir telemetria.</p>
+                    <div class="filters" id="oltFilters"></div>
+                    <div class="result" id="popResult">
+                        <div><i class="fas fa-satellite-dish" style="font-size:2rem;opacity:.4;display:block;margin-bottom:8px"></i><p>Selecione um POP para exibir a telemetria.</p></div>
                     </div>
                 </div>
             </section>
 
+            <!-- ============ GERADOR PPPoE ============ -->
             <section class="section" id="gerador-pppoe">
-                <h2 class="section-title">Gerador Universal PPPoE</h2>
-                <p class="section-subtitle">Crie instantaneamente as credenciais de autenticação no padrão correto para evitar falhas de conexão.</p>
-                
-                <div class="card">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="client-name"><i class="fas fa-user-tag"></i> Nome:</label>
-                            <input type="text" id="client-name" placeholder="Ex: João" required autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label for="client-lastname"><i class="fas fa-users"></i> Sobrenome:</label>
-                            <input type="text" id="client-lastname" placeholder="Ex: Silva" required autocomplete="off">
-                        </div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label for="gen-pop-select"><i class="fas fa-server"></i> POP Destino:</label>
-                            <!-- Carregado via JS -->
-                            <select id="gen-pop-select">
-                                <option value="">-- Carregando lista de POPs --</option>
-                            </select>
-                        </div>
-                        
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="business-client">
-                            <label for="business-client">Autenticação Empresarial (Muda sufixo para @freeway)</label>
-                        </div>
-                    </div>
-                    
-                    <button id="generate-pppoe-btn" class="primary-button">
-                        <i class="fas fa-magic"></i> Gerar Credencial PPPoE
-                    </button>
+                <div class="section-head reveal">
+                    <span class="eyebrow">Automação · 06</span>
+                    <h2 class="section-title">Gerador <span class="accent">Universal PPPoE</span></h2>
+                    <p class="section-sub">Crie instantaneamente as credenciais de autenticação no padrão correto para evitar falhas de conexão.</p>
+                </div>
 
-                    <div id="pppoe-result" class="result-panel" style="display: none;">
-                        <!-- Content injected by JS -->
+                <div class="card reveal">
+                    <div class="gen-grid">
+                        <div>
+                            <div class="form-grid">
+                                <div class="field"><label for="client-name"><i class="fas fa-user-tag"></i> Nome</label><input class="input" type="text" id="client-name" placeholder="Ex: João" required autocomplete="off"></div>
+                                <div class="field"><label for="client-lastname"><i class="fas fa-users"></i> Sobrenome</label><input class="input" type="text" id="client-lastname" placeholder="Ex: Silva" required autocomplete="off"></div>
+                                <div class="field full"><label for="genPopSelect"><i class="fas fa-server"></i> POP Destino</label><select class="input" id="genPopSelect"><option value="">-- Carregando lista de POPs --</option></select></div>
+                            </div>
+                            <label class="switch" style="margin:18px 0 22px"><input type="checkbox" id="business-client"><span class="track"></span><span>Autenticação Empresarial <span style="color:var(--text-3)">(muda sufixo para @freeway)</span></span></label>
+                            <button id="generate-pppoe-btn" class="btn wide"><i class="fas fa-wand-magic-sparkles"></i> Gerar Credencial PPPoE</button>
+                        </div>
+                        <div>
+                            <div class="preview">
+                                <span class="lbl">Prévia em tempo real</span>
+                                <span class="preview-cred" id="previewCred">Preencha os campos...</span>
+                                <small id="previewPop">A credencial será atualizada enquanto você digita.</small>
+                            </div>
+                            <div id="genResult" class="result" style="margin-top:14px;min-height:120px"><div><p>Aguardando geração.</p></div></div>
+                            <div class="history">
+                                <div class="history-title">Histórico recente</div>
+                                <div id="genHistory"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
-        </div>
+
+        </main>
 
         <footer>
-            <div class="footer-content">
+            <div class="footer-inner">
                 <div>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <i class="fas fa-network-wired" style="color: var(--secondary); font-size: 1.5rem;"></i>
-                        <span style="font-weight: 700; font-size: 1.2rem; color: var(--light);">Suporte Pro</span>
-                    </div>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">Hub centralizado para padronização técnica, automação de fluxos e consulta rápida de telemetria.</p>
+                    <div class="footer-brand"><i class="fas fa-network-wired"></i> Suporte Pro</div>
+                    <p>Hub centralizado para padronização técnica, automação de fluxos e consulta rápida de telemetria.</p>
+                    <img class="footer-logo" src="https://i.ibb.co/Gv4P6xRL/Logo-internet-MAIS.png" alt="Internet Mais" onerror="this.style.display='none'">
                 </div>
                 <div>
-                    <h4 class="footer-title">Contato Técnico</h4>
-                    <p style="color: var(--text-muted); margin-bottom: 8px;"><i class="fas fa-envelope" style="color: var(--secondary); width: 20px;"></i> alessandro.nunes@freewaynet.com.br</p>
-                    <p style="color: var(--text-muted);"><i class="fas fa-phone" style="color: var(--secondary); width: 20px;"></i> (67) 9129-1949</p>
+                    <div class="f-title">Contato Técnico</div>
+                    <p><i class="fas fa-envelope"></i> alessandro.nunes@freewaynet.com.br</p>
+                    <p><i class="fas fa-phone"></i> (67) 9129-1949</p>
+                </div>
+                <div>
+                    <div class="f-title">Atalhos</div>
+                    <p><kbd>Ctrl K</kbd> busca universal &nbsp; <kbd>Esc</kbd> fechar janelas</p>
+                    <p><i class="fas fa-circle-info"></i> Use as setas no lightbox para navegar.</p>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; <span id="current-year"></span> Guia Interativo Premium. Todos os direitos reservados.
-            </div>
+            <div class="copyright">&copy; <span id="current-year"></span> Guia Interativo Premium · Suporte Pro. Todos os direitos reservados.</div>
         </footer>
-    </main>
-
-    <div id="image-modal" class="modal">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modal-img">
     </div>
 
-    <div id="notification" class="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notif-text">Operação realizada!</span>
+    <!-- Command palette -->
+    <div class="cmdk" id="cmdk" role="dialog" aria-modal="true" aria-label="Busca universal">
+        <div class="cmdk-box">
+            <div class="cmdk-input-wrap"><i class="fas fa-magnifying-glass"></i><input class="cmdk-input" id="cmdInput" placeholder="Busque seções, procedimentos, POPs ou ações..." autocomplete="off"><kbd>ESC</kbd></div>
+            <div class="cmdk-results" id="cmdResults"></div>
+            <div class="cmdk-foot"><span><kbd>↑</kbd><kbd>↓</kbd> navegar</span><span><kbd>Enter</kbd> abrir</span><span><kbd>Esc</kbd> fechar</span></div>
+        </div>
     </div>
 
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizador de imagens">
+        <button class="lb-close" id="lbClose" aria-label="Fechar"><i class="fas fa-xmark"></i></button>
+        <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+        <img id="lbImg" src="" alt="Ampliação">
+        <button class="lb-nav lb-next" id="lbNext" aria-label="Próxima"><i class="fas fa-chevron-right"></i></button>
+        <span class="lb-count" id="lbCount">1 / 1</span>
+    </div>
+
+    <div class="toast-stack" id="toastStack" aria-live="polite"></div>
     <script>
-        // --- Lista Única de POPs (Incluindo os Ex-FlexTel padronizados) ---
+        // ============ BASE DE DADOS (preservada do original) ============
         const popData = [
-            // POPs Tradicionais Internet Mais
             { name: 'Moreninha', olt: 'FiberHome', vlan: 1003, poolId: 18, profileId: 70, pppoe: 'nomesobrenome@imais@mor', obs: 'Padrão: 1003 NOME SOBRENOME RUA NUMERO. Configurar Wi-Fi no IXC.' },
             { name: 'Aero Rancho', olt: 'FiberHome', vlan: 1002, poolId: 19, profileId: 70, pppoe: 'nomesobrenome@imais@aer', obs: 'Padrão: 1002 NOME SOBRENOME RUA NUMERO. Configurar Wi-Fi no IXC.' },
             { name: 'Freeway', olt: 'Huawei', vlan: 29, poolId: 3, profileId: 74, pppoe: 'nomesobrenome@imais@fwc', obs: 'Configurar Wi-Fi após autenticação.' },
@@ -636,8 +797,6 @@
             { name: 'Noroeste', olt: 'Huawei', vlan: 1008, poolId: 25, profileId: 74, pppoe: 'nomesobrenome@imais@nor', obs: 'Configurar Wi-Fi após autenticação.' },
             { name: 'Easynet', olt: 'Huawei', vlan: 58, poolId: 17, profileId: 74, pppoe: 'nomesobrenome@imais@esn', obs: 'Configurar Wi-Fi após autenticação.' },
             { name: 'Norte Sul', olt: 'Huawei', vlan: 1009, poolId: 26, profileId: 74, pppoe: 'nomesobrenome@imais@nts', obs: 'Configurar Wi-Fi após autenticação.' },
-            
-            // POPs Novos (Ex-FlexTel) Padronizados
             { name: 'Nasser', olt: 'ZTE', vlan: 1360, poolId: 5, profileId: 49, pppoe: 'nomesobrenome@imais@nas', obs: 'Configurar Wi-Fi no IXC.' },
             { name: 'Santo Amaro', olt: 'ZTE', vlan: 1361, poolId: 6, profileId: 49, pppoe: 'nomesobrenome@imais@sta', obs: 'Configurar Wi-Fi no IXC.' },
             { name: 'Aeroporto Flex', olt: 'ZTE', vlan: 1362, poolId: 7, profileId: 49, pppoe: 'nomesobrenome@imais@aft', obs: 'Configurar Wi-Fi no IXC.' },
@@ -650,219 +809,428 @@
             { name: 'Nova Campo Grande 2', olt: 'FiberHome', vlan: 1393, poolId: 14, profileId: 62, pppoe: 'nomesobrenome@imais@nc2', obs: 'Configurar Wi-Fi no IXC.' },
             { name: 'Campo Nobre', olt: 'Huawei', vlan: 1369, poolId: 15, profileId: 54, pppoe: 'nomesobrenome@imais@cno', obs: 'Configurar Wi-Fi após autenticação.' }
         ];
-
-        // Ordena os POPs em ordem alfabética para facilitar
         popData.sort((a, b) => a.name.localeCompare(b.name));
 
-        // Referências DOM Principais
-        const navItems = document.querySelectorAll('.nav-item');
-        const sections = document.querySelectorAll('.section');
-        const headerTitle = document.getElementById('current-section-title');
-        const searchInput = document.querySelector('.search-container input');
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-            
-            // Popula os Selects com a lista unificada
-            const popSelect = document.getElementById('pop-select');
-            const genPopSelect = document.getElementById('gen-pop-select');
-            
-            let optionsHTML = '<option value="">-- Escolha um POP --</option>';
-            popData.forEach(pop => {
-                optionsHTML += `<option value="${pop.name}">${pop.name}</option>`;
+        // ============ HELPERS ============
+        const $ = (s, r = document) => r.querySelector(s);
+        const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+        const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const norm = v => String(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        const store = {
+            get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+            set(k, v) { try { localStorage.setItem(k, v); } catch { /* modo privado */ } }
+        };
+
+        function showNotification(message, isError = false) {
+            const stack = $('#toastStack');
+            const el = document.createElement('div');
+            el.className = 'toast' + (isError ? ' error' : '');
+            el.innerHTML = `<i class="fas fa-${isError ? 'circle-exclamation' : 'circle-check'}"></i><span>${esc(message)}</span>`;
+            stack.appendChild(el);
+            setTimeout(() => {
+                el.style.animation = 'toastOut .3s var(--ease) forwards';
+                setTimeout(() => el.remove(), 300);
+            }, 3200);
+        }
+        window.showNotification = showNotification;
+
+        function copyToClipboard(text) {
+            const done = () => showNotification('Copiado para a área de transferência!');
+            const fallback = () => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.cssText = 'position:fixed;top:-999px;opacity:0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); done(); } catch { showNotification('Não foi possível copiar.', true); }
+                ta.remove();
+            };
+            if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done).catch(fallback);
+            else fallback();
+        }
+        window.copyToClipboard = copyToClipboard;
+        document.addEventListener('click', e => {
+            const el = e.target.closest('[data-copy]');
+            if (el) copyToClipboard(el.dataset.copy);
+        });
+
+        // ============ TEMA / LAYOUT ============
+        function syncTheme() {
+            $('#themeIcon').className = document.documentElement.dataset.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        function toggleTheme() {
+            const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.dataset.theme = next;
+            store.set('sp-theme', next);
+            syncTheme();
+        }
+        $('#themeBtn').addEventListener('click', toggleTheme);
+        $('#collapseBtn').addEventListener('click', () => {
+            const compact = document.documentElement.classList.toggle('compact');
+            store.set('sp-compact', compact ? '1' : '0');
+            $('#collapseBtn i').className = compact ? 'fas fa-outdent' : 'fas fa-indent';
+        });
+        if (document.documentElement.classList.contains('compact')) $('#collapseBtn i').className = 'fas fa-outdent';
+        $('#menuBtn').addEventListener('click', () => document.body.classList.toggle('sidebar-open'));
+        $('#scrim').addEventListener('click', () => document.body.classList.remove('sidebar-open'));
+
+        // ============ NAVEGAÇÃO ============
+        const sections = $$('.section');
+        const navItems = $$('.nav-item');
+        function navigate(id, updateHash = true) {
+            const sec = document.getElementById(id);
+            if (!sec || !sec.classList.contains('section')) return;
+            navItems.forEach(b => {
+                const on = b.dataset.target === id;
+                b.classList.toggle('active', on);
+                if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
             });
-            
-            popSelect.innerHTML = optionsHTML;
-            genPopSelect.innerHTML = optionsHTML;
-            
-            // Navegação (Abas)
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    navItems.forEach(n => n.classList.remove('active'));
-                    item.classList.add('active');
-                    
-                    const targetId = item.getAttribute('data-target');
-                    sections.forEach(sec => {
-                        sec.classList.remove('active');
-                        if (sec.id === targetId) sec.classList.add('active');
-                    });
-                    
-                    if(headerTitle) headerTitle.textContent = item.textContent.trim();
-                    
-                    if (window.innerWidth <= 992) {
-                        document.body.classList.remove('sidebar-open');
+            sections.forEach(s => s.classList.toggle('active', s.id === id));
+            const label = $(`.nav-item[data-target="${id}"] .txt`)?.textContent.trim() || '';
+            $('#crumbCurrent').textContent = label;
+            if (updateHash) { try { history.replaceState(null, '', '#' + id); } catch { location.hash = id; } }
+            document.body.classList.remove('sidebar-open');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            observeReveals(sec);
+        }
+        navItems.forEach(b => b.addEventListener('click', () => navigate(b.dataset.target)));
+        $$('[data-goto]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.goto)));
+        window.addEventListener('hashchange', () => {
+            const id = location.hash.slice(1);
+            if (document.getElementById(id)?.classList.contains('section')) navigate(id, false);
+        });
+
+        // ============ ACORDEÕES ============
+        $$('.accordion').forEach(acc => {
+            const btn = $('.acc-trigger', acc);
+            const panel = $('.acc-panel', acc);
+            panel.inert = true;
+            btn.addEventListener('click', () => {
+                const open = !acc.classList.contains('open');
+                acc.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', String(open));
+                panel.setAttribute('aria-hidden', String(!open));
+                panel.inert = !open;
+                if (open) setTimeout(() => observeReveals(panel), 60);
+            });
+        });
+        function openAccordion(acc) {
+            if (!acc.classList.contains('open')) $('.acc-trigger', acc).click();
+        }
+
+        // ============ SCROLL REVEAL ============
+        const io = 'IntersectionObserver' in window
+            ? new IntersectionObserver(entries => entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+            }), { threshold: .08, rootMargin: '0px 0px -30px 0px' })
+            : null;
+        function observeReveals(root) {
+            $$('.reveal:not(.in)', root).forEach(el => io ? io.observe(el) : el.classList.add('in'));
+        }
+        observeReveals(document);
+
+        // ============ CONTADORES ============
+        $('#statModules').textContent = sections.length;
+        $('#statPops').textContent = popData.length;
+        $('#statDocs').textContent = $$('.accordion').length;
+        $('#statCreds').textContent = $$('#uteis .cred').length;
+        $('#navPopCount').textContent = popData.length;
+        $('#current-year').textContent = new Date().getFullYear();
+        syncTheme();
+
+        // ============ CONSULTA DE POP (COMBOBOX) ============
+        let selectedPop = null;
+        let oltFilter = 'Todos';
+        const comboInput = $('#popSearch');
+        const comboList = $('#popList');
+        let comboHover = -1;
+
+        function renderOptions() {
+            const q = norm(comboInput.value.trim());
+            const list = popData.filter(p =>
+                (oltFilter === 'Todos' || p.olt === oltFilter) &&
+                (!q || norm(p.name).includes(q) || norm(p.olt).includes(q))
+            );
+            comboHover = -1;
+            comboList.innerHTML = list.length
+                ? list.map(p => `<button type="button" class="combo-opt" role="option" data-name="${esc(p.name)}"><i class="fas fa-server"></i><span>${esc(p.name)}</span><span class="olt">${esc(p.olt)}</span></button>`).join('')
+                : '<div style="padding:16px;text-align:center;color:var(--text-3);font-size:.84rem">Nenhum POP encontrado.</div>';
+            $$('.combo-opt', comboList).forEach(b => b.addEventListener('click', () => selectPop(b.dataset.name)));
+        }
+        function openCombo() { comboList.classList.add('show'); comboInput.setAttribute('aria-expanded', 'true'); }
+        function closeCombo() { comboList.classList.remove('show'); comboInput.setAttribute('aria-expanded', 'false'); }
+        function selectPop(name) {
+            const pop = popData.find(p => p.name === name);
+            if (!pop) return;
+            selectedPop = pop;
+            comboInput.value = pop.name;
+            closeCombo();
+            renderPopResult();
+            showNotification(`POP ${pop.name} carregado.`);
+        }
+        comboInput.addEventListener('focus', () => { renderOptions(); openCombo(); });
+        comboInput.addEventListener('input', () => { renderOptions(); openCombo(); });
+        comboInput.addEventListener('keydown', e => {
+            const opts = $$('.combo-opt', comboList);
+            if (!opts.length) return;
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                comboHover = e.key === 'ArrowDown'
+                    ? (comboHover + 1) % opts.length
+                    : (comboHover <= 0 ? opts.length - 1 : comboHover - 1);
+                opts.forEach((o, i) => o.classList.toggle('hover', i === comboHover));
+                opts[comboHover].scrollIntoView({ block: 'nearest' });
+            } else if (e.key === 'Enter' && comboHover >= 0) {
+                e.preventDefault();
+                selectPop(opts[comboHover].dataset.name);
+            } else if (e.key === 'Escape') closeCombo();
+        });
+        document.addEventListener('click', e => { if (!e.target.closest('.combo')) closeCombo(); });
+
+        const olts = ['Todos', ...new Set(popData.map(p => p.olt))];
+        $('#oltFilters').innerHTML = olts.map(o => `<button type="button" class="chip ${o === 'Todos' ? 'active' : ''}" data-olt="${esc(o)}">${esc(o)}</button>`).join('');
+        $$('#oltFilters .chip').forEach(chip => chip.addEventListener('click', () => {
+            oltFilter = chip.dataset.olt;
+            $$('#oltFilters .chip').forEach(c => c.classList.toggle('active', c === chip));
+            renderOptions();
+            openCombo();
+            comboInput.focus();
+        }));
+
+        function renderPopResult() {
+            const box = $('#popResult');
+            if (!selectedPop) {
+                box.className = 'result';
+                box.innerHTML = '<div><i class="fas fa-satellite-dish" style="font-size:2rem;opacity:.4;display:block;margin-bottom:8px"></i><p>Selecione um POP para exibir a telemetria.</p></div>';
+                return;
+            }
+            const p = selectedPop;
+            const pack = `POP: ${p.name}\nOLT: ${p.olt}\nVLAN PPPoE: ${p.vlan}\nID POOL IXC: ${p.poolId}\nID Perfil: ${p.profileId}\nPadrão de Login: ${p.pppoe}\nObservação: ${p.obs}`;
+            box.className = 'result filled';
+            box.innerHTML = `
+                <div class="result-head">
+                    <div><h3>${esc(p.name)} <span class="pill success">${esc(p.olt)}</span></h3><p style="color:var(--text-3);font-size:.83rem">Telemetria e padrões de provisionamento</p></div>
+                    <button class="btn ghost sm" data-copy="${esc(pack)}"><i class="fas fa-copy"></i> Copiar pacote</button>
+                </div>
+                <div class="metrics">
+                    <div class="metric"><span>VLAN PPPoE</span><strong>${p.vlan}</strong></div>
+                    <div class="metric"><span>ID POOL IXC</span><strong>${p.poolId}</strong></div>
+                    <div class="metric"><span>ID Perfil</span><strong>${p.profileId}</strong></div>
+                </div>
+                <div class="term"><span class="cmt">// Padrão de Login</span><br>${esc(p.pppoe)}<button class="term-copy" data-copy="${esc(p.pppoe)}" title="Copiar padrão"><i class="fas fa-copy"></i></button></div>
+                <div class="note blue" style="margin-top:16px"><i class="fas fa-circle-info"></i><p><strong>Info:</strong> ${esc(p.obs)}</p></div>`;
+        }
+
+        // ============ GERADOR PPPoE ============
+        const nameInput = $('#client-name');
+        const lastInput = $('#client-lastname');
+        const genPop = $('#genPopSelect');
+        const bizCheck = $('#business-client');
+        const genResult = $('#genResult');
+
+        genPop.innerHTML = '<option value="">-- Escolha um POP --</option>' +
+            popData.map(p => `<option value="${esc(p.name)}">${esc(p.name)} · VLAN ${p.vlan}</option>`).join('');
+
+        function buildCredential() {
+            const name = nameInput.value.trim();
+            const lastName = lastInput.value.trim();
+            const pop = popData.find(p => p.name === genPop.value);
+            if (!name || !lastName || !pop) return null;
+            let pppoe = pop.pppoe.replace('nomesobrenome',
+                `${name.toLowerCase().replace(/\s/g, '')}${lastName.toLowerCase().replace(/\s/g, '')}`);
+            if (bizCheck.checked && pppoe.includes('@imais')) pppoe = pppoe.replace('@imais', '@freeway');
+            return { cred: pppoe, pop };
+        }
+        function renderPreview() {
+            const r = buildCredential();
+            $('#previewCred').textContent = r ? r.cred : 'Preencha os campos...';
+            $('#previewPop').textContent = r
+                ? `POP ${r.pop.name} · OLT ${r.pop.olt} · VLAN ${r.pop.vlan} · POOL ${r.pop.poolId}${bizCheck.checked ? ' · empresarial' : ''}`
+                : 'A credencial será atualizada enquanto você digita.';
+        }
+        [nameInput, lastInput, genPop, bizCheck].forEach(el => {
+            el.addEventListener('input', renderPreview);
+            el.addEventListener('change', renderPreview);
+        });
+
+        const HIST_KEY = 'sp-pppoe-history';
+        let history = [];
+        try { history = JSON.parse(store.get(HIST_KEY)) || []; } catch { history = []; }
+        function renderHistory() {
+            $('#genHistory').innerHTML = history.length
+                ? history.map(h => `<button class="hist" data-copy="${esc(h.cred)}" title="Clique para copiar"><i class="fas fa-clock-rotate-left"></i><span>${esc(h.cred)}</span><small>${esc(h.pop)}</small></button>`).join('')
+                : '<p style="color:var(--text-3);font-size:.79rem">Suas últimas credenciais aparecerão aqui.</p>';
+        }
+        renderHistory();
+
+        $('#generate-pppoe-btn').addEventListener('click', () => {
+            const r = buildCredential();
+            if (!r) {
+                genResult.className = 'result filled';
+                genResult.innerHTML = '<p style="color:var(--red)"><i class="fas fa-circle-exclamation"></i> Preencha nome, sobrenome e escolha um POP.</p>';
+                showNotification('Preencha nome, sobrenome e escolha um POP.', true);
+                return;
+            }
+            genResult.className = 'result filled';
+            genResult.innerHTML = '<div class="loading-indicator"><i class="fas fa-circle-notch"></i> Sintetizando credencial...</div>';
+            setTimeout(() => {
+                genResult.innerHTML = `
+                    <h3 style="font-size:1.1rem"><i class="fas fa-circle-check" style="color:var(--green)"></i> Credencial pronta</h3>
+                    <p style="color:var(--text-3);font-size:.86rem;margin-top:4px">Formatada para <strong style="color:var(--text)">${esc(r.pop.name)}</strong>:</p>
+                    <div class="metrics" style="margin:14px 0">
+                        <div class="metric"><span>VLAN PPPoE</span><strong>${r.pop.vlan}</strong></div>
+                        <div class="metric"><span>ID POOL IXC</span><strong>${r.pop.poolId}</strong></div>
+                    </div>
+                    <span class="pppoe-generated-text">${esc(r.cred)}</span>
+                    <button class="btn sm" data-copy="${esc(r.cred)}"><i class="fas fa-copy"></i> Copiar credencial</button>`;
+                history = [{ cred: r.cred, pop: r.pop.name }, ...history].slice(0, 4);
+                store.set(HIST_KEY, JSON.stringify(history));
+                renderHistory();
+                showNotification('Credencial gerada com sucesso!');
+            }, 560);
+        });
+
+        // ============ FILTRO DE CREDENCIAIS ============
+        $('#credSearch').addEventListener('input', e => {
+            const q = norm(e.target.value.trim());
+            $$('#uteis .cred').forEach(c => { c.style.display = !q || norm(c.dataset.search).includes(q) ? '' : 'none'; });
+        });
+
+        // ============ LIGHTBOX ============
+        const zoomImgs = $$('[data-zoom]');
+        const lightbox = $('#lightbox');
+        let lbIndex = 0;
+        function showLightbox(i) {
+            if (!zoomImgs.length) return;
+            lbIndex = (i + zoomImgs.length) % zoomImgs.length;
+            $('#lbImg').src = zoomImgs[lbIndex].src;
+            $('#lbCount').textContent = `${lbIndex + 1} / ${zoomImgs.length}`;
+            lightbox.classList.add('show');
+        }
+        zoomImgs.forEach((img, i) => img.addEventListener('click', () => showLightbox(i)));
+        $('#lbClose').addEventListener('click', () => lightbox.classList.remove('show'));
+        $('#lbPrev').addEventListener('click', () => showLightbox(lbIndex - 1));
+        $('#lbNext').addEventListener('click', () => showLightbox(lbIndex + 1));
+        lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('show'); });
+
+        // ============ COMMAND PALETTE (CTRL + K) ============
+        function buildIndex() {
+            const items = [];
+            sections.forEach(sec => {
+                const nav = $(`.nav-item[data-target="${sec.id}"]`);
+                const label = $('.txt', nav).textContent.trim();
+                items.push({ group: 'Seções', label, icon: 'fa-grid-2', hint: 'Ir para seção', run: () => navigate(sec.id) });
+            });
+            $$('.accordion').forEach(acc => {
+                const secId = acc.closest('.section').id;
+                const label = $('.acc-label', acc).textContent.trim();
+                items.push({
+                    group: 'Procedimentos', label, icon: 'fa-book-open',
+                    hint: $('.acc-tag', acc)?.textContent.trim() || 'Abrir guia',
+                    run: () => {
+                        navigate(secId);
+                        setTimeout(() => {
+                            openAccordion(acc);
+                            acc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 170);
                     }
                 });
             });
+            popData.forEach(p => items.push({
+                group: 'POPs', label: p.name, icon: 'fa-server',
+                hint: `VLAN ${p.vlan} · ${p.olt}`,
+                run: () => { navigate('consulta'); setTimeout(() => selectPop(p.name), 170); }
+            }));
+            items.push(
+                { group: 'Ações', label: 'Alternar tema claro / escuro', icon: 'fa-circle-half-stroke', hint: 'Aparência', run: toggleTheme },
+                { group: 'Ações', label: 'Abrir Gerador PPPoE', icon: 'fa-wand-magic-sparkles', hint: 'Ferramenta', run: () => navigate('gerador-pppoe') },
+                { group: 'Ações', label: 'Recolher / expandir menu lateral', icon: 'fa-indent', hint: 'Layout', run: () => $('#collapseBtn').click() }
+            );
+            return items;
+        }
+        const cmdItems = buildIndex();
+        const cmdInput = $('#cmdInput');
+        let cmdFiltered = [];
+        let cmdSelected = 0;
 
-            document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
-                document.body.classList.toggle('sidebar-open');
+        function renderCmd() {
+            const q = norm(cmdInput.value.trim());
+            cmdFiltered = cmdItems.filter(it => !q ||
+                norm(it.label).includes(q) || norm(it.hint).includes(q) || norm(it.group).includes(q)
+            ).slice(0, 40);
+            if (cmdSelected >= cmdFiltered.length) cmdSelected = 0;
+            let html = '', lastGroup = '';
+            cmdFiltered.forEach((it, i) => {
+                if (it.group !== lastGroup) { html += `<div class="cmdk-group">${esc(it.group)}</div>`; lastGroup = it.group; }
+                html += `<button class="cmdk-item ${i === cmdSelected ? 'sel' : ''}" data-i="${i}"><span class="ico"><i class="fas ${it.icon}"></i></span><span>${esc(it.label)}</span><span class="hint">${esc(it.hint)}</span></button>`;
             });
+            $('#cmdResults').innerHTML = html || `<div style="padding:26px;text-align:center;color:var(--text-3);font-size:.88rem">Nenhum resultado para “${esc(q)}”.</div>`;
+            $$('.cmdk-item').forEach(b => b.addEventListener('click', () => runCmd(+b.dataset.i)));
+        }
+        function runCmd(i) {
+            const item = cmdFiltered[i];
+            if (!item) return;
+            closeCmd();
+            item.run();
+        }
+        function openCmd() {
+            cmdInput.value = '';
+            cmdSelected = 0;
+            renderCmd();
+            $('#cmdk').classList.add('show');
+            setTimeout(() => cmdInput.focus(), 30);
+        }
+        function closeCmd() { $('#cmdk').classList.remove('show'); }
+        cmdInput.addEventListener('input', () => { cmdSelected = 0; renderCmd(); });
+        $('#searchTrigger').addEventListener('click', openCmd);
+        $('#cmdk').addEventListener('click', e => { if (e.target.id === 'cmdk') closeCmd(); });
 
-            document.getElementById('pop-select').addEventListener('change', (e) => {
-                const popName = e.target.value;
-                const container = document.getElementById('pop-details');
-                
-                if (popName) {
-                    const pop = popData.find(p => p.name === popName);
-                    if (pop) {
-                        container.style.alignItems = "stretch";
-                        container.style.textAlign = "left";
-                        container.innerHTML = `
-                            <h4>${pop.name} <span class="badge">${pop.olt}</span></h4>
-                            <div class="pop-details-grid">
-                                <div class="pop-detail-item">
-                                    <p>VLAN PPPoE</p><p>${pop.vlan}</p>
-                                </div>
-                                <div class="pop-detail-item">
-                                    <p>ID POOL IXC</p><p>${pop.poolId}</p>
-                                </div>
-                                <div class="pop-detail-item">
-                                    <p>ID Perfil</p><p>${pop.profileId}</p>
-                                </div>
-                            </div>
-                            <div class="terminal-block" style="margin-top: 16px;">
-                                <span style="color: var(--text-muted)">// Padrão de Login</span><br>
-                                ${pop.pppoe}
-                            </div>
-                            <p style="margin-top:16px; font-size: 0.95rem;"><strong><i class="fas fa-info-circle" style="color:var(--secondary)"></i> Info:</strong> ${pop.obs}</p>
-                        `;
-                        return;
-                    }
-                }
-                container.style.alignItems = "center";
-                container.style.textAlign = "center";
-                container.innerHTML = `<i class="fas fa-satellite-dish" style="font-size: 2rem; color: var(--text-muted); opacity: 0.5; margin-bottom: 10px;"></i><p>Aguardando seleção.</p>`;
-            });
-
-            document.getElementById('generate-pppoe-btn').addEventListener('click', () => {
-                const name = document.getElementById('client-name').value.trim();
-                const lastName = document.getElementById('client-lastname').value.trim();
-                const popName = document.getElementById('gen-pop-select').value;
-                const isBiz = document.getElementById('business-client').checked;
-                const resultDiv = document.getElementById('pppoe-result');
-
-                resultDiv.style.display = 'flex';
-
-                if (!name || !lastName || !popName) {
-                    resultDiv.innerHTML = `<p style="color: var(--accent);"><i class="fas fa-times-circle"></i> Preencha nome, sobrenome e escolha um POP.</p>`;
-                    return;
-                }
-
-                const pop = popData.find(p => p.name === popName);
-                if (!pop) return;
-
-                let pppoe = pop.pppoe.replace('nomesobrenome', `${name.toLowerCase().replace(/\s/g, '')}${lastName.toLowerCase().replace(/\s/g, '')}`);
-                
-                // Mudar sufixo caso seja empresa
-                if (isBiz && pppoe.includes('@imais')) {
-                    pppoe = pppoe.replace('@imais', '@freeway');
-                }
-
-                resultDiv.innerHTML = `
-                    <div class="loading-indicator">
-                        <i class="fas fa-circle-notch"></i> Sintetizando credencial...
-                    </div>
-                `;
-
-                setTimeout(() => {
-                    resultDiv.innerHTML = `
-                        <h4 style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: var(--success)"></i> Sucesso</h4>
-                        <p style="font-size: 0.95rem; color: var(--text-muted);">Credencial formatada para <strong>${pop.name}</strong> pronta para uso:</p>
-                        <span class="pppoe-generated-text">${pppoe}</span>
-                        <button class="btn-copy-small" onclick="copyToClipboard('${pppoe}')" style="background: var(--secondary); align-self: flex-start; font-weight: 600;">
-                            <i class="fas fa-copy"></i> Copiar Código
-                        </button>
-                    `;
-                }, 600);
-            });
-
-            const modal = document.getElementById("image-modal");
-            const modalImg = document.getElementById("modal-img");
-            document.querySelectorAll(".gallery-img").forEach(img => {
-                img.onclick = function() {
-                    modal.style.display = "flex";
-                    modalImg.src = this.src;
-                }
-            });
-            document.querySelector(".close-modal").onclick = () => modal.style.display = "none";
-            window.onclick = (e) => { 
-                if (e.target == modal) modal.style.display = "none"; 
-                // Fecha sidebar no mobile ao clicar fora
-                if (document.body.classList.contains('sidebar-open') && !e.target.closest('.sidebar') && !e.target.closest('#mobile-menu-toggle')) {
-                    document.body.classList.remove('sidebar-open');
-                }
-            };
-            
-            // Lógica simples de Busca visual (Scrolla e abre o accordion)
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    const query = searchInput.value.toLowerCase().trim();
-                    if(!query) return;
-                    
-                    let found = false;
-                    document.querySelectorAll('details').forEach(detail => {
-                        if(detail.textContent.toLowerCase().includes(query)) {
-                            // Ativa a tab correspondente ao detail
-                            const parentSection = detail.closest('.section');
-                            const navBtn = document.querySelector(`.nav-item[data-target="${parentSection.id}"]`);
-                            if(navBtn) navBtn.click();
-                            
-                            detail.open = true;
-                            detail.scrollIntoView({behavior: "smooth", block: "center"});
-                            detail.style.borderColor = "var(--warning)";
-                            setTimeout(() => detail.style.borderColor = "var(--glass-border)", 3000);
-                            found = true;
-                        }
-                    });
-                    
-                    if(found) {
-                        showNotification('Resultado encontrado e expandido.');
-                    } else {
-                        showNotification('Nenhum resultado direto encontrado.', true);
-                    }
-                }
-            });
+        // ============ TECLADO ============
+        document.addEventListener('keydown', e => {
+            const cmdOpen = $('#cmdk').classList.contains('show');
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                cmdOpen ? closeCmd() : openCmd();
+                return;
+            }
+            if (e.key === 'Escape') {
+                closeCmd();
+                lightbox.classList.remove('show');
+                closeCombo();
+                document.body.classList.remove('sidebar-open');
+                return;
+            }
+            if (cmdOpen) {
+                if (e.key === 'ArrowDown') { e.preventDefault(); cmdSelected = Math.min(cmdFiltered.length - 1, cmdSelected + 1); renderCmd(); }
+                else if (e.key === 'ArrowUp') { e.preventDefault(); cmdSelected = Math.max(0, cmdSelected - 1); renderCmd(); }
+                else if (e.key === 'Enter') { e.preventDefault(); runCmd(cmdSelected); }
+            } else if (lightbox.classList.contains('show')) {
+                if (e.key === 'ArrowRight') showLightbox(lbIndex + 1);
+                if (e.key === 'ArrowLeft') showLightbox(lbIndex - 1);
+            }
         });
 
-        function showNotification(message, isError = false) {
-            const notif = document.getElementById('notification');
-            const icon = notif.querySelector('i');
-            document.getElementById('notif-text').textContent = message;
-            
-            if (isError) {
-                notif.classList.add('error');
-                icon.className = 'fas fa-exclamation-circle';
-            } else {
-                notif.classList.remove('error');
-                icon.className = 'fas fa-check-circle';
-            }
-            
-            notif.classList.add('show');
-            setTimeout(() => notif.classList.remove('show'), 3000);
-        }
+        // ============ RIPPLE NOS BOTÕES ============
+        document.addEventListener('pointerdown', e => {
+            const btn = e.target.closest('.btn');
+            if (!btn) return;
+            const rect = btn.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const r = document.createElement('span');
+            r.className = 'ripple';
+            r.style.width = r.style.height = size + 'px';
+            r.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            r.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            btn.appendChild(r);
+            r.addEventListener('animationend', () => r.remove());
+        });
 
-        window.copyToClipboard = function(text) {
-            if(navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => showNotification('Credencial copiada!')).catch(() => fallbackCopy(text));
-            } else {
-                fallbackCopy(text);
-            }
-        }
-        
-        function fallbackCopy(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                showNotification('Copiado!');
-            } catch (e) {
-                showNotification('Erro ao copiar', true);
-            }
-            document.body.removeChild(textarea);
-        }
+        // ============ INICIALIZAÇÃO POR URL ============
+        const initialId = location.hash.slice(1);
+        navigate(sections.some(s => s.id === initialId) ? initialId : 'responsabilidades', false);
+
+
     </script>
+
 </body>
 </html>
